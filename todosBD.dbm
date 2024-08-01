@@ -3,8 +3,8 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="1.1.1" use-changelog="false" max-obj-count="12"
-	 last-position="0,0" last-zoom="0.95" scene-rect="-60,0,1650.62,1090.92"
+<dbmodel pgmodeler-ver="1.1.3" use-changelog="false" max-obj-count="12"
+	 last-position="-57,92" last-zoom="0.95" scene-rect="-60,0,1650.62,1090.92"
 	 default-schema="public" default-owner="postgres"
 	 layers="Default layer"
 	 active-layers="0"
@@ -17,32 +17,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <schema name="public" layers="0" fill-color="#e1e1e1" name-color="#000000" sql-disabled="true">
 </schema>
 
-<table name="users" layers="0" collapse-mode="2" max-obj-count="7" z-value="0">
+<sequence name="user_seq" cycle="false" start="1" increment="1" min-value="0" max-value="2147483647" cache="1">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="160" y="100"/>
-	<column name="id" not-null="true">
-		<type name="smallint" length="0"/>
-	</column>
-	<column name="firstname">
-		<type name="character varying" length="50"/>
-	</column>
-	<column name="name">
-		<type name="character varying" length="50"/>
-	</column>
-	<column name="email">
-		<type name="character varying" length="150"/>
-	</column>
-	<column name="telephone">
-		<type name="integer" length="0"/>
-	</column>
-	<column name="password">
-		<type name="character varying" length="0"/>
-	</column>
-	<constraint name="pk_users" type="pk-constr" table="public.users">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
+</sequence>
 
 <table name="roles" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="public"/>
@@ -92,7 +70,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="roles_permissions" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1080" y="440"/>
+	<position x="1080" y="500"/>
 	<column name="role_id" not-null="true">
 		<type name="smallint" length="0"/>
 	</column>
@@ -104,23 +82,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="listes" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+<sequence name="liste_seq" cycle="false" start="1" increment="1" min-value="0" max-value="2147483647" cache="1">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="300" y="760"/>
-	<column name="id" not-null="true">
-		<type name="smallint" length="0"/>
-	</column>
-	<column name="name">
-		<type name="character varying" length="50"/>
-	</column>
-	<column name="owner">
-		<type name="smallint" length="0"/>
-	</column>
-	<constraint name="pk_listes" type="pk-constr" table="public.listes">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
+</sequence>
 
 <table name="users_listes" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
@@ -137,11 +102,64 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
+<sequence name="tache_seq" cycle="false" start="1" increment="1" min-value="0" max-value="2147483647" cache="1">
+	<schema name="public"/>
+	<role name="postgres"/>
+</sequence>
+
+<table name="taches_listes" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="800" y="680"/>
+	<column name="tache_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="liste_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<constraint name="pk_taches_listes" type="pk-constr" table="public.taches_listes">
+		<columns names="tache_id,liste_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="users" layers="0" collapse-mode="2" max-obj-count="9" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="160" y="100"/>
+	<column name="id" not-null="true" sequence="public.user_seq">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="firstname">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="name">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="email">
+		<type name="character varying" length="150"/>
+	</column>
+	<column name="telephone">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="password">
+		<type name="character varying" length="0"/>
+	</column>
+	<column name="updated_at">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="created_at">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="pk_users" type="pk-constr" table="public.users">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
 <table name="taches" layers="0" collapse-mode="2" max-obj-count="4" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<position x="500" y="380"/>
-	<column name="id" not-null="true">
+	<column name="id" not-null="true" sequence="public.tache_seq">
 		<type name="smallint" length="0"/>
 	</column>
 	<column name="user_id">
@@ -158,18 +176,21 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="taches_listes" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+<table name="listes" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="800" y="680"/>
-	<column name="tache_id" not-null="true">
+	<position x="300" y="760"/>
+	<column name="id" not-null="true" sequence="public.liste_seq">
 		<type name="smallint" length="0"/>
 	</column>
-	<column name="liste_id" not-null="true">
+	<column name="name">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="owner">
 		<type name="smallint" length="0"/>
 	</column>
-	<constraint name="pk_taches_listes" type="pk-constr" table="public.taches_listes">
-		<columns names="tache_id,liste_id" ref-type="src-columns"/>
+	<constraint name="pk_listes" type="pk-constr" table="public.listes">
+		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -194,7 +215,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <constraint name="fk_permission_roles_permissions" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.permissions" table="public.roles_permissions">
 	<columns names="permission_id" ref-type="src-columns"/>
-	<columns names="permission" ref-type="dst-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="fk_user_listes" type="fk-constr" comparison-type="MATCH SIMPLE"
