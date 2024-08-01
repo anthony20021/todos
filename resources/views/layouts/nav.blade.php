@@ -18,7 +18,7 @@
             </div>
             @else
             <li class="margin"><a class="nav-items" href="/dashboard">Tableau de bord</a></li>
-            <li class="margin"><a class="nav-items" href="#">Mon compte</a></li>
+            <li class="margin"><a class="nav-items" href="/myAccount">Mon compte</a></li>
             <li class="margin deco">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
