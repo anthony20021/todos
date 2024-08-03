@@ -27,9 +27,6 @@ Route::get('/login', function () {
     return view('users.login');
 });
 
-Route::post('/register/adduser', [RegisterController::class, 'addUser']);
-Route::post('/login', [LoginController::class, 'authenticate'])->name('login');;
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::get('/', function () {

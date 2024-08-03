@@ -1,0 +1,229 @@
+$color1: #8e32f1;
+$color2: #7E41C0;
+$color3: #6F4B96;
+$color4: #59486B;
+$color5: #3B3641;
+$color6: #e3dbeb;
+
+@mixin phone {
+  @media (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin shadow {
+  box-shadow: 0px 12px 20px 1px rgba(0, 0, 0, 0.24);
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+
+  @include phone {
+    flex-direction: column;
+    padding: 0;
+  }
+}
+
+ul {
+  list-style: none;
+  margin-top: 0;
+}
+
+a {
+  text-decoration: none;
+  color: $color6;
+  cursor: pointer;
+}
+
+// Navigation
+.nav-items {
+  margin-right: 10px;
+  border-radius: 12px;
+  margin: 16px;
+  transition: background-color 0.4s;
+  font-size: 17px;
+
+  &:hover {
+    background-color: #9c49f5;
+  }
+}
+
+body {
+  background-color: #e0d7e9;
+}
+
+.nav {
+  background: linear-gradient(360deg, $color1 19%, $color2 76%);
+  height: 60px;
+  transition: right 0.5s;
+  @include shadow;
+  @include phone {
+    position: fixed;
+    height: 100%;
+    width: 150px;
+    right: -150px;
+    top: 0; 
+    z-index: 5;
+    margin-top: 0; 
+  }
+}
+
+.todos {
+  font-family: 'Playwrite NZ', sans-serif;
+  font-weight: 900;
+  font-size: larger;
+  @include phone {
+    position: fixed;
+    top: 20px;
+    left: 5%;
+    z-index: 6; 
+    color: $color1
+  }
+}
+
+#menu-phone {
+  position: absolute;
+  height: 50px;
+  width: 100%;
+  background-color: linear-gradient(360deg, $color1 19%, $color2 76%);
+}
+
+input[type='text'],
+input[type='tel'],
+input[type='password'],
+input[type='email'] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.15s, border-width 0.15s;
+
+  &:focus {
+    border-color: $color3;
+    border-width: 2px;
+  }
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+  background-color: $color2;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: $color4;
+  }
+}
+
+.box-input {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 400px;
+  @include phone {
+    width: 300px;
+  }
+}
+
+.box-liste {
+  color: $color5;
+  background: linear-gradient(180deg, rgba(205,154,255,1) 0%, rgba(252,182,224,1) 54%, rgba(228,208,249,1) 100%);
+  width: 30%;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.089);
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  margin: 28px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  @include phone {
+    width: 90%;
+    height: 170px;
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+
+  &:hover {
+    background-color: $color1;
+  }
+}
+
+#openMenu {
+  position: fixed; 
+  top: 20px;
+  right: 5%;
+  width: 50px;
+  height: 50px;
+  border-radius: 7px;
+  background-color: transparent;
+  z-index: 6; 
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+#closeMenu {
+  padding: 12px;
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #59486b;
+  cursor: pointer;
+  z-index: 6; 
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+.deco {
+  margin-left: 50vw;
+
+  @media (max-width: 1024px) {
+    margin-left: 0;
+  }
+
+  @media (min-width: 1524px) {
+    margin-left: 65vw;
+  }
+}
+
+.deco-wrap {
+  white-space: nowrap;
+
+  @media (max-width: 1024px) {
+    white-space: wrap;
+  }
+}
+
+.margin {
+  margin-top: 10px;
+
+  @media (max-width: 1024px) {
+    margin-top: 40px;
+    white-space: nowrap;
+  }
+}

@@ -2,12 +2,18 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vite",
-        "build": "vite build"
+        "dev:web": "vite",
+        "build:web": "vite build",
+        "build:app": "cd frontendapp && npm run build",
+        "dev:app": "cd frontendapp && npm run dev",
+        "dev:all": "concurrently \"npm run dev:web\" \"npm run dev:app\"",
+        "build:all": "vite build cd frontendapp && npm run build",
+        "install:app": "cd frontendapp && npm i"
     },
     "devDependencies": {
         "@vitejs/plugin-vue": "^5.0.4",
         "axios": "^1.6.8",
+        "concurrently": "^8.2.2",
         "laravel-vite-plugin": "^1.0.0",
         "sass": "^1.75.0",
         "vite": "^5.0.0"
