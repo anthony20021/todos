@@ -3,8 +3,8 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="1.1.3" use-changelog="false" max-obj-count="15"
-	 last-position="0,0" last-zoom="1" scene-rect="0,0,1867.94,1076.8"
+<dbmodel pgmodeler-ver="1.1.3" use-changelog="false" max-obj-count="16"
+	 last-position="0,0" last-zoom="0.85" scene-rect="0,0,1938.81,1076.8"
 	 default-schema="public" default-owner="postgres"
 	 layers="Default layer"
 	 active-layers="0"
@@ -338,6 +338,49 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		</idxelement>
 </index>
 
+<table name="sessions" layers="0" collapse-mode="2" max-obj-count="7" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1560" y="600"/>
+	<column name="id" not-null="true">
+		<type name="character varying" length="255"/>
+	</column>
+	<column name="user_id">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="ip_address">
+		<type name="character varying" length="45"/>
+	</column>
+	<column name="user_agent">
+		<type name="text" length="0"/>
+	</column>
+	<column name="payload" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="last_activity" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="sessions_pkey" type="pk-constr" table="public.sessions">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="sessions_user_id_index" table="public.sessions"
+	 concurrent="false" unique="false" fast-update="false" buffering="false" nulls-not-distinct="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="user_id"/>
+		</idxelement>
+</index>
+
+<index name="sessions_last_activity_index" table="public.sessions"
+	 concurrent="false" unique="false" fast-update="false" buffering="false" nulls-not-distinct="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="last_activity"/>
+		</idxelement>
+</index>
+
 <constraint name="fk_user_users_roles" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.users" table="public.users_roles">
 	<columns names="user_id" ref-type="src-columns"/>
@@ -399,61 +442,61 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <relationship name="rel_users_roles_users" type="relfk" layers="0"
-	 custom-color="#3f6d33"
+	 custom-color="#d5711c"
 	 src-table="public.users_roles"
 	 dst-table="public.users" reference-fk="fk_user_users_roles"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="rel_users_roles_roles" type="relfk" layers="0"
-	 custom-color="#29f808"
+	 custom-color="#90be62"
 	 src-table="public.users_roles"
 	 dst-table="public.roles" reference-fk="fk_role_users_roles"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="rel_roles_permissions_roles" type="relfk" layers="0"
-	 custom-color="#0cd1c6"
+	 custom-color="#8a8dea"
 	 src-table="public.roles_permissions"
 	 dst-table="public.roles" reference-fk="fk_role_roles_permissions"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="rel_roles_permissions_permissions" type="relfk" layers="0"
-	 custom-color="#ef40e7"
+	 custom-color="#61eb7f"
 	 src-table="public.roles_permissions"
 	 dst-table="public.permissions" reference-fk="fk_permission_roles_permissions"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="rel_listes_users" type="relfk" layers="0"
-	 custom-color="#06aaab"
+	 custom-color="#60bdee"
 	 src-table="public.listes"
 	 dst-table="public.users" reference-fk="fk_user_listes"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_users_listes_users" type="relfk" layers="0"
-	 custom-color="#80bbd8"
+	 custom-color="#1d6c89"
 	 src-table="public.users_listes"
 	 dst-table="public.users" reference-fk="fk_user_users_listes"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="rel_users_listes_listes" type="relfk" layers="0"
-	 custom-color="#3ecfd9"
+	 custom-color="#811222"
 	 src-table="public.users_listes"
 	 dst-table="public.listes" reference-fk="fk_liste_users_listes"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="rel_taches_users" type="relfk" layers="0"
-	 custom-color="#84cac3"
+	 custom-color="#070da5"
 	 src-table="public.taches"
 	 dst-table="public.users" reference-fk="fk_user_taches"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_taches_listes_taches" type="relfk" layers="0"
-	 custom-color="#a14597"
+	 custom-color="#f31061"
 	 src-table="public.taches_listes"
 	 dst-table="public.taches" reference-fk="fk_tache_taches_listes"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="rel_taches_listes_listes" type="relfk" layers="0"
-	 custom-color="#0aa53f"
+	 custom-color="#b664ed"
 	 src-table="public.taches_listes"
 	 dst-table="public.listes" reference-fk="fk_liste_taches_listes"
 	 src-required="false" dst-required="true"/>

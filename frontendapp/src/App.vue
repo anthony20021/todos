@@ -17,9 +17,9 @@ import { RouterLink, RouterView } from 'vue-router'
           <li class="margin"><a class="nav-items" href="/dashboard">Tableau de bord</a></li>
           <li class="margin"><a class="nav-items" href="/myAccount">Mon compte</a></li>
           <li class="margin deco">
-            <form action="{{ route('logout') }}" method="POST">
-              <button type="submit" class="btn deco-wrap">Se déconnecter</button>
-            </form>
+          <li @click="logout">
+            <button type="submit" class="btn deco-wrap">Se déconnecter</button>
+          </li>
           </li>
         </template>
       </ul>
@@ -29,7 +29,11 @@ import { RouterLink, RouterView } from 'vue-router'
   </body>
 </template>
 <script>
+
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
+  
   data() {
     return {
       isOpen: false,
@@ -40,6 +44,7 @@ export default {
     toggleMenu() {
       this.isOpen = !this.isOpen;
     },
+    ...mapActions('auth', ['logout']),
     closeMenu() {
       this.isOpen = false;
     },
@@ -69,6 +74,12 @@ export default {
         this.closeMenu();
       }
     },
+  },
+  computed: {
+    ...mapGetters('auth', ['isAuthenticated', 'user'])
+  },
+  async created() {
+    await this.$store.dispatch('auth/checkAuth');
   },
 };
 </script>
