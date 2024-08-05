@@ -50,7 +50,7 @@ import fetchWithCredentials from '@/axios';
 
                     throw new Error('Erreur lors de la connexion');
                 }
-                window.location.href = '/dashboard';
+                // window.location.href = '/dashboard';
             } catch (error) {
                 Swal.fire({
                 icon: 'error',

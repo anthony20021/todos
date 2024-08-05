@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8000/api';
+import { API_URL } from './config';
 
 async function fetchWithCredentials(endpoint, method = 'GET', body = null) {
     const url = `${API_URL}${endpoint}`;

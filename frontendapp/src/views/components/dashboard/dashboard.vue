@@ -28,7 +28,6 @@
 
 <script>
 import Swal from 'sweetalert2';
-import axios from 'axios';
 import Task from './task.vue';
 import fetchWithCredentials from '@/axios';
 
