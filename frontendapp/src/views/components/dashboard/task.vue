@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import fetchWithCredentials from '@/axios';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -92,12 +93,12 @@ export default {
 
         async shareListe(){
             try{
-                const response = await axios.post('/dashboard/shareListe', {'list_id' : this.list_id, 'email' : this.sharingEmail})
-                this.allUser = response.data;
+                const response = await fetchWithCredentials('/dashboard/shareListe', 'POST' ,{'list_id' : this.list_id, 'email' : this.sharingEmail})
+                this.allUser = response;
                 Swal.fire({title:'Succès', text:'La liste a bien été partagé', icon:'success', position:'top-end'});
             }
             catch(error){
-                Swal.fire({                            
+                Swal.fire({
                     title:'Erreur',
                     text:"Votre liste n'a pas été partagé.",
                     icon:'error',
@@ -111,7 +112,7 @@ export default {
                 title: 'Êtes-vous sûr ?',
                 text: 'Cette action est irréversible',
                 icon: 'warning',
-                position: 'top-end', 
+                position: 'top-end',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
@@ -120,8 +121,8 @@ export default {
             }).then( async (result) => {
                 if (result.isConfirmed) {
                     try{
-                        const result = await axios.post('/dashboard/deleteListe', {'list_id' : this.list_id})
-                        Swal.fire({                            
+                        const result = await fetchWithCredentials('/dashboard/deleteListe', 'POST' , {'list_id' : this.list_id})
+                        Swal.fire({
                             title:'Supprimé !',
                             text:'Votre liste a été supprimée.',
                             icon:'success',
@@ -131,7 +132,7 @@ export default {
                     }
                     catch(error){
                         if(error.response?.status==555){
-                            Swal.fire({                            
+                            Swal.fire({
                                 title:'Erreur',
                                 text:"Vous n'avez pas la permission",
                                 icon:'error',
@@ -139,7 +140,7 @@ export default {
                         });
                         }
                         else{
-                            Swal.fire({                            
+                            Swal.fire({
                                 title:'Erreur',
                                 text:"Votre liste n'a pas été supprimée.",
                                 icon:'error',
@@ -156,7 +157,7 @@ export default {
                 title: 'Êtes-vous sûr ?',
                 text: 'Le propriétaire devra vous réinviter si vous voulez retrouver la liste',
                 icon: 'warning',
-                position: 'top-end', 
+                position: 'top-end',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
@@ -165,8 +166,8 @@ export default {
             }).then( async (result) => {
                 if (result.isConfirmed) {
                     try{
-                        const result = await axios.post('/dashboard/leaveListe', {'list_id' : this.list_id,})
-                        Swal.fire({                            
+                        const result = fetchWithCredentials('/dashboard/leaveListe', 'POST' ,{'list_id' : this.list_id,})
+                        Swal.fire({
                             title:'Vous avez bien quitté la liste',
                             icon:'success',
                             position: 'top-end',
@@ -175,7 +176,7 @@ export default {
                     }
                     catch(error){
                         if(error.response?.status==555){
-                            Swal.fire({                            
+                            Swal.fire({
                                 title:'Erreur',
                                 text:"Vous n'avez pas la permission",
                                 icon:'error',
@@ -183,7 +184,7 @@ export default {
                         });
                         }
                         else{
-                            Swal.fire({                            
+                            Swal.fire({
                                 title:'Erreur',
                                 text:"Vous n'avez pas quitté la liste.",
                                 icon:'error',
@@ -200,7 +201,7 @@ export default {
                 title: 'Êtes-vous sûr ?',
                 text: 'Cette action est irréversible',
                 icon: 'warning',
-                position: 'top-end', 
+                position: 'top-end',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
@@ -209,18 +210,18 @@ export default {
             }).then( async (result) => {
                 if (result.isConfirmed) {
                     try{
-                        const result = await axios.post('/dashboard/deleteTask', {'task_id' : id, 'list_id' : this.list_id})
-                        Swal.fire({                            
+                        const result = await fetchWithCredentials('/dashboard/deleteTask', 'POST' ,{'task_id' : id, 'list_id' : this.list_id})
+                        Swal.fire({
                             title:'Supprimé !',
                             text:'Votre tâche a été supprimée.',
                             icon:'success',
                             position: 'top-end',
                         });
-                        this.task = result.data;
+                        this.task = result;
                     }
                     catch(error){
                         if(error.response?.status==555){
-                            Swal.fire({                            
+                            Swal.fire({
                                 title:'Erreur',
                                 text:"Vous n'avez pas la permission",
                                 icon:'error',
@@ -228,7 +229,7 @@ export default {
                         });
                         }
                         else{
-                            Swal.fire({                            
+                            Swal.fire({
                                 title:'Erreur',
                                 text:"Votre liste n'a pas été supprimée.",
                                 icon:'error',
@@ -246,14 +247,14 @@ export default {
                 return;
             }
             try {
-                const response = await axios.post('/dashboard/addTask', {
+                const response = await fetchWithCredentials('/dashboard/addTask', 'POST' ,{
                     task: this.newTask,
                     list_id: this.list_id
                 });
-                this.task = response.data;
+                this.task = response;
                 Swal.fire({title:'Succès', text:'Tâche ajoutée avec succès', icon:'success', position:'top-end'});
                 this.showCreateTask = false;
-                this.newTask.name = ""; 
+                this.newTask.name = "";
             } catch (error) {
                 console.error(error.message);
                 Swal.fire({title:'Erreur', text:'Impossible d\'ajouter la tâche', icon:'error', position:'top-end'});
@@ -262,7 +263,10 @@ export default {
 
         async changeChecked(id, bool){
             try{
-                await axios.post('/dashboard/modifTask', {'task_id' : id, 'bool' : bool})
+                const response = await fetchWithCredentials('/dashboard/modifTask', 'POST' ,{'task_id' : id, 'bool' : bool})
+                if(response.statut!='ok'){
+                    Swal.fire({title:'Erreur', text:'Une erreur innatendue s\'est produite', icon:'error', position:'top-end'});
+                }
             }
             catch(error){
                 console.error(error.message)
@@ -273,10 +277,10 @@ export default {
 
     async mounted() {
         try {
-            const response = await axios.post('/dashboard/tache/getData', {'list_id' : this.list_id});
-            this.task = response.data.taches;
-            if(response.data.allUser != ""){
-                this.allUser = response.data.allUser;
+            const response = await fetchWithCredentials('/dashboard/tache/getData', 'POST' ,{'list_id' : this.list_id});
+            this.task = response.taches;
+            if(response.allUser != ""){
+                this.allUser = response.allUser;
             }
         } catch (error) {
             console.error(error.message);
@@ -318,10 +322,10 @@ li{
     justify-content: space-between;
 }
 .share-box{
-    background-color:deeppink; 
-    color: aliceblue; 
-    padding: 1px; 
-    width: 50%; 
+    background-color:deeppink;
+    color: aliceblue;
+    padding: 1px;
+    width: 50%;
     border-radius: 15px 0px 0px 15px;
 }
 

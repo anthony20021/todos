@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
@@ -8,7 +8,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <ul class="flex">
         <li id="closeMenu" @click="closeMenu" style="color: #e3dbeb;">Fermer</li>
         <li class="margin"><a class="nav-items todos" href="/">Todos</a></li>
-        
+
         <div v-if="!isAuthenticated" class="deco flex">
           <li class="margin"><a class="btn" href="/login">Se connecter</a></li>
           <li class="margin"><a class="btn" href="/register">S'enregistrer</a></li>
@@ -18,7 +18,7 @@ import { RouterLink, RouterView } from 'vue-router'
           <li class="margin"><a class="nav-items" href="/myAccount">Mon compte</a></li>
           <li class="margin deco">
           <li @click="logout">
-            <button type="submit" class="btn deco-wrap">Se déconnecter</button>
+            <button type="submit" class="btn deco-wrap" @click="logout">Se déconnecter</button>
           </li>
           </li>
         </template>
@@ -29,38 +29,28 @@ import { RouterLink, RouterView } from 'vue-router'
   </body>
 </template>
 <script>
-
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
-  
   data() {
     return {
       isOpen: false,
-      isAuthenticated: false, // Simuler l'authentification (à remplacer par votre logique d'authentification)
     };
   },
   methods: {
     toggleMenu() {
       this.isOpen = !this.isOpen;
     },
-    ...mapActions('auth', ['logout']),
     closeMenu() {
       this.isOpen = false;
     },
-  },
-  mounted() {
-    document.addEventListener('click', this.handleClickOutside);
-  },
-  beforeUnmount() {
-    document.removeEventListener('click', this.handleClickOutside);
-  },
-  methods: {
-    toggleMenu() {
-      this.isOpen = !this.isOpen;
-    },
-    closeMenu() {
-      this.isOpen = false;
+    async logout() {
+      try {
+        await this.$store.dispatch('auth/logout');
+        this.$router.push('/');
+      } catch (error) {
+        console.error('Erreur lors de la déconnexion :', error);
+      }
     },
     handleClickOutside(event) {
       const nav = this.$refs.nav;
@@ -81,6 +71,12 @@ export default {
   async created() {
     await this.$store.dispatch('auth/checkAuth');
   },
+  mounted() {
+    document.addEventListener('click', this.handleClickOutside);
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.handleClickOutside);
+  }
 };
 </script>
 <style>

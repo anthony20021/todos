@@ -23,12 +23,13 @@
     </div>
 </template>
 <script>
+import fetchWithCredentials from '@/axios';
 import axios from 'axios';
 
     export default {
         data() {
             return {
-                user : {}, 
+                user : {},
             }
 
         },
@@ -36,15 +37,15 @@ import axios from 'axios';
         methods: {
             // Your methods
         },
-        
+
         computed: {
             // Your computed properties
         },
 
         async mounted() {
             try {
-                const resp = await axios.get('/myAccount/user');
-                this.user = resp.data;
+                const resp = await fetchWithCredentials('/myAccount/user');
+                this.user = resp;
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }

@@ -21,10 +21,11 @@
       </div>
     </div>
 </template>
-  
+
 <script>
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import fetchWithCredentials from '@/axios';
   export default{
     data(){
       return {
@@ -39,7 +40,7 @@ import axios from 'axios'
     methods:{
         async addUser() {
             try {
-            const response = await axios.post('/register/adduser', this.user);
+            const response = await fetchWithCredentials('/register/adduser', 'POST' ,this.user);
             Swal.fire({
                 title: 'Bravo !',
                 text: 'Vous êtes désormais inscrit',
@@ -53,7 +54,7 @@ import axios from 'axios'
                 password: '',
             };
             setTimeout(() => {
-              window.location.href = '/login'; 
+              window.location.href = '/login';
             }, 2000);
             } catch (error) {
             Swal.fire({

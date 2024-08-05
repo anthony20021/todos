@@ -1,4 +1,4 @@
-import apiClient from '@/axios'; // Assurez-vous d'avoir le bon chemin
+import fetchWithCredentials from '@/axios';
 
 export default {
   namespaced: true,
@@ -15,22 +15,28 @@ export default {
     }
   },
   actions: {
-    async checkAuth({ commit }) {
-      try {
-        const response = await apiClient.get('/user');
-        commit('setAuth', true);
-        commit('setUser', response.data);
-      } catch (error) {
-        commit('setAuth', false);
-        commit('setUser', null);
-      }
+    async checkAuth({ commit, state }) {
+        if (state.isAuthenticated) {
+            return;
+        }
+        try {
+            const response = await fetchWithCredentials('/user', 'GET', null);
+            // console.log('Authentication response:', response);
+            commit('setUser', response);
+            commit('setAuth', true);
+        } catch (error) {
+            // console.error('Authentication check error:', error);
+            commit('setAuth', false);
+            commit('setUser', null);
+        }
     },
+
     async logout({ commit }) {
       try {
-        await apiClient.post('/logout');
+        await fetchWithCredentials('/logout', 'POST');
         commit('setAuth', false);
         commit('setUser', null);
-        window.location.href = '/'; 
+        window.location.href = '/';
       } catch (error) {
         console.error('Erreur lors de la déconnexion');
       }

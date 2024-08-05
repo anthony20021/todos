@@ -9,11 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/android": "^6.1.1",
+    "@capacitor/core": "^6.1.1",
+    "@capacitor/ios": "^6.1.1",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
+    "@capacitor/cli": "^6.1.1",
     "@vitejs/plugin-vue": "^5.0.5",
     "sass": "^1.77.8",
     "vite": "^5.3.1"

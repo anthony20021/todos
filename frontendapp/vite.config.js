@@ -11,12 +11,5 @@ export default defineConfig({
   },
   server: {
     port: 3000, // Définit le port du serveur de développement
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '') // Réécriture optionnelle des chemins
-      }
-    }
   }
 })

@@ -30,6 +30,7 @@
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import Task from './task.vue';
+import fetchWithCredentials from '@/axios';
 
 export default {
   components: {
@@ -59,8 +60,8 @@ export default {
     },
     async addList() {
       try {
-        const response = await axios.post('/dashboard/addListe', this.newList);
-        this.listes = response.data;
+        const response = await fetchWithCredentials('/dashboard/addListe','POST', this.newList);
+        this.listes = response;
         Swal.fire({title:'Succès', text:'Liste ajoutée avec succès', icon:'success', position:'top-end'});
         this.showCreateList=false;
       } catch (error) {
@@ -75,17 +76,17 @@ export default {
       this.currentOwnerListName = liste.owner.firstname + " " + liste.owner.name;
       this.showTask = true;
     },
-    
+
       updateListe(result){
-        this.listes = result.data;
+        this.listes = result;
         this.showTask = false;
       },
   },
 
   async mounted() {
     try {
-      const response = await axios.get('/dashboard/getData');
-      this.data = response.data;
+      const response = await fetchWithCredentials('/dashboard/getData');
+      this.data = response;
       this.listes = this.data.listes;
     } catch (error) {
       console.error(error.message);

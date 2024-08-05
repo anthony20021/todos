@@ -13,10 +13,10 @@
       </div>
     </div>
 </template>
-  
+
 <script>
 import Swal from 'sweetalert2'
-import apiClient from '@/axios';
+import fetchWithCredentials from '@/axios';
   export default{
     data(){
       return {
@@ -27,31 +27,39 @@ import apiClient from '@/axios';
       }
     },
     methods:{
-      async logUser() {
-        try {
-            const response = await apiClient.post('/login', this.user);
-            
-            if (response.status === 200) {
+        async logUser() {
+            try {
+                const response = await fetchWithCredentials('/login', 'POST', this.user);
+
+                if (response.message != "Login successful") {
+                    if (response.status === 401) {
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Erreur',
+                        text: 'Mauvais email ou mot de passe',
+                        position: 'top-end'
+                        });
+                    } else {
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Erreur',
+                        text: response.message || 'Une erreur inattendue s\'est produite',
+                        position: 'top-end'
+                        });
+                    }
+
+                    throw new Error('Erreur lors de la connexion');
+                }
                 window.location.href = '/dashboard';
-            }
-        } catch (error) {
-            if (error.response && error.response.status === 401) {
+            } catch (error) {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Erreur',
-                    text: 'Mauvais email ou mot de passe',
-                    position: 'top-end'
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erreur',
-                    text: 'Une erreur inattendue s\'est produite',
-                    position: 'top-end'
+                icon: 'error',
+                title: 'Erreur',
+                text: error.message || 'Une erreur inattendue s\'est produite',
+                position: 'top-end'
                 });
             }
         }
-      }
     }
   }
 </script>
