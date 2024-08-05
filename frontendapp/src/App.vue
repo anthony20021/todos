@@ -3,80 +3,84 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <body>
-    <nav id="topbar" ref="nav" class="nav" :style="{ right: isOpen ? '0px' : '-150px', zIndex: 10 }">
-      <ul class="flex">
-        <li id="closeMenu" @click="closeMenu" style="color: #e3dbeb;">Fermer</li>
-        <li class="margin"><a class="nav-items todos" href="/">Todos</a></li>
+    <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Istok+Web:wght@400;700&display=swap">
+        <link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ:wght@100..400&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <nav id="topbar" ref="nav" class="nav" :style="{ right: isOpen ? '0px' : '-150px', zIndex: 10 }">
+        <ul class="flex">
+            <li id="closeMenu" @click="closeMenu" style="color: #e3dbeb;">Fermer</li>
+            <li class="margin"><a class="nav-items todos" href="/">Todos</a></li>
 
-        <div v-if="!isAuthenticated" class="deco flex">
-          <li class="margin"><a class="btn" href="/login">Se connecter</a></li>
-          <li class="margin"><a class="btn" href="/register">S'enregistrer</a></li>
-        </div>
-        <template v-else>
-          <li class="margin"><a class="nav-items" href="/dashboard">Tableau de bord</a></li>
-          <li class="margin"><a class="nav-items" href="/myAccount">Mon compte</a></li>
-          <li class="margin deco">
-          <li @click="logout">
-            <button type="submit" class="btn deco-wrap" @click="logout">Se déconnecter</button>
-          </li>
-          </li>
-        </template>
-      </ul>
-    </nav>
-    <p id="openMenu" @click="toggleMenu" ref="toggleButton"><img src="@/assets/img/menu.png" alt="menu" width="100%" height="100%"></p>
-    <RouterView />
-  </body>
+            <div v-if="!isAuthenticated" class="deco flex">
+            <li class="margin"><a class="btn" href="/login">Se connecter</a></li>
+            <li class="margin"><a class="btn" href="/register">S'enregistrer</a></li>
+            </div>
+            <template v-else>
+            <li class="margin"><a class="nav-items" href="/dashboard">Tableau de bord</a></li>
+            <li class="margin"><a class="nav-items" href="/myAccount">Mon compte</a></li>
+            <li class="margin deco">
+            <li @click="logout">
+                <button type="submit" class="btn deco-wrap" @click="logout">Se déconnecter</button>
+            </li>
+            </li>
+            </template>
+        </ul>
+        </nav>
+        <p id="openMenu" @click="toggleMenu" ref="toggleButton"><img src="@/assets/img/menu.png" alt="menu" width="100%" height="100%"></p>
+        <RouterView style="margin-top: 90px;" />
+    </body>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 
 export default {
-  data() {
+data() {
     return {
-      isOpen: false,
+    isOpen: false,
     };
-  },
-  methods: {
+},
+methods: {
     toggleMenu() {
-      this.isOpen = !this.isOpen;
+    this.isOpen = !this.isOpen;
     },
     closeMenu() {
-      this.isOpen = false;
+    this.isOpen = false;
     },
     async logout() {
-      try {
+    try {
         await this.$store.dispatch('auth/logout');
         this.$router.push('/');
-      } catch (error) {
+    } catch (error) {
         console.error('Erreur lors de la déconnexion :', error);
-      }
+    }
     },
     handleClickOutside(event) {
-      const nav = this.$refs.nav;
-      const toggleButton = this.$refs.toggleButton;
+    const nav = this.$refs.nav;
+    const toggleButton = this.$refs.toggleButton;
 
-      if (
+    if (
         !nav.contains(event.target) &&
         !toggleButton.contains(event.target) &&
         window.innerWidth < 1024
-      ) {
+    ) {
         this.closeMenu();
-      }
+    }
     },
-  },
-  computed: {
+},
+computed: {
     ...mapGetters('auth', ['isAuthenticated', 'user'])
-  },
-  async created() {
+},
+async created() {
     await this.$store.dispatch('auth/checkAuth');
-  },
-  mounted() {
+},
+mounted() {
     document.addEventListener('click', this.handleClickOutside);
-  },
-  beforeUnmount() {
+},
+beforeUnmount() {
     document.removeEventListener('click', this.handleClickOutside);
-  }
+}
 };
 </script>
 <style>

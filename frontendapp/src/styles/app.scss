@@ -42,7 +42,6 @@ a {
   cursor: pointer;
 }
 
-// Navigation
 .nav-items {
   margin-right: 10px;
   border-radius: 12px;
@@ -69,9 +68,9 @@ body {
     height: 100%;
     width: 150px;
     right: -150px;
-    top: 0; 
+    top: 0;
     z-index: 5;
-    margin-top: 0; 
+    margin-top: 0;
   }
 }
 
@@ -83,7 +82,7 @@ body {
     position: fixed;
     top: 20px;
     left: 5%;
-    z-index: 6; 
+    z-index: 6;
     color: $color1
   }
 }
@@ -168,14 +167,14 @@ input[type='email'] {
 }
 
 #openMenu {
-  position: fixed; 
+  position: fixed;
   top: 20px;
   right: 5%;
   width: 50px;
   height: 50px;
   border-radius: 7px;
   background-color: transparent;
-  z-index: 6; 
+  z-index: 6;
 
   @media (min-width: 1024px) {
     display: none;
@@ -192,7 +191,7 @@ input[type='email'] {
   align-items: center;
   background-color: #59486b;
   cursor: pointer;
-  z-index: 6; 
+  z-index: 6;
 
   @media (min-width: 1024px) {
     display: none;

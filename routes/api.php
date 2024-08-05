@@ -44,4 +44,5 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
 Route::middleware('auth')->prefix('myAccount')->group(function () {
     Route::get('/', [myAccountController::class, 'index']);
     Route::get('/user', [myAccountController::class, 'getProfil']);
+    Route::post('/user', [myAccountController::class, 'post']);
 });
