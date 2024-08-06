@@ -7,7 +7,6 @@ async function fetchWithCredentials(endpoint, method = 'GET', body = null) {
         method: method,
         headers: {
             'Content-Type': 'application/json',
-            'X-XSRF-TOKEN': 'le-token-xsrf',
         },
         credentials: 'include',
     };
