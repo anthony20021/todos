@@ -20,7 +20,7 @@ class LoginController extends Controller
 
             return response()->json([
                 'message' => 'Login successful'
-            ], 200);
+            ], 200)->withCookie(cookie()->forever('XSRF-TOKEN', $request->session()->token()));
         }
     
         return response()->json([
