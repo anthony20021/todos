@@ -31,7 +31,7 @@ return [
 
     'domain' => env('SESSION_DOMAIN', null),
 
-    'secure' => env('SESSION_SECURE_COOKIE', false), // Assurez-vous que cela est défini correctement
+    'secure' => env('SESSION_SECURE_COOKIE', true), // Assurez-vous que cela est défini correctement
 
     'http_only' => true, // Normalement, vous devriez garder cette option activée pour la sécurité
 
