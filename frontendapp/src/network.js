@@ -10,7 +10,8 @@ async function fetchWithCredentials(endpoint, method = 'GET', body = null) {
           'Accept': 'application/json',
       },
       credentials: 'include',
-      mode: 'cors',
+      mode: 'no-cors',
+
   };
 
   if (body) {
@@ -27,7 +28,6 @@ async function fetchWithCredentials(endpoint, method = 'GET', body = null) {
       const data = await response.json();
       return data;
   } catch (error) {
-      // console.error('Fetch error:', error);
       throw error;
   }
 }
