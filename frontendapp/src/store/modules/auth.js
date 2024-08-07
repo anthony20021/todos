@@ -1,4 +1,4 @@
-import fetchWithCredentials from '@/axios';
+import fetchWithCredentials from '@/network';
 
 export default {
   namespaced: true,

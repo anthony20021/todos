@@ -16,7 +16,7 @@
 
 <script>
 import Swal from 'sweetalert2'
-import fetchWithCredentials from '@/axios';
+import fetchWithCredentials from '@/network';
   export default{
     data(){
       return {

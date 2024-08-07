@@ -29,7 +29,7 @@
 <script>
 import Swal from 'sweetalert2';
 import Task from './task.vue';
-import fetchWithCredentials from '@/axios';
+import fetchWithCredentials from '@/network';
 
 export default {
   components: {

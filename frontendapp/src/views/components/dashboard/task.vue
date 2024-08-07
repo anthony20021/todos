@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import fetchWithCredentials from '@/axios';
+import fetchWithCredentials from '@/network';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
