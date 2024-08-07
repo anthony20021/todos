@@ -31,13 +31,11 @@ return [
 
     'domain' => env('SESSION_DOMAIN', null),
 
-    // Assurez-vous que ce paramètre est activé pour les cookies multi-origine.
-    'secure' => true,
+    'secure' => env('SESSION_SECURE_COOKIE', false), // Assurez-vous que cela est défini correctement
 
-    'http_only' => true,
+    'http_only' => true, // Normalement, vous devriez garder cette option activée pour la sécurité
 
-    // Assurez-vous que cette option est réglée sur 'none' pour accepter les requêtes multi-origines.
-    'same_site' => 'none',
+    'same_site' => 'none', // Pour les requêtes multi-origines
 
     'partitioned' => false,
 
