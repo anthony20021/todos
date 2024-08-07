@@ -37,7 +37,7 @@ return [
     'http_only' => true,
 
     // Assurez-vous que cette option est réglée sur 'none' pour accepter les requêtes multi-origines.
-    'same_site' => 'none',
+    'same_site' => 'lax',
 
     'partitioned' => false,
 
