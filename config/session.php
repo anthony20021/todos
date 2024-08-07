@@ -32,7 +32,7 @@ return [
     'domain' => env('SESSION_DOMAIN', null),
 
     // Assurez-vous que ce paramètre est activé pour les cookies multi-origine.
-    'secure' => true, 
+    'secure' => false,
 
     'http_only' => true,
 
