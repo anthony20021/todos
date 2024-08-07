@@ -14,26 +14,24 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-    
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $cookie = cookie()->forever('XSRF-TOKEN', $request->session()->token());
 
-            return response()->json([
-                'message' => 'Login successful'
-            ], 200)->withCookie(cookie()->forever('XSRF-TOKEN', $request->session()->token()));
+            return response()->json(['message' => 'Login successful'])
+                             ->withCookie($cookie);
         }
-    
-        return response()->json([
-            'message' => 'Identifiants incorrects.'
-        ], 401);
+
+        return response()->json(['message' => 'Invalid credentials'], 401);
     }
 
     public function logout(Request $request): JsonResponse
     {
-        Auth::logout(); 
+        Auth::logout();
 
-        $request->session()->invalidate(); 
-        $request->session()->regenerateToken(); 
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return response()->json([
             'message' => 'Logged out successfully'
