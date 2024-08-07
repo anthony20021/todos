@@ -21,13 +21,7 @@ return [
 
     'allowed_origins' => ['*'],
 
-    'allowed_origins' => [
-        'http://localhost',
-        'http://localhost:3000',
-        'http://127.0.0.1',
-        'http://127.0.0.1:8000',
-        'http://::1',
-    ],
+    'allowed_origins' => ['*'],
 
     'allowed_headers' => ['*'],
 

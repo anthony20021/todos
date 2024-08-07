@@ -10,7 +10,6 @@ async function fetchWithCredentials(endpoint, method = 'GET', body = null) {
           'Accept': 'application/json',
       },
       credentials: 'include',
-      mode: 'no-cors',
 
   };
 
