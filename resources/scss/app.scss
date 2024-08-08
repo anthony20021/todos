@@ -64,9 +64,9 @@ a {
     height: 100%;
     width: 150px;
     right: -150px;
-    top: 0; 
+    top: 0;
     z-index: 5;
-    margin-top: 0; 
+    margin-top: 0;
   }
   transition: right 0.5s;
 }
@@ -79,7 +79,7 @@ a {
     position: fixed;
     top: 20px;
     left: 5%;
-    z-index: 6; 
+    z-index: 6;
     color: $color1
   }
 }
@@ -164,14 +164,14 @@ input[type='email'] {
 }
 
 #openMenu {
-  position: fixed; 
+  position: fixed;
   top: 20px;
   right: 5%;
   width: 50px;
   height: 50px;
   border-radius: 7px;
   background-color: transparent;
-  z-index: 6; 
+  z-index: 6;
 
   @media (min-width: 1024px) {
     display: none;
@@ -188,7 +188,7 @@ input[type='email'] {
   align-items: center;
   background-color: #59486b;
   cursor: pointer;
-  z-index: 6; 
+  z-index: 6;
 
   @media (min-width: 1024px) {
     display: none;
@@ -222,4 +222,105 @@ input[type='email'] {
     margin-top: 40px;
     white-space: nowrap;
   }
+}
+
+.margin-xl{
+    margin-top: 90px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    color: #333;
+    background-color: $color4;
+    color: white;
+    // Utilisation du mixin pour les petits écrans
+    @include phone {
+        font-size: 14px; // Réduction de la taille de la police sur mobile
+    }
+}
+
+/* Style des en-têtes du tableau */
+.table thead {
+    background-color: $color5;
+}
+
+.table th {
+    padding: 12px 15px;
+    text-align: left
+
+}
+
+/* Style des cellules du tableau */
+.table td {
+    padding: 12px 15px;
+
+}
+
+
+/* Style pour les lignes du tableau */
+.table tr:nth-child(even) {
+    background-color: $color1;
+}
+
+.table tr:hover {
+    background-color: #000000;
+}
+
+/* Style pour le tableau lorsque le contenu est trop large */
+.table-responsive {
+    overflow-x: auto;
+
+    @include phone {
+        overflow-x: scroll; // Permet le défilement horizontal sur mobile si nécessaire
+    }
+}
+
+.modal{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content{
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.modal-header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-body{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+select{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.15s, border-width 0.15s;
+    &:focus {
+        border-color: $color3;
+        border-width: 2px;
+    }
 }

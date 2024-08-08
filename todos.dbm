@@ -37,7 +37,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="smallint" length="0"/>
 	</column>
 	<column name="name">
-		<type name="smallint" length="0"/>
+		<type name="varchar" length="0"/>
 	</column>
 	<constraint name="pk_roles" type="pk-constr" table="public.roles">
 		<columns names="id" ref-type="src-columns"/>

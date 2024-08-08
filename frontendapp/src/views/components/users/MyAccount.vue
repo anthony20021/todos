@@ -39,80 +39,74 @@
                 <label for="new_mdp2">Confirmer le nouveau mot de passe</label>
                 <input type="password" class="form-control" id="new_mdp2" v-model="mdp2">
             </div>
+            <button class="btn" @click="changeTheMdp()">Valider</button>
         </div>
     </div>
 </template>
+
 <script>
 import fetchWithCredentials from '@/network';
 import Swal from 'sweetalert2';
 
-    export default {
-        data() {
-            return {
-                account : {},
-                modif : false,
-                changeMdp : false,
-                Amdp : '',
-                mdp : '',
-                mdp2 : '',
-            }
+export default {
+    data() {
+        return {
+            account: {},
+            modif: false,
+            changeMdp: false,
+            Amdp: '',
+            mdp: '',
+            mdp2: '',
+        }
+    },
 
+    methods: {
+        async modifUser() {
+            try {
+                let response = await fetchWithCredentials('/myAccount/userPost', 'POST', { 'user': this.account });
+                if (response.statut !== 'ok') {
+                    Swal.fire({ title: 'Erreur', text: 'Une erreur inattendue s\'est produite', icon: 'error', position: 'top-end' });
+                } else {
+                    this.modif = !this.modif;
+                    Swal.fire({ title: 'Super!', text: 'Vos informations ont bien été modifiées', icon: 'success', position: 'top-end' });
+                }
+            } catch (error) {
+                console.error(error);
+                Swal.fire({ title: 'Erreur', text: 'Une erreur inattendue s\'est produite', icon: 'error', position: 'top-end' });
+            }
         },
 
-        methods: {
-            async modifUser() {
+        async changeTheMdp() {
+            if (this.mdp === this.mdp2) {
                 try {
-                    let response = await fetchWithCredentials('/myAccount/userPost', 'POST', {'user' : this.account});
-                    if(response.statut != 'ok') {
-                        Swal.fire({title:'Erreur', text:'Une erreur innatendue s\'est produite', icon:'error', position:'top-end'});
-                    }
-                    else{
-                        this.modif = !this.modif;
-                        Swal.fire({title:'Super!', text:'Vos informations ont bien été modifiées', icon:'success', position:'top-end'});
+                    let response = await fetchWithCredentials('/myAccount/changeMdp', 'POST', { 'mdp': this.Amdp, 'new_mdp': this.mdp });
+                    if (response.statut !== 'ok') {
+                        if (response.statut === 'mdp') {
+                            Swal.fire({ title: 'Erreur', text: 'Le mot de passe actuel ne correspond pas', icon: 'error', position: 'top-end' });
+                        } else {
+                            Swal.fire({ title: 'Erreur', text: 'Une erreur inattendue s\'est produite', icon: 'error', position: 'top-end' });
+                        }
+                    } else {
+                        this.changeMdp = !this.changeMdp;
+                        Swal.fire({ title: 'Super!', text: 'Le mot de passe a bien été modifié', icon: 'success', position: 'top-end' });
                     }
                 } catch (error) {
                     console.error(error);
-                    Swal.fire({title:'Erreur', text:'Une erreur innatendue s\'est produite', icon:'error', position:'top-end'});
+                    Swal.fire({ title: 'Erreur', text: 'Une erreur inattendue s\'est produite', icon: 'error', position: 'top-end' });
                 }
-            },
-
-            async changeMdp() {
-                if(mdp === mdp2) {
-                    try {
-                        let response = await fetchWithCredentials('/myAccount/changeMdp', 'POST', {'mdp' : this.Amdp, 'new_mdp' : this.mdp});
-                        if(response.statut != 'ok') {
-                            if(response.statut == 'mdp') {
-                                Swal.fire({title:'Erreur', text:'Le mot de passe actuel ne correspond pas', icon:'error', position:'top-end'});
-                            }
-                            Swal.fire({title:'Erreur', text:'Une erreur innatendue s\'est produite', icon:'error', position:'top-end'});
-                        }
-                        else{
-                            this.changeMdp = !this.changeMdp;
-                            Swal.fire({title:'Super!', text:'Le mot de passe a bien été modifié', icon:'success', position:'top-end'});
-                        }
-                    } catch (error) {
-
-                    }
-                }
-                else{
-                    Swal.fire({title:'Erreur', text:'Les mots de passe ne sont pas identiques', icon:'error', position:'top-end'});
-                }
-            }
-        },
-
-        computed: {
-
-        },
-
-        async mounted() {
-            try {
-                let resp = await fetchWithCredentials('/myAccount/user');
-                resp = resp.data
-                this.account = resp;
-            } catch (error) {
-                console.error('Error fetching user data:', error);
+            } else {
+                Swal.fire({ title: 'Erreur', text: 'Les mots de passe ne sont pas identiques', icon: 'error', position: 'top-end' });
             }
         }
+    },
 
+    async mounted() {
+        try {
+            let resp = await fetchWithCredentials('/myAccount/user');
+            this.account = resp.data;
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
     }
+}
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div style="display: flex; justify-content: center; margin-top: 90px;">
+    <div style="display: flex; justify-content: center; " class="margin-xl">
       <div>
           <div class="box-input">
               <label for="name">Nom</label>

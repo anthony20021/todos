@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 90px;">
+  <div class="margin-xl">
     <div>
       <button class="btn add" @click="changeViewList" v-if="!showTask" >{{ showCreateList ? "Retour" : "Ajouter une liste" }}</button>
     </div>

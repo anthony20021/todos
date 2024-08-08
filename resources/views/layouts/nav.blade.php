@@ -10,7 +10,7 @@
         <ul class="flex">
             <li id="closeMenu" style="color: #e3dbeb;">Fermer</li>
             <li class="margin"><a class="nav-items todos" href="/">Todos</a></li>
-            
+
             @guest
             <div class="deco flex">
                 <li class="margin"><a class="btn" href="/login">Se connecter</a></li>
@@ -19,6 +19,9 @@
             @else
             <li class="margin"><a class="nav-items" href="/dashboard">Tableau de bord</a></li>
             <li class="margin"><a class="nav-items" href="/myAccount">Mon compte</a></li>
+            @if (Auth::user() && Auth::user()->hasPermission('admin'))
+                <li class="margin"><a class="nav-items" href="/admin/dashboard">Administration</a></li>
+            @endif
             <li class="margin deco">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf

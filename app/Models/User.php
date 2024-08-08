@@ -42,4 +42,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'users_roles');
+    }
+
+    // Relation avec les permissions à travers les rôles
+    public function permissions()
+    {
+        return $this->roles()->with('permissions')->get()->pluck('permissions')->flatten()->unique('id');
+    }
+
+    // Vérifie si l'utilisateur a une permission spécifique
+    public function hasPermission($permission)
+    {
+        return $this->permissions()->contains('permission', $permission);
+    }
+
+    // Vérifie si l'utilisateur a un rôle spécifique
+    public function hasRole($role)
+    {
+        return $this->roles()->contains('name', $role);
+    }
 }
