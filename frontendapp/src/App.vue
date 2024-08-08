@@ -29,7 +29,7 @@ import { RouterView } from 'vue-router'
         </ul>
         </nav>
         <p id="openMenu" @click="toggleMenu" ref="toggleButton"><img src="@/assets/img/menu.png" alt="menu" width="100%" height="100%"></p>
-        <RouterView style="margin-top: 90px;" />
+        <RouterView class="body-margin" />
     </body>
 </template>
 <script>
@@ -84,6 +84,13 @@ beforeUnmount() {
 };
 </script>
 <style>
-
+    .body-margin {
+        margin-top: 90px;
+    }
+    @media (max-width: 1024px) {
+        .body-margin {
+            margin-top: 0px;
+        }
+    }
 </style>
 
