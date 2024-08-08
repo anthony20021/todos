@@ -14,7 +14,7 @@
 </head>
 <body class="font-sans antialiased">
     @include('layouts.nav')
-    <div id="app" style="margin-top: 100px">
+    <div id="app" class="body-marging">
         @yield('content')
     </div>
 
@@ -25,5 +25,13 @@
 
     body {
         font-family: 'Istok Web', sans-serif;
+    }
+    .body-marging {
+        margin-top: 90px;
+    }
+    @media (max-width: 1024px) {
+        .body-marging {
+            margin-top: 0px;
+        }
     }
 </style>
