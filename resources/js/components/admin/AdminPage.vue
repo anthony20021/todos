@@ -31,6 +31,46 @@
                 </tbody>
             </table>
         </div>
+        <h3>Administration des permissions</h3>
+        <div style="width: 100%;">
+            <button class="btn">Ajouter</button>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="permission in permissions" :key="permission.id">
+                        <td>{{ permission.permission }}</td>
+                        <td>
+                            <button class="btn" @click="deletePermission(permission.id)" style="background-color: red;">Supprimer</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h3>Administration des rôles</h3>
+        <div style="width: 100%;">
+            <button class="btn">Ajouter</button>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="role in roles" :key="role.id">
+                        <td>{{ role.name }}</td>
+                        <td>
+                            <button class="btn" @click="deleteRole(role.id)" style="background-color: red;">Supprimer</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="modal" v-if="edit" @click="edit = false">
         <div class="modal-content" @click.stop>
@@ -78,6 +118,7 @@ export default {
         return {
             users:[],
             roles:[],
+            permissions:[],
             user:{},
             edit:false,
         }
@@ -136,6 +177,7 @@ export default {
             } else {
                 this.users = response.data.users;
                 this.roles = response.data.roles;
+                this.permissions = response.data.permissions;
             }
         } catch (error) {
             console.error(error.message);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,7 +16,8 @@ class AdminController extends Controller
         try {
             $users = User::with('roles')->get();
             $roles = Role::all();
-            return response()->json(['statut' => 'ok', 'users' => $users, 'roles' => $roles]);
+            $permissions = Permission::all();
+            return response()->json(['statut' => 'ok', 'users' => $users, 'roles' => $roles, 'permissions' => $permissions]);
         } catch (\Throwable $th) {
             return response()->json(['statut' => 'error', 'message' => $th->getMessage()]);
         }
