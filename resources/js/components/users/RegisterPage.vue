@@ -1,5 +1,5 @@
 <template>
-    <div style="display: flex; justify-content: center; margin-top: 8%;">
+    <div style="display: flex; justify-content: center; margin-top: 90px;">
       <div>
           <div class="box-input">
               <label for="name">Nom</label>
@@ -21,7 +21,7 @@
       </div>
     </div>
 </template>
-  
+
 <script>
 import Swal from 'sweetalert2'
 import axios from 'axios'
@@ -53,7 +53,7 @@ import axios from 'axios'
                 password: '',
             };
             setTimeout(() => {
-              window.location.href = '/login'; 
+              window.location.href = '/login';
             }, 2000);
             } catch (error) {
             Swal.fire({

@@ -1,5 +1,5 @@
 <template>
-    <div style="display: flex; justify-content: center; margin-top: 8%;">
+    <div style="display: flex; justify-content: center; margin-top: 90px;">
       <div>
         <div class="box-input">
             <label for="email">Email</label>
@@ -13,7 +13,7 @@
       </div>
     </div>
 </template>
-  
+
 <script>
 import Swal from 'sweetalert2'
 import axios from 'axios'
@@ -30,7 +30,7 @@ import axios from 'axios'
       async logUser() {
         try {
             const response = await axios.post('/login', this.user);
-            
+
             if (response.status === 200) {
                 window.location.href = '/dashboard';
             }
