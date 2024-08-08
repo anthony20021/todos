@@ -65,6 +65,7 @@
                         <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
                     </select>
                 </div>
+                <button class="btn" style="background-color: green;" @click="updateUser()">Valider</button>
             </div>
         </div>
     </div>
@@ -112,6 +113,20 @@ export default {
                     }
                 })
         },
+        async updateUser() {
+            try {
+                const result = await axios.post('/admin/modifUser', {user : this.user});
+                if(result.data.statut !== 'ok') {
+                    Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
+                }
+                else {
+                    this.edit = false;
+                    Swal.fire({title:'Super!', text:'L\'utilisateur a bien été modifié', icon:'success', position:'top-end'});
+                }
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
     },
     async mounted() {
         try {

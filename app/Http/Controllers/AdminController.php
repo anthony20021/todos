@@ -31,4 +31,23 @@ class AdminController extends Controller
             return response()->json(['statut' => 'error', 'message' => $th->getMessage()]);
         }
     }
+
+    function modifUser(Request $request){
+        $user = $request->input('user');
+        $roleId = $user['roles'][0]['id'];
+        try {
+            User::where('id', $user['id'])->update([
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'telephone' => $user['telephone'],
+                'firstname' => $user['firstname'],
+            ]);
+            $user = User::find($user['id']);
+            $user->roles()->detach();
+            $user->roles()->attach($roleId);
+            return response()->json(['statut' => 'ok']);
+        } catch (\Throwable $th) {
+            return response()->json(['statut' => 'error', 'message' => $th->getMessage()]);
+        }
+    }
 }
