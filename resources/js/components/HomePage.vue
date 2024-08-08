@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="image-container">
-      <img :src='todosLogo' class="image" alt="Menu Image" style="  filter: blur(10px);">
       <div class="text-container">
         <div class="text-content">
           <h1>Gérer vos tâches, liste de course, projet avec Todos !</h1>
