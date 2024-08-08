@@ -56,8 +56,8 @@ Route::middleware('auth')->prefix('myAccount')->group(function () {
     Route::post('/changeMdp', [myAccountController::class, 'changeMdp']);
 });
 
-Route::get('/admin/dashboard', [AdminController::class, 'index']);
-Route::get('/admin/users', [AdminController::class, 'getUsers']);
-Route::post('/admin/deleteUser', [AdminController::class, 'deleteUser']);
-Route::post('/admin/modifUser', [AdminController::class, 'modifUser']);
+Route::get('/admin/dashboard', [AdminController::class, 'index'])->middleware('admin:admin');
+Route::get('/admin/users', [AdminController::class, 'getUsers'])->middleware('admin:admin');
+Route::post('/admin/deleteUser', [AdminController::class, 'deleteUser'])->middleware('admin:admin');
+Route::post('/admin/modifUser', [AdminController::class, 'modifUser'])->middleware('admin:admin');
 
