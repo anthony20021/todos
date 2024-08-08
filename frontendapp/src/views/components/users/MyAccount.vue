@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex" style="flex-direction: column;">
+        <div class="flex" style="flex-direction: column;" v-if="!changeMdp">
             <h2>Mon compte</h2>
             <div class="box-input">
                 <label for="name">Nom</label>
@@ -18,14 +18,32 @@
                 <label for="tel">Téléphone</label>
                 <input type="text" class="form-control" id="tel" v-model="account.telephone" :disabled="!modif">
             </div>
-            <button class="btn" v-if="!modif" @click="modif = !modif">Modifier</button>
-            <button class="btn" @click="modifUser()" v-if="modif">Enregistrer</button>
+            <div class="flex" style="justify-content: space-around; width: 30%; height: 85px;">
+                <button class="btn" @click="changeMdp = !changeMdp">Changer de mot de passe</button>
+                <button class="btn" v-if="!modif" @click="modif = !modif">Modifier</button>
+                <button class="btn" @click="modifUser()" v-if="modif">Enregistrer</button>
+            </div>
+        </div>
+        <div v-else class="flex" style="flex-direction: column;">
+            <h2>Changer son mot de passe</h2>
+            <button class="btn" @click="changeMdp = !changeMdp">Retour</button>
+            <div class="box-input">
+                <label for="mdp">Ancien mot de passe</label>
+                <input type="password" class="form-control" id="mdp" v-model="Amdp">
+            </div>
+            <div class="box-input">
+                <label for="new_mdp">Nouveau mot de passe</label>
+                <input type="password" class="form-control" id="new_mdp" v-model="mdp">
+            </div>
+            <div class="box-input">
+                <label for="new_mdp2">Confirmer le nouveau mot de passe</label>
+                <input type="password" class="form-control" id="new_mdp2" v-model="mdp2">
+            </div>
         </div>
     </div>
 </template>
 <script>
 import fetchWithCredentials from '@/network';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 
     export default {
@@ -33,6 +51,10 @@ import Swal from 'sweetalert2';
             return {
                 account : {},
                 modif : false,
+                changeMdp : false,
+                Amdp : '',
+                mdp : '',
+                mdp2 : '',
             }
 
         },
@@ -40,8 +62,7 @@ import Swal from 'sweetalert2';
         methods: {
             async modifUser() {
                 try {
-                    let response = await fetchWithCredentials('/myAccount/user', 'POST', {'user' : this.account});
-                    console.log(this.account);
+                    let response = await fetchWithCredentials('/myAccount/userPost', 'POST', {'user' : this.account});
                     if(response.statut != 'ok') {
                         Swal.fire({title:'Erreur', text:'Une erreur innatendue s\'est produite', icon:'error', position:'top-end'});
                     }
@@ -53,6 +74,29 @@ import Swal from 'sweetalert2';
                     console.error(error);
                     Swal.fire({title:'Erreur', text:'Une erreur innatendue s\'est produite', icon:'error', position:'top-end'});
                 }
+            },
+
+            async changeMdp() {
+                if(mdp === mdp2) {
+                    try {
+                        let response = await fetchWithCredentials('/myAccount/changeMdp', 'POST', {'mdp' : this.Amdp, 'new_mdp' : this.mdp});
+                        if(response.statut != 'ok') {
+                            if(response.statut == 'mdp') {
+                                Swal.fire({title:'Erreur', text:'Le mot de passe actuel ne correspond pas', icon:'error', position:'top-end'});
+                            }
+                            Swal.fire({title:'Erreur', text:'Une erreur innatendue s\'est produite', icon:'error', position:'top-end'});
+                        }
+                        else{
+                            this.changeMdp = !this.changeMdp;
+                            Swal.fire({title:'Super!', text:'Le mot de passe a bien été modifié', icon:'success', position:'top-end'});
+                        }
+                    } catch (error) {
+
+                    }
+                }
+                else{
+                    Swal.fire({title:'Erreur', text:'Les mots de passe ne sont pas identiques', icon:'error', position:'top-end'});
+                }
             }
         },
 
@@ -62,8 +106,8 @@ import Swal from 'sweetalert2';
 
         async mounted() {
             try {
-                const resp = await fetchWithCredentials('/myAccount/user');
-                console.log(resp)
+                let resp = await fetchWithCredentials('/myAccount/user');
+                resp = resp.data
                 this.account = resp;
             } catch (error) {
                 console.error('Error fetching user data:', error);

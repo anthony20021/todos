@@ -39,4 +39,26 @@ class myAccountController extends Controller
             return response()->json(['statut' => 'error', 'message' => $th->getMessage()]);
         }
     }
+
+    public function changeMdp(Request $request){
+
+        $mdp = $request->input('mdp');
+        $new_mdp = $request->input('new_mdp');
+
+        $user = auth()->user();
+
+        try {
+            if (password_verify($mdp, $user->password)) {
+                User::where('id', $user->id)->update([
+                    'password' => password_hash($new_mdp, PASSWORD_BCRYPT),
+                ]);
+                return response()->json(['statut' => 'ok']);
+            } else {
+                return response()->json(['statut' => 'mdp', 'message' => 'Mot de passe incorrect']);
+            }
+        } catch (\Throwable $th) {
+            return response()->json(['statut' => 'error', 'message' => $th->getMessage()]);
+        }
+
+    }
 }
