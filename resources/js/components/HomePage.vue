@@ -5,13 +5,13 @@
       <div class="text-container">
         <div class="text-content">
           <h1>Gérer vos tâches, liste de course, projet avec Todos !</h1>
-          <p>Todos est un petit site simpliste qui vous permet de créer des listes de tâche et les partager avec vos amis.</p>
-          <a href="/register" class="register-link">Commencer à partager dès maintenant</a>
+          <p>Todos le site simpliste qui vous permet de créer des listes de tâche et les partager avec vos amis.</p>
+          <a href="/register" class="register-link">Commencer à créer dès maintenant</a>
           <p>Déjà inscrit ? <a href="/login" class="login-link">Se connecter</a></p>
         </div>
       </div>
     </div>
-    <p class="info-text">Le site est toujours en création et en recherche de nouvelle fonctionnalité, vous pouvez tout de même commencer à l'essayer en toute gratuité.</p>
+    <p class="info-text">Site 1.0</p>
   </div>
 
 </template>
@@ -32,10 +32,9 @@ body {
 
 .image-container {
   position: relative;
-  height: 400px;
-  width: 80%;
+  height: 600px;
+  width: 100%;
   margin: 20px auto;
-  border: 3px solid #7e41c0;
 }
 
 .image {
@@ -83,22 +82,22 @@ body {
 @media (max-width: 1024px) {
 
 
-  .image-container {
-    height: 500px;
-    width: 95%;
-  }
+.image-container {
+    height: 800px;
+    width: 100%;
+}
 
-  .info-text {
+.info-text {
     margin-left: 5%;
-  }
-  .text-content{
+}
+.text-content{
     font-size: 17px;
-  }
+}
 }
 
 @media (max-width: 480px){
-  .text-content{
+.text-content{
     font-size: 13px;
-  }
+}
 }
 </style>

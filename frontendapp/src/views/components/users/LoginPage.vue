@@ -30,7 +30,9 @@ import fetchWithCredentials from '@/network';
         async logUser() {
             try {
                 const response = await fetchWithCredentials('/login', 'POST', this.user);
-
+                if(response.message === "Login successful") {
+                    window.location.href = '/dashboard';
+                }
                 if (response.message != "Login successful") {
                     if (response.status === 401) {
                         Swal.fire({
