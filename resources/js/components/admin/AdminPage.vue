@@ -105,7 +105,7 @@
                         <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
                     </select>
                 </div>
-                <div v-else>
+                <div v-else class="box-input">
                     <label for="role">Rôle</label>
                     <select id="role" v-model="newUserRole" @change="addRoleToUser()">
                         <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
