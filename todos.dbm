@@ -4,7 +4,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
 <dbmodel pgmodeler-ver="1.1.3" use-changelog="false" max-obj-count="16"
-	 last-position="0,0" last-zoom="0.85" scene-rect="0,0,1938.81,1076.8"
+	 last-position="0,0" last-zoom="0.85" scene-rect="0,0,1976.88,1076.8"
 	 default-schema="public" default-owner="postgres"
 	 layers="Default layer"
 	 active-layers="0"
@@ -29,20 +29,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 </sequence>
 
-<table name="roles" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+<sequence name="role_seq" cycle="false" start="1" increment="1" min-value="0" max-value="2147483647" cache="1">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="440" y="60"/>
-	<column name="id" not-null="true">
-		<type name="smallint" length="0"/>
-	</column>
-	<column name="name">
-		<type name="varchar" length="0"/>
-	</column>
-	<constraint name="pk_roles" type="pk-constr" table="public.roles">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
+</sequence>
 
 <table name="users_roles" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
@@ -59,20 +49,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="permissions" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+<sequence name="permission_seq" cycle="false" start="1" increment="1" min-value="0" max-value="2147483647" cache="1">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1100" y="60"/>
-	<column name="permission">
-		<type name="character varying" length="25"/>
-	</column>
-	<column name="id" not-null="true">
-		<type name="smallint" length="0"/>
-	</column>
-	<constraint name="pk_permission" type="pk-constr" table="public.permissions">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
+</sequence>
 
 <table name="roles_permissions" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
@@ -380,6 +360,36 @@ CAUTION: Do not modify this file unless you know what you are doing.
 			<column name="last_activity"/>
 		</idxelement>
 </index>
+
+<table name="roles" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="440" y="60"/>
+	<column name="id" not-null="true" sequence="public.role_seq">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="name">
+		<type name="varchar" length="0"/>
+	</column>
+	<constraint name="pk_roles" type="pk-constr" table="public.roles">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="permissions" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1100" y="60"/>
+	<column name="permission">
+		<type name="character varying" length="25"/>
+	</column>
+	<column name="id" not-null="true" sequence="public.permission_seq">
+		<type name="smallint" length="0"/>
+	</column>
+	<constraint name="pk_permission" type="pk-constr" table="public.permissions">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
 
 <constraint name="fk_user_users_roles" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.users" table="public.users_roles">
