@@ -99,9 +99,15 @@
                     <label for="password">Mot de passe</label>
                     <input type="password" id="password" v-model="user.password">
                 </div>
-                <div class="box-input">
+                <div class="box-input" v-if="user.roles.length > 0">
                     <label for="role">Rôle</label>
                     <select id="role" v-model="user.roles[0].id">
+                        <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
+                    </select>
+                </div>
+                <div v-else>
+                    <label for="role">Rôle</label>
+                    <select id="role" v-model="newUserRole" @change="addRoleToUser()">
                         <option v-for="role in roles" :key="role.id" :value="role.id">{{ role.name }}</option>
                     </select>
                 </div>
@@ -199,6 +205,7 @@ export default {
             editAddPermission:false,
             newRole:"",
             newPermission:"",
+            newUserRole:0
         }
     },
     methods: {
@@ -209,6 +216,10 @@ export default {
         editTheRole(role) {
             this.editRole = true;
             this.role = role;
+        },
+        addRoleToUser() {
+            this.user.roles.push(this.newUserRole);
+            this.newUserRole = 0;
         },
         async deleteUser(id) {
                 Swal.fire({
