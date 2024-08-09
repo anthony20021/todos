@@ -56,14 +56,14 @@ Route::middleware('auth')->prefix('myAccount')->group(function () {
     Route::post('/changeMdp', [myAccountController::class, 'changeMdp']);
 });
 
-Route::get('/admin/dashboard', [AdminController::class, 'index'])->middleware('admin:admin');
-Route::get('/admin/users', [AdminController::class, 'getUsers'])->middleware('admin:admin');
-Route::post('/admin/deleteUser', [AdminController::class, 'deleteUser'])->middleware('admin:admin');
-Route::post('/admin/modifUser', [AdminController::class, 'modifUser'])->middleware('admin:admin');
-Route::post('/admin/deletePermissionRole', [AdminController::class, 'deletePermissionRole'])->middleware('admin:admin');
-Route::post('/admin/updateRole', [AdminController::class, 'addPermissionRole'])->middleware('admin:admin');
-Route::post('/admin/createRole', [AdminController::class, 'addRole'])->middleware('admin:admin');
-Route::post('/admin/deleteRole', [AdminController::class, 'deleteRole'])->middleware('admin:admin');
-Route::post('/admin/createPermission', [AdminController::class, 'addPermission'])->middleware('admin:admin');
-Route::post('/admin/deletePermission', [AdminController::class, 'deletePermission'])->middleware('admin:admin');
+Route::get('/admin/dashboard', [AdminController::class, 'index']);
+Route::get('/admin/users', [AdminController::class, 'getUsers']);
+Route::post('/admin/deleteUser', [AdminController::class, 'deleteUser']);
+Route::post('/admin/modifUser', [AdminController::class, 'modifUser']);
+Route::post('/admin/deletePermissionRole', [AdminController::class, 'deletePermissionRole']);
+Route::post('/admin/updateRole', [AdminController::class, 'addPermissionRole']);
+Route::post('/admin/createRole', [AdminController::class, 'addRole']);
+Route::post('/admin/deleteRole', [AdminController::class, 'deleteRole']);
+Route::post('/admin/createPermission', [AdminController::class, 'addPermission']);
+Route::post('/admin/deletePermission', [AdminController::class, 'deletePermission']);
 
