@@ -7,7 +7,7 @@
         "build:app": "cd frontendapp && npm run build",
         "dev:app": "cd frontendapp && npm run dev",
         "dev:all": "concurrently \"npm run dev:web\" \"npm run dev:app\"",
-        "build:all": "vite build cd frontendapp && npm run build",
+        "build:all": "vite build && cd frontendapp && npm run build",
         "install:app": "cd frontendapp && npm i"
     },
     "devDependencies": {
