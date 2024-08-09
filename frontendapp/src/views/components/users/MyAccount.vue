@@ -103,7 +103,7 @@ export default {
     async mounted() {
         try {
             let resp = await fetchWithCredentials('/myAccount/user');
-            this.account = resp.data;
+            this.account = resp;
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
