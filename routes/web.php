@@ -38,6 +38,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     });
 
     // Routes pour les opérations liées au tableau de bord
+
     Route::get('/getData', [DashboardController::class, 'getData']);
     Route::post('/tache/getData', [DashboardController::class, 'getDataTache']);
     Route::post('/addListe', [DashboardController::class, 'addListe']);
@@ -47,6 +48,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::post('/modifTask', [DashboardController::class, 'modifTask']);
     Route::post('/shareListe', [DashboardController::class, 'shareListe']);
     Route::post('/leaveListe', [DashboardController::class, 'leaveListe']);
+    Route::post('/putListe' , [DashboardController::class, 'putListe']);
 });
 
 Route::middleware('auth')->prefix('myAccount')->group(function () {

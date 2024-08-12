@@ -7,7 +7,7 @@
       <h2 style="margin-left: 20px;">Vos listes : </h2>
       <div  style="margin-left: 20px;" v-if="listes && listes.length > 0">
         <div class="flex" style="flex-wrap: wrap; justify-content: center;">
-            <div v-for="list in listes" class="box-liste" @click="openTask(list)">
+            <div v-for="list in listes" class="box-liste" :class="'liste'+list.liste.style" @click="openTask(list)">
                 <p>{{ list.liste.name }}</p>
                 <p v-if="data.user.id != list.liste.owner" style="font-size: 12px; position: absolute; top: 120px;">Créer par : {{ list.owner.firstname + " " + list.owner.name }}</p>
             </div>
@@ -22,7 +22,7 @@
         <button class="btn" @click="addList">Ajouter la liste</button>
       </div>
     </div>
-    <task v-if="showTask" :list_id="currentListName" :owner="currentOwner" :user_id="data.user.id" :owner_name="currentOwnerListName"  @back="showTask = false" @delete="updateListe"></task>
+    <task v-if="showTask"  :liste="currentList" :list_id="currentList.id" :user_id="data.user.id" :owner_name="currentOwnerListName"  @back="showTask = false" @delete="updateListe"  @putListe="updateListe"></task>
   </div>
 </template>
 
@@ -39,6 +39,7 @@ export default {
     return {
       currentOwnerListName : "",
       showCreateList: false,
+      currentList : {},
       showTask: false,
       listes: [],
       newList: {
@@ -71,7 +72,7 @@ export default {
 
     openTask(liste) {
       this.currentOwner = liste.liste.owner
-      this.currentListName = liste.liste.id;
+      this.currentList = liste.liste;
       this.currentOwnerListName = liste.owner.firstname + " " + liste.owner.name;
       this.showTask = true;
     },
@@ -80,7 +81,14 @@ export default {
         this.listes = result;
         this.showTask = false;
       },
+
+      updateListe(result){
+        this.listes[this.listes.findIndex(liste => liste.liste.id == result.id)].liste = result;
+        this.showTask = false;
+      },
   },
+
+
 
   async mounted() {
     try {

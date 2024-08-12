@@ -1,5 +1,5 @@
 <template>
-    <div style="margin-top: 20px;">
+    <div style="margin-top: 20px;" v-if="!editListe">
         <div class="share-liste">
             <button class="btn" @click="showCreateTask = !showCreateTask" style="height: 40px;">
                 {{ showCreateTask ? "Retour" : "Ajouter une tâche" }}
@@ -38,8 +38,9 @@
             </div>
             <p v-else style="margin-left: 20px;">Il n'y a toujours pas de tâches dans la liste, <a style="color: blue;" @click="showCreateTask = !showCreateTask">Créer ma première tâche</a>.</p>
         </div>
-        <button class="btn" style="background-color: red;" @click="deleteListe()" v-if="owner == user_id" >Supprimer la liste</button>
-        <button class="btn" style="background-color: red;" @click="leaveListe()" v-if="owner != user_id" >Quitter la liste</button>
+        <button class="btn" style="background-color: cadetblue;" @click="editListe = !editListe">Modifier la liste</button>
+        <button class="btn" style="background-color: red; margin-left: 10px;" @click="deleteListe()" v-if="owner == user_id" >Supprimer la liste</button>
+        <button class="btn" style="background-color: red; margin-left: 10px;" @click="leaveListe()" v-if="owner != user_id" >Quitter la liste</button>
         <button class="btn" style="background-color: green; margin-left: 10px;" @click="showShareListe = !showShareListe"  v-if="owner == user_id" >{{ showShareListe ? "Annuler" : "Partager"}}</button>
         <div class="box-input" v-if="showShareListe">
             <label for="task-name">Email</label>
@@ -47,6 +48,44 @@
             <button class="btn" @click="shareListe()">Partager la liste</button>
         </div>
     </div>
+
+    <div v-else>
+        <div class="margin-xl">
+            <h2>Modifier la liste</h2>
+            <div>
+                <div class="box-input">
+                    <label for="task-name">Nom</label>
+                    <input type="text" v-model="liste.name" id="task-name" style="margin-bottom: 15px;">
+                </div>
+                <div class="flex" style="flex-wrap: wrap;">
+                    <div class="box-input" style="width: 100%;">
+                        <input type="radio" id="style1" :value="1" v-model="liste.style">
+                        <label for="style1" @click="liste.style = 1"><div class="box-liste liste1">{{ liste.name }}</div></label>
+                    </div>
+                    <div class="box-input" style="width: 100%;">
+                        <input type="radio" id="style2" :value="2" v-model="liste.style">
+                        <label for="style2" @click="liste.style = 2"><div class="box-liste liste2">{{ liste.name }}</div></label>
+                    </div>
+                    <div class="box-input" style="width: 100%;">
+                        <input type="radio" id="style3" :value="3" v-model="liste.style">
+                        <label for="style3" @click="liste.style = 3"><div class="box-liste liste3">{{ liste.name }}</div></label>
+                    </div>
+                    <div class="box-input" style="width: 100%;">
+                        <input type="radio" id="style4" :value="4" v-model="liste.style">
+                        <label for="style4" @click="liste.style = 4"><div class="box-liste liste4">{{ liste.name }}</div></label>
+                    </div>
+                    <div class="box-input" style="width: 100%;">
+                        <input type="radio" id="style5" :value="5" v-model="liste.style">
+                        <label for="style5" @click="liste.style = 5"><div class="box-liste liste5">{{ liste.name }}</div></label>
+                    </div>
+                </div>
+                <div class="flex">
+                    <button class="btn" @click="putListe()">Modifier</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </template>
 
 <script>
@@ -64,12 +103,17 @@ export default {
         },
         task: [],
         showCreateTask: false,
-        showShareListe: false
+        showShareListe: false,
+        editListe: false,
     };
     },
     props: {
     list_id: {
         type: Number,
+        required: true
+    },
+    liste: {
+        type: Object,
         required: true
     },
     owner: {
@@ -150,6 +194,22 @@ export default {
                     }
                 }
             });
+        },
+
+        async putListe() {
+            try {
+                const result = await fetchWithCredentials('/dashboard/putListe', 'PUT', {'list_id' : this.list_id, 'name' : this.liste.name, 'style' : this.liste.style})
+                if(result.statut == 'ok'){
+                    Swal.fire({title:'Succès', text:'La liste a bien été modifié', icon:'success', position:'top-end'});
+                    this.$emit('putListe', this.liste);
+                }
+                else{
+                    Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
+                }
+            } catch (error) {
+                console.error(error);
+                Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
+            }
         },
 
         leaveListe() {

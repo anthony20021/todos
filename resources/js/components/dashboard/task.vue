@@ -1,5 +1,5 @@
 <template>
-    <div style="margin-top: 20px;">
+    <div style="margin-top: 145px;" v-if="!editListe">
         <div class="share-liste">
             <button class="btn" @click="showCreateTask = !showCreateTask" style="height: 40px;">
                 {{ showCreateTask ? "Retour" : "Ajouter une tâche" }}
@@ -38,13 +38,51 @@
             </div>
             <p v-else style="margin-left: 20px;">Il n'y a toujours pas de tâches dans la liste, <a style="color: blue;" @click="showCreateTask = !showCreateTask">Créer ma première tâche</a>.</p>
         </div>
-        <button class="btn" style="background-color: red;" @click="deleteListe()" v-if="owner == user_id" >Supprimer la liste</button>
-        <button class="btn" style="background-color: red;" @click="leaveListe()" v-if="owner != user_id" >Quitter la liste</button>
+        <button class="btn" style="background-color: cadetblue;" @click="editListe = !editListe">Modifier la liste</button>
+        <button class="btn" style="background-color: red; margin-left: 10px;" @click="deleteListe()" v-if="owner == user_id" >Supprimer la liste</button>
+        <button class="btn" style="background-color: red; margin-left: 10px;" @click="leaveListe()" v-if="owner != user_id" >Quitter la liste</button>
         <button class="btn" style="background-color: green; margin-left: 10px;" @click="showShareListe = !showShareListe"  v-if="owner == user_id" >{{ showShareListe ? "Annuler" : "Partager"}}</button>
         <div class="box-input" v-if="showShareListe">
             <label for="task-name">Email</label>
             <input type="email" v-model="sharingEmail" id="task-name" style="margin-bottom: 15px;" @keydown.enter="shareListe()">
             <button class="btn" @click="shareListe()">Partager la liste</button>
+        </div>
+    </div>
+
+    <div v-else>
+        <div class="margin-xl">
+            <h2>Modifier la liste</h2>
+            <div>
+                <div class="box-input">
+                    <label for="task-name">Nom</label>
+                    <input type="text" v-model="liste.name" id="task-name" style="margin-bottom: 15px;">
+                </div>
+                <div class="flex" style="flex-wrap: wrap;">
+                    <div class="box-input" style="width: 100%;">
+                        <input type="radio" id="style1" :value="1" v-model="liste.style">
+                        <label for="style1" @click="liste.style = 1"><div class="box-liste liste1">{{ liste.name }}</div></label>
+                    </div>
+                    <div class="box-input" style="width: 100%;">
+                        <input type="radio" id="style2" :value="2" v-model="liste.style">
+                        <label for="style2" @click="liste.style = 2"><div class="box-liste liste2">{{ liste.name }}</div></label>
+                    </div>
+                    <div class="box-input" style="width: 100%;">
+                        <input type="radio" id="style3" :value="3" v-model="liste.style">
+                        <label for="style3" @click="liste.style = 3"><div class="box-liste liste3">{{ liste.name }}</div></label>
+                    </div>
+                    <div class="box-input" style="width: 100%;">
+                        <input type="radio" id="style4" :value="4" v-model="liste.style">
+                        <label for="style4" @click="liste.style = 4"><div class="box-liste liste4">{{ liste.name }}</div></label>
+                    </div>
+                    <div class="box-input" style="width: 100%;">
+                        <input type="radio" id="style5" :value="5" v-model="liste.style">
+                        <label for="style5" @click="liste.style = 5"><div class="box-liste liste5">{{ liste.name }}</div></label>
+                    </div>
+                </div>
+                <div class="flex">
+                    <button class="btn" @click="putListe()">Modifier</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -63,12 +101,17 @@ export default {
         },
         task: [],
         showCreateTask: false,
-        showShareListe: false
+        showShareListe: false,
+        editListe: false
     };
     },
     props: {
     list_id: {
         type: Number,
+        required: true
+    },
+    liste: {
+        type: Object,
         required: true
     },
     owner: {
@@ -97,7 +140,7 @@ export default {
                 Swal.fire({title:'Succès', text:'La liste a bien été partagé', icon:'success', position:'top-end'});
             }
             catch(error){
-                Swal.fire({                            
+                Swal.fire({
                     title:'Erreur',
                     text:"Votre liste n'a pas été partagé.",
                     icon:'error',
@@ -106,12 +149,30 @@ export default {
             }
         },
 
+        async putListe() {
+
+            try {
+                const result = await axios.post('/dashboard/putListe', {'list_id' : this.list_id, 'name' : this.liste.name, 'style' : this.liste.style})
+                if(result.data.statut == 'ok'){
+                    Swal.fire({title:'Succès', text:'La liste a bien été modifié', icon:'success', position:'top-end'});
+                    this.$emit('putListe', this.liste);
+                }
+                else{
+                    Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
+                }
+            } catch (error) {
+                console.error(error);
+                Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
+            }
+
+        },
+
         deleteListe() {
             Swal.fire({
                 title: 'Êtes-vous sûr ?',
                 text: 'Cette action est irréversible',
                 icon: 'warning',
-                position: 'top-end', 
+                position: 'top-end',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
@@ -121,7 +182,7 @@ export default {
                 if (result.isConfirmed) {
                     try{
                         const result = await axios.post('/dashboard/deleteListe', {'list_id' : this.list_id})
-                        Swal.fire({                            
+                        Swal.fire({
                             title:'Supprimé !',
                             text:'Votre liste a été supprimée.',
                             icon:'success',
@@ -131,7 +192,7 @@ export default {
                     }
                     catch(error){
                         if(error.response?.status==555){
-                            Swal.fire({                            
+                            Swal.fire({
                                 title:'Erreur',
                                 text:"Vous n'avez pas la permission",
                                 icon:'error',
@@ -139,7 +200,7 @@ export default {
                         });
                         }
                         else{
-                            Swal.fire({                            
+                            Swal.fire({
                                 title:'Erreur',
                                 text:"Votre liste n'a pas été supprimée.",
                                 icon:'error',
@@ -156,7 +217,7 @@ export default {
                 title: 'Êtes-vous sûr ?',
                 text: 'Le propriétaire devra vous réinviter si vous voulez retrouver la liste',
                 icon: 'warning',
-                position: 'top-end', 
+                position: 'top-end',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
@@ -166,7 +227,7 @@ export default {
                 if (result.isConfirmed) {
                     try{
                         const result = await axios.post('/dashboard/leaveListe', {'list_id' : this.list_id,})
-                        Swal.fire({                            
+                        Swal.fire({
                             title:'Vous avez bien quitté la liste',
                             icon:'success',
                             position: 'top-end',
@@ -175,7 +236,7 @@ export default {
                     }
                     catch(error){
                         if(error.response?.status==555){
-                            Swal.fire({                            
+                            Swal.fire({
                                 title:'Erreur',
                                 text:"Vous n'avez pas la permission",
                                 icon:'error',
@@ -183,7 +244,7 @@ export default {
                         });
                         }
                         else{
-                            Swal.fire({                            
+                            Swal.fire({
                                 title:'Erreur',
                                 text:"Vous n'avez pas quitté la liste.",
                                 icon:'error',
@@ -200,7 +261,7 @@ export default {
                 title: 'Êtes-vous sûr ?',
                 text: 'Cette action est irréversible',
                 icon: 'warning',
-                position: 'top-end', 
+                position: 'top-end',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
@@ -210,7 +271,7 @@ export default {
                 if (result.isConfirmed) {
                     try{
                         const result = await axios.post('/dashboard/deleteTask', {'task_id' : id, 'list_id' : this.list_id})
-                        Swal.fire({                            
+                        Swal.fire({
                             title:'Supprimé !',
                             text:'Votre tâche a été supprimée.',
                             icon:'success',
@@ -220,7 +281,7 @@ export default {
                     }
                     catch(error){
                         if(error.response?.status==555){
-                            Swal.fire({                            
+                            Swal.fire({
                                 title:'Erreur',
                                 text:"Vous n'avez pas la permission",
                                 icon:'error',
@@ -228,7 +289,7 @@ export default {
                         });
                         }
                         else{
-                            Swal.fire({                            
+                            Swal.fire({
                                 title:'Erreur',
                                 text:"Votre liste n'a pas été supprimée.",
                                 icon:'error',
@@ -253,7 +314,7 @@ export default {
                 this.task = response.data;
                 Swal.fire({title:'Succès', text:'Tâche ajoutée avec succès', icon:'success', position:'top-end'});
                 this.showCreateTask = false;
-                this.newTask.name = ""; 
+                this.newTask.name = "";
             } catch (error) {
                 console.error(error.message);
                 Swal.fire({title:'Erreur', text:'Impossible d\'ajouter la tâche', icon:'error', position:'top-end'});
@@ -288,12 +349,15 @@ export default {
 <style scoped>
 .add {
     position: absolute;
-    top: 80px;
+    top: 92px;
     right: 7px;
+}
+.box-liste {
+    width: 350px;
 }
 @media (max-width: 1024px) {
     .add {
-    top: 25px;
+    top: 92px;
     }
     .share-liste{
         flex-direction: column;
@@ -302,6 +366,9 @@ export default {
         width: 100% !important;
         border-radius: 15px !important;
         margin-top: 10px;
+    }
+    .box-liste {
+        width: 90%;
     }
 }
 li{
@@ -318,10 +385,10 @@ li{
     justify-content: space-between;
 }
 .share-box{
-    background-color:deeppink; 
-    color: aliceblue; 
-    padding: 1px; 
-    width: 50%; 
+    background-color:deeppink;
+    color: aliceblue;
+    padding: 1px;
+    width: 50%;
     border-radius: 15px 0px 0px 15px;
 }
 

@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register/adduser', [RegisterController::class, 'addUser']);
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::get('/', function () {
         return view('dashboard.dashboard');
@@ -39,6 +40,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::post('/modifTask', [DashboardController::class, 'modifTask']);
     Route::post('/shareListe', [DashboardController::class, 'shareListe']);
     Route::post('/leaveListe', [DashboardController::class, 'leaveListe']);
+    Route::post('/putListe' , [DashboardController::class, 'putListe']);
 });
 
 Route::middleware('auth')->prefix('myAccount')->group(function () {

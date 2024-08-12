@@ -5,171 +5,184 @@ $color4: #59486B;
 $color5: #3B3641;
 $color6: #e3dbeb;
 
+//Afin de faire un responsive facilement
 @mixin phone {
-  @media (max-width: 1024px) {
-    @content;
+    @media (max-width: 1024px) {
+      @content;
+    }
   }
-}
 
-@mixin shadow {
-  box-shadow: 0px 12px 20px 1px rgba(0, 0, 0, 0.24);
-}
-
-body {
-  margin: 0;
-  font-family: sans-serif;
-}
-
-.flex {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-
-  @include phone {
-    flex-direction: column;
-    padding: 0;
+  //Ajouter facilement des ombes
+  @mixin shadow {
+    box-shadow: 0px 12px 20px 1px rgba(0, 0, 0, 0.24);
   }
-}
 
-ul {
-  list-style: none;
-  margin-top: 0;
-}
-
-a {
-  text-decoration: none;
-  color: $color6;
-  cursor: pointer;
-}
-
-.nav-items {
-  margin-right: 10px;
-  border-radius: 12px;
-  margin: 16px;
-  transition: background-color 0.4s;
-  font-size: 17px;
-
-  &:hover {
-    background-color: #9c49f5;
+  //Body
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #e0d7e9;
   }
-}
 
-body {
-  background-color: #e0d7e9;
-}
+  //Un display flex responsive
+  .flex {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
 
-.nav {
-  background: linear-gradient(360deg, $color1 19%, $color2 76%);
-  height: 60px;
-  transition: right 0.5s;
-  @include shadow;
-  @include phone {
-    position: fixed;
-    height: 100%;
-    width: 150px;
-    right: -150px;
-    top: 0;
-    z-index: 5;
+    @include phone {
+      flex-direction: column;
+      padding: 0;
+    }
+  }
+
+  //Pour de belles listes sans puce
+  ul {
+    list-style: none;
     margin-top: 0;
   }
-}
 
-.todos {
-  font-family: 'Playwrite NZ', sans-serif;
-  font-weight: 900;
-  font-size: larger;
-  @include phone {
-    position: fixed;
-    top: 20px;
-    left: 5%;
-    z-index: 6;
-    color: $color1
-  }
-}
-
-.margin-xl{
-    margin-top: 90px;
-}
-
-#menu-phone {
-  position: absolute;
-  height: 50px;
-  width: 100%;
-  background-color: linear-gradient(360deg, $color1 19%, $color2 76%);
-}
-
-input[type='text'],
-input[type='tel'],
-input[type='password'],
-input[type='email'] {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-  transition: border-color 0.15s, border-width 0.15s;
-
-  &:focus {
-    border-color: $color3;
-    border-width: 2px;
-  }
-}
-
-.btn {
-  display: inline-block;
-  padding: 10px 16px;
-  font-size: 16px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #fff;
-  background-color: $color2;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: $color4;
-  }
-}
-
-.box-input {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  width: 400px;
-  @include phone {
-    width: 300px;
-  }
-}
-
-.box-liste {
-  color: $color5;
-  background: linear-gradient(180deg, rgba(205,154,255,1) 0%, rgba(252,182,224,1) 54%, rgba(228,208,249,1) 100%);
-  width: 30%;
-  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.089);
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 30px;
-  margin: 28px;
-  position: relative;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  @include phone {
-    width: 90%;
-    height: 170px;
-    margin-top: 5px;
-    margin-left: 5px;
+  //Couleur des liens
+  a {
+    text-decoration: none;
+    color: $color6;
+    cursor: pointer;
   }
 
-  &:hover {
-    background-color: $color1;
-  }
-}
+  //Decorations des liens de la navigation
+  .nav-items {
+    margin-right: 10px;
+    border-radius: 12px;
+    margin: 16px;
+    transition: background-color 0.4s;
+    font-size: 17px;
 
+    &:hover {
+      background-color: #9c49f5;
+    }
+  }
+
+  //La nav bar responsive
+  .nav {
+    background: linear-gradient(360deg, $color1 19%, $color2 76%);
+    height: 60px;
+    transition: right 0.5s;
+    @include shadow;
+    @include phone {
+      position: fixed;
+      height: 100%;
+      width: 150px;
+      right: -150px;
+      top: 0;
+      z-index: 5;
+      margin-top: 0;
+    }
+  }
+
+  //Le logo
+  .todos {
+    font-family: 'Playwrite NZ', sans-serif;
+    font-weight: 900;
+    font-size: larger;
+    @include phone {
+      position: fixed;
+      top: 20px;
+      left: 5%;
+      z-index: 6;
+      color: $color1
+    }
+  }
+
+  //Marge large
+  .margin-xl{
+      margin-top: 90px;
+  }
+
+  //Le menu pour téléphone
+  #menu-phone {
+    position: absolute;
+    height: 50px;
+    width: 100%;
+    background-color: linear-gradient(360deg, $color1 19%, $color2 76%);
+  }
+
+  //Décorations des input
+  input[type='text'],
+  input[type='tel'],
+  input[type='password'],
+  input[type='email'] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.15s, border-width 0.15s;
+
+    &:focus {
+      border-color: $color3;
+      border-width: 2px;
+    }
+  }
+
+  //Décoration des boutons
+  .btn {
+    display: inline-block;
+    padding: 10px 16px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    background-color: $color2;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $color4;
+    }
+  }
+
+  //Afin de faire de beaux input avec leurs labels de façon responsive
+  .box-input {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 400px;
+    @include phone {
+      width: 300px;
+    }
+  }
+
+  //Box pour les listes de tache
+  .box-liste {
+    color: $color5;
+    width: 30%;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.089);
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    margin: 28px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    @include phone {
+      width: 90%;
+      height: 170px;
+      margin-top: 5px;
+      margin-left: 5px;
+    }
+
+    &:hover {
+      background-color: $color1;
+    }
+  }
+
+
+//Div ou se trouve le burger telephone
 #openMenu {
   position: fixed;
   top: 20px;
@@ -185,6 +198,7 @@ input[type='email'] {
   }
 }
 
+//Bouton pour fermer le menu telephone
 #closeMenu {
   padding: 12px;
   padding-left: 0px;
@@ -202,6 +216,7 @@ input[type='email'] {
   }
 }
 
+//Bouyton de deco
 .deco {
   margin-left: 50vw;
 
@@ -214,6 +229,7 @@ input[type='email'] {
   }
 }
 
+//Pas de wrap sur le texte de deco
 .deco-wrap {
   white-space: nowrap;
 
@@ -222,6 +238,7 @@ input[type='email'] {
   }
 }
 
+//Marge taille moyenne
 .margin {
   margin-top: 10px;
 
@@ -230,3 +247,132 @@ input[type='email'] {
     white-space: nowrap;
   }
 }
+
+//Grande marge
+.margin-xl{
+    margin-top: 90px;
+}
+
+//De beaux tableaux
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    color: #333;
+    background-color: $color4;
+    color: white;
+    // Utilisation du mixin pour les petits écrans
+    @include phone {
+        font-size: 14px; // Réduction de la taille de la police sur mobile
+    }
+}
+
+/* Style des en-têtes du tableau */
+.table thead {
+    background-color: $color5;
+}
+
+.table th {
+    padding: 12px 15px;
+    text-align: left
+
+}
+
+/* Style des cellules du tableau */
+.table td {
+    padding: 12px 15px;
+
+}
+
+
+/* Style pour les lignes du tableau */
+.table tr:nth-child(even) {
+    background-color: $color1;
+}
+
+.table tr:hover {
+    background-color: #000000;
+}
+
+/* Style pour le tableau lorsque le contenu est trop large */
+.table-responsive {
+    overflow-x: auto;
+
+    @include phone {
+        overflow-x: scroll; // Permet le défilement horizontal sur mobile si nécessaire
+    }
+}
+
+//Le transparant d'une modale
+.modal{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+//Le contenu d'une modale
+.modal-content{
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+//Le header d'une modale pour le titre
+.modal-header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+//Le corps d'une modale
+.modal-body{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+//De beaux select
+select{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.15s, border-width 0.15s;
+    &:focus {
+        border-color: $color3;
+        border-width: 2px;
+    }
+}
+
+.liste1{
+    background: linear-gradient(21deg, rgba(203,91,255,0.2455182756696429) 0%, rgba(255,0,0,0.2007003484987745) 14%, rgba(0,0,0,0) 22%, rgba(174,3,255,0.10826337370885852) 38%, rgba(203,91,255,0.23431379387692575) 63%);
+}
+.liste2{
+    background: linear-gradient(21deg, rgba(203, 91, 255, 0.246) 0%, rgba(0, 4, 255, 0.201) 14%, rgba(0,0,0,0) 22%, rgba(175, 3, 255, 0.108) 38%, rgba(91, 102, 255, 0.234) 63%);
+}
+.liste3{
+    background: linear-gradient(21deg, rgba(91, 255, 146, 0.246) 0%, rgba(0, 255, 50, 0.201) 14%, rgba(0,0,0,0) 22%, rgba(3, 255, 136, 0.108) 38%, rgba(102, 255, 165, 0.234) 63%);
+}
+.liste4{
+    background: linear-gradient(21deg, rgba(255, 184, 91, 0.466) 0%, rgba(255, 149, 0, 0.473) 14%, rgba(255, 0, 0, 0.034) 22%, rgba(255, 100, 3, 0.336) 38%, rgba(255, 204, 102, 0.5) 63%);
+}
+.liste5{
+    background: linear-gradient(21deg, rgba(255, 137, 91, 0.246) 0%, rgba(255, 0, 0, 0.201) 14%, rgba(0,0,0,0) 22%, rgba(255, 95, 3, 0.226) 38%, rgba(255, 102, 102, 0.37) 63%);
+}
+

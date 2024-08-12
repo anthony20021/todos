@@ -52,6 +52,7 @@ methods: {
     try {
         await this.$store.dispatch('auth/logout');
         this.$router.push('/');
+        window.location('/');
     } catch (error) {
         console.error('Erreur lors de la déconnexion :', error);
     }
