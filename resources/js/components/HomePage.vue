@@ -10,7 +10,6 @@
         </div>
       </div>
     </div>
-    <p class="info-text">Site 1.0</p>
   </div>
 
 </template>

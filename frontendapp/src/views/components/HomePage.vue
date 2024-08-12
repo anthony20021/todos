@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <p class="info-text">APP 1.0.2</p>
+    <p class="info-text">APP 1.1.1</p>
     <p class="info-text">Copyright © 2024 - Todos. All rights reserved.</p><p class="info-text"></p>
   </div>
 
