@@ -198,7 +198,7 @@ export default {
 
         async putListe() {
             try {
-                const result = await fetchWithCredentials('/dashboard/putListe', 'PUT', {'list_id' : this.list_id, 'name' : this.liste.name, 'style' : this.liste.style})
+                const result = await fetchWithCredentials('/dashboard/putListe', 'POST', {'list_id' : this.list_id, 'name' : this.liste.name, 'style' : this.liste.style})
                 if(result.statut == 'ok'){
                     Swal.fire({title:'Succès', text:'La liste a bien été modifié', icon:'success', position:'top-end'});
                     this.$emit('putListe', this.liste);
