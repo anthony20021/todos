@@ -1,5 +1,5 @@
 <template>
-    <div style="margin-top: 20px;" v-if="!editListe">
+    <div style="margin-top: 145px;" v-if="!editListe">
         <div class="share-liste">
             <button class="btn" @click="showCreateTask = !showCreateTask" style="height: 40px;">
                 {{ showCreateTask ? "Retour" : "Ajouter une tâche" }}
@@ -352,13 +352,10 @@ export default {
 <style scoped>
 .add {
     position: absolute;
-    top: 80px;
+    top: 92px;
     right: 7px;
 }
 @media (max-width: 1024px) {
-    .add {
-    top: 25px;
-    }
     .share-liste{
         flex-direction: column;
     }

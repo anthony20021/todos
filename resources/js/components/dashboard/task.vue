@@ -356,9 +356,6 @@ export default {
     width: 350px;
 }
 @media (max-width: 1024px) {
-    .add {
-    top: 92px;
-    }
     .share-liste{
         flex-direction: column;
     }
