@@ -10,19 +10,30 @@
         </div>
       </div>
     </div>
-    <p class="info-text">APP 1.0</p>
+    <p class="info-text">APP 1.0.2</p>
+    <p class="info-text">Copyright © 2024 - Todos. All rights reserved.</p><p class="info-text"></p>
   </div>
 
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      todosLogo:'@img/todos.png'
+    import { mapGetters } from 'vuex';
+
+    export default {
+    data() {
+        return {
+            todosLogo:'@img/todos.png'
+        };
+    },
+    mounted() {
+        if(this.isAuthenticated) {
+            this.$router.push('/dashboard');
+        }
+    },
+    computed: {
+        ...mapGetters('auth', ['isAuthenticated', 'user'])
+        },
     };
-  }
-};
 </script>
 <style>
 body {
@@ -33,7 +44,6 @@ body {
   position: relative;
   height: 600px;
   width: 100%;
-  margin: 20px auto;
 }
 
 .image {
@@ -91,6 +101,9 @@ body {
   }
   .text-content{
     font-size: 17px;
+  }
+  .text-container{
+      height: 100vh;
   }
 }
 
