@@ -9,26 +9,26 @@ import { RouterView } from 'vue-router'
     </head>
     <body>
         <nav id="topbar" ref="nav" class="nav" :style="{ right: isOpen ? '0px' : '-150px', zIndex: 10 }">
-        <ul class="flex">
-            <li id="closeMenu" @click="closeMenu" style="color: #e3dbeb;">Fermer</li>
-            <li class="margin"><a class="nav-items todos" href="/">Todos</a></li>
+            <ul class="flex">
+                <li id="closeMenu" @click="closeMenu" style="color: #e3dbeb;">Fermer</li>
+                <li class="margin"><a class="nav-items todos" href="/" style="margin-top: 40px;">Todos</a></li>
 
-            <div v-if="!isAuthenticated" class="deco flex">
-            <li class="margin"><a class="btn" href="/login">Se connecter</a></li>
-            <li class="margin"><a class="btn" href="/register">S'enregistrer</a></li>
-            </div>
-            <template v-else>
-            <li class="margin"><a class="nav-items" href="/dashboard">Tableau de bord</a></li>
-            <li class="margin"><a class="nav-items" href="/myAccount">Mon compte</a></li>
-            <li class="margin deco">
-            <li @click="logout">
-                <button type="submit" class="btn deco-wrap" @click="logout">Se déconnecter</button>
-            </li>
-            </li>
-            </template>
-        </ul>
+                <div v-if="!isAuthenticated" class="deco flex">
+                    <li class="margin"><a class="btn" href="/login">Se connecter</a></li>
+                    <li class="margin"><a class="btn" href="/register">S'enregistrer</a></li>
+                </div>
+                <div v-else>
+                    <li class="margin"><a class="nav-items" href="/dashboard">Tableau de bord</a></li>
+                    <li class="margin"><a class="nav-items" href="/myAccount">Mon compte</a></li>
+                    <li class="margin deco">
+                        <li @click="logout">
+                            <button type="submit" class="btn deco-wrap" @click="logout">Se déconnecter</button>
+                        </li>
+                    </li>
+                </div>
+            </ul>
         </nav>
-        <p id="openMenu" @click="toggleMenu" ref="toggleButton"><img src="@/assets/img/menu.png" alt="menu" width="100%" height="100%"></p>
+        <p id="openMenu" @click="toggleMenu" ref="toggleButton" style="top: 40px;"><img src="@/assets/img/menu.png" alt="menu" width="100%" height="100%"></p>
         <RouterView class="body-margin" />
     </body>
 </template>

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
-  history: createWebHistory(), // Changez cette ligne
+  history: createWebHistory(),
   routes: [
     {
         path: '/',
@@ -28,8 +28,7 @@ const router = createRouter({
         name: 'MyAccount',
         component: () => import('@/views/components/users/MyAccount.vue'),
     },
-    // Ajoutez d'autres routes ici
   ],
-});
 
+});
 export default router;
