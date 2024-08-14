@@ -67,12 +67,12 @@
         <li><strong>Droit à la portabilité des données</strong> : Vous avez le droit de recevoir vos données dans un format structuré, couramment utilisé et lisible par machine, et de les transmettre à un autre responsable du traitement.</li>
         <li><strong>Droit de retirer le consentement</strong> : Si vous avez donné votre consentement pour le traitement de vos données, vous pouvez le retirer à tout moment.</li>
     </ul>
-    <p>Pour exercer ces droits, vous pouvez nous contacter à l'adresse suivante : <a href="mailto:votre.email@exemple.com">votre.email@exemple.com</a>. Vous avez également le droit de déposer une plainte auprès d'une autorité de protection des données, telle que la CNIL en France.</p>
+    <p>Pour exercer ces droits, vous pouvez nous contacter à l'adresse suivante : <a href="mailto:anthony20021@gmail.com">anthony20021@gmail.com</a>. Vous avez également le droit de déposer une plainte auprès d'une autorité de protection des données, telle que la CNIL en France.</p>
 
     <h2>10. Modifications de la Politique de Confidentialité</h2>
     <p>Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment. Toute modification sera publiée sur cette page et prendra effet immédiatement après sa publication. Nous vous encourageons à consulter régulièrement cette page pour rester informé des éventuelles mises à jour.</p>
 
     <h2>11. Contact</h2>
-    <p>Si vous avez des questions ou des préoccupations concernant cette politique de confidentialité, n'hésitez pas à nous contacter à l'adresse suivante : <a href="mailto:votre.email@exemple.com">votre.email@exemple.com</a>.</p>
+    <p>Si vous avez des questions ou des préoccupations concernant cette politique de confidentialité, n'hésitez pas à nous contacter à l'adresse suivante : <a href="mailto:anthony20021@gmail.com">anthony20021@gmail.com</a>.</p>
 </body>
 @endsection
