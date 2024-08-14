@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home.home');
 });
+Route::get('/cgu', function () {
+    return view('home.cgu');
+});
 Route::get('/register', function () {
     return view('users.register');
 });
