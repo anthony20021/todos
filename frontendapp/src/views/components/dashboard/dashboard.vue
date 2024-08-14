@@ -37,6 +37,7 @@
   import Task from './task.vue';
   import fetchWithCredentials from '@/network';
   import { showAdBanner, hideAdBanner } from '@/adBanner';
+  import { showInterstitialAd } from '@/adFull';
 
   export default {
     components: {
@@ -71,22 +72,26 @@
           this.listes = response;
           Swal.fire({ title: 'Succès', text: 'Liste ajoutée avec succès', icon: 'success', position: 'top-end' });
           this.showCreateList = false;
+
+          await showInterstitialAd();
+
         } catch (error) {
           console.error(error.message);
           Swal.fire({ title: 'Erreur', text: 'Impossible d\'ajouter la liste', icon: 'error', position: 'top-end' });
         }
       },
-      openTask(liste) {
+      async openTask(liste) {
         this.currentOwner = liste.liste.owner;
         this.currentList = liste.liste;
         this.currentOwnerListName = liste.owner.firstname + " " + liste.owner.name;
         this.showTask = true;
+
+        await showInterstitialAd();
       },
       updateListe(result) {
         this.listes[this.listes.findIndex(liste => liste.liste.id == result.id)].liste = result;
         this.showTask = false;
       },
-
     },
     async mounted() {
       try {
@@ -99,16 +104,15 @@
         console.error(error.message);
       }
     },
-
     watch: {
-        $route(to, from) {
-            if (from.name) {  // Vérifie s'il y avait une route précédente
-                this.hideAdBanner();
-            }
-            if (to.name) { // Vérifie la route vers laquelle nous naviguons
-                this.showAdBanner();
-            }
+      $route(to, from) {
+        if (from.name) {
+          this.hideAdBanner();
         }
+        if (to.name) {
+          this.showAdBanner();
+        }
+      }
     },
   };
   </script>

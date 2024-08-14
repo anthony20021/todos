@@ -10,7 +10,7 @@ import '@/styles/app.scss'
 AdMob.initialize({
     requestTrackingAuthorization: true,
     testingDevices: ['ca-app-pub-3940256099942544/6300978111'],
-    initializeForTesting: false,  // Configure pour les tests
+    initializeForTesting: false,
   });
 
 const app = createApp(App)
