@@ -26,6 +26,9 @@ import { RouterView } from 'vue-router'
                         </li>
                     </li>
                 </div>
+                <li class="margin">
+                    <a class="nav-items" href="https://tonsiteweb.com" target="_blank" rel="noopener noreferrer">Mon site web</a>
+                </li>
             </ul>
         </nav>
         <p id="openMenu" @click="toggleMenu" ref="toggleButton" style="top: 40px;"><img src="@/assets/img/menu.png" alt="menu" width="100%" height="100%"></p>
