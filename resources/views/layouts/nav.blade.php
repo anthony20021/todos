@@ -29,6 +29,7 @@
                 </form>
             </li>
             @endguest
+            <li class="margin"><a class="nav-items" href="/cgu">CGU</a></li>
         </ul>
     </nav>
     <p id="openMenu"><img src="{{ asset('img/menu.png') }}" alt="menu" width="100%" height="100%"></p>
