@@ -22,7 +22,7 @@ import { RouterView } from 'vue-router'
                     <li class="margin"><a class="nav-items" href="/myAccount">Mon compte</a></li>
                     <li class="margin deco">
                         <li @click="logout">
-                            <button type="submit" class="btn deco-wrap" @click="logout">Se déconnecter</button>
+                            <button type="submit" style="width: 100%;" class="btn deco-wrap p-0 m-0" @click="logout">Se déconnecter</button>
                         </li>
                     </li>
                 </div>
