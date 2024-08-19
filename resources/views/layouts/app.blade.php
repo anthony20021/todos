@@ -32,7 +32,7 @@
     }
     @media (max-width: 1024px) {
         .body-marging {
-            margin-top: 0px;
+            margin-top: 120px;
         }
     }
 </style>

@@ -8,7 +8,7 @@
 </head>
 <body>
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%">
-        <div style="width: 90%" class="margin-xl">
+        <div style="width: 90%" >
             <h1>Politique de Confidentialité de todos.website</h1>
             <p><strong>Dernière mise à jour :</strong> 14 août 2024</p>
 
