@@ -27,7 +27,7 @@ import { RouterView } from 'vue-router'
                     </li>
                 </div>
                 <li class="margin">
-                    <a class="nav-items" href="https://tonsiteweb.com" target="_blank" rel="noopener noreferrer">Mon site web</a>
+                    <a class="nav-items" href="https://todos.website/cgu" target="_blank" rel="noopener noreferrer">CGU</a>
                 </li>
             </ul>
         </nav>
