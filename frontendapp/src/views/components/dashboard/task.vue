@@ -36,11 +36,10 @@
                         <input type="checkbox" v-model="tache.tache.checked" @change="changeChecked(tache.tache.id, tache.tache.checked)">
                         <p>{{ tache.tache.name }}</p>
                         <div style="display: flex;" v-if="affAssignement">
-                            <select v-if="owner == user_id || tache.tache.user_id == user_id" v-model="tache.tache.assignement" class="select-assignement" @change="tache.modif=true;" @click.stop>
+                            <select v-if="owner == user_id || tache.tache.user_id == user_id" v-model="tache.tache.assignement" class="select-assignement" @change="updateTask(tache)" @click.stop>
                                 <option :value="null">Tout le monde</option>
                                 <option v-for="user in allUser" :key="user.user_id" :value="user.user_id">{{ user.user.firstname }} {{ user.user.name }}</option>
                             </select>
-                            <button class="btn" style="background-color: green;" v-if="tache.modif" @click.stop="updateTask(tache)">Valider</button>
                         </div>
                         <button class="btn" style="background-color: red; height: 30px; padding: 3px; margin-right: 10px; "  @click.stop="deleteTask(tache.tache.id)" v-if="owner == user_id || tache.tache.user_id == user_id">Supprimer</button>
                         <span v-else style="width: 90px;"></span>
@@ -339,7 +338,6 @@ export default {
                 const response = await fetchWithCredentials('/dashboard/modifDataTask','POST', {'task' : task})
                 if(response.statut == "ok"){
                     Swal.fire({title:'Succès', text:'Tâche modifié', icon:'success', position:'top-end'});
-
                 }
                 else{
                     Swal.fire({title:'Erreur', text:'Impossible de modifier la tâche', icon:'error', position:'top-end'});

@@ -59,7 +59,8 @@
         },
         currentOwner: {
           type: Number
-        }
+        },
+        adCount: 0,
       };
     },
     methods: {
@@ -72,8 +73,10 @@
           this.listes = response;
           Swal.fire({ title: 'Succès', text: 'Liste ajoutée avec succès', icon: 'success', position: 'top-end' });
           this.showCreateList = false;
-
-          await showInterstitialAd();
+          if(this.adCount%2 == 0){
+              await showInterstitialAd();
+            }
+        this.adCount++;
 
         } catch (error) {
           console.error(error.message);
@@ -85,8 +88,10 @@
         this.currentList = liste.liste;
         this.currentOwnerListName = liste.owner.firstname + " " + liste.owner.name;
         this.showTask = true;
-
-        await showInterstitialAd();
+        if(this.adCount%2 == 0){
+            await showInterstitialAd();
+        }
+        this.adCount++;
       },
       updateListe(result) {
         this.listes[this.listes.findIndex(liste => liste.liste.id == result.id)].liste = result;
