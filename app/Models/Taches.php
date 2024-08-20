@@ -11,6 +11,7 @@ class Taches extends Model
         'name',
         'user_id',
         'checked',
+        'assi'
     ];
 
     public function user()

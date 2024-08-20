@@ -31,27 +31,44 @@ class DashboardController extends Controller
         }
     }
 
-    public function getDataTache(Request $request){
+    public function getDataTache(Request $request) {
         try {
             $listeId = $request->input('list_id');
+            $userId = auth()->user()->id;
 
-            $taches = TachesListes::ofListe($listeId)->with('tache')->get();
-            $listeOwner = Listes::where('id', $listeId)->pluck('owner');
-            if($listeOwner[0] ==  auth()->user()->id){
-                $allUser = UsersListes::where('liste_id', $listeId)->with('user')->get();
-                return response()->json([
-                    'taches' => $taches,
-                    'allUser' => $allUser
-                ]);
-            }
+            $listeOwner = Listes::where('id', $listeId)->pluck('owner')->first();
+
+            $taches = TachesListes::ofListe($listeId)
+                ->with('tache')
+                ->whereHas('tache', function ($query) use ($userId, $listeOwner) {
+                    $query->where(function ($q) use ($userId, $listeOwner) {
+                        if ($listeOwner == $userId) {
+                        } else {
+                            $q->where('user_id', $userId)
+                              ->orWhereNull('assignement')
+                              ->orWhere('assignement', $userId);
+                        }
+                    });
+                })->get();
+
+            // Ajout de la propriété modif à chaque tâche
+            $taches->each(function($tache) {
+                $tache->modif = false;
+            });
+
+            // Récupération des utilisateurs de la liste
+            $allUser = UsersListes::where('liste_id', $listeId)->with('user')->get();
+
+            // Retourner les données JSON
             return response()->json([
                 'taches' => $taches,
-                'allUser' => ''
+                'allUser' => $allUser
             ]);
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'error.'], 556);
+            return response()->json(['message' => 'error: ' . $th->getMessage()], 556);
         }
     }
+
 
     public function addListe(Request $request){
         try {
@@ -247,6 +264,21 @@ class DashboardController extends Controller
         }
 
     }
+
+    public function modifDataTask(Request $request) {
+        $currentTask = $request->input('task');
+        try {
+            $task = Taches::findOrFail($currentTask['tache_id']);
+            $task->assignement = $currentTask['tache']['assignement'];
+            $task->save();
+
+            return response()->json(['statut' => 'ok']);
+
+        } catch (\Throwable $th) {
+            return response()->json(['statut' => 'error', 'message' => $th->getMessage()]);
+        }
+    }
+
 
 }
 

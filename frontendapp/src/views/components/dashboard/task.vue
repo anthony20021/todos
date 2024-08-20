@@ -4,6 +4,10 @@
             <button class="btn" @click="showCreateTask = !showCreateTask" style="height: 40px;">
                 {{ showCreateTask ? "Retour" : "Ajouter une tâche" }}
             </button>
+            <div class="form-group">
+                <label for="affAssignement">Afficher la gestion des assignations</label>
+                <input type="checkbox" id="affAssignement" class="checkbox" v-model="affAssignement">
+            </div>
             <div v-if="owner == user_id && allUser && allUser.length > 1" class="share-box">
                 <div style="display: flex; justify-content: space-around; align-items: center;">
                     <h3>Liste partagé avec : </h3>
@@ -31,6 +35,13 @@
                     <li  :style="{ backgroundColor: tache.tache.checked ? 'grey' : '' }" @click="tache.tache.checked = !tache.tache.checked, changeChecked(tache.tache.id, tache.tache.checked)" style="cursor: pointer;">
                         <input type="checkbox" v-model="tache.tache.checked" @change="changeChecked(tache.tache.id, tache.tache.checked)">
                         <p>{{ tache.tache.name }}</p>
+                        <div style="display: flex;" v-if="affAssignement">
+                            <select v-if="owner == user_id || tache.tache.user_id == user_id" v-model="tache.tache.assignement" class="select-assignement" @change="tache.modif=true;" @click.stop>
+                                <option :value="null">Tout le monde</option>
+                                <option v-for="user in allUser" :key="user.user_id" :value="user.user_id">{{ user.user.firstname }} {{ user.user.name }}</option>
+                            </select>
+                            <button class="btn" style="background-color: green;" v-if="tache.modif" @click.stop="updateTask(tache)">Valider</button>
+                        </div>
                         <button class="btn" style="background-color: red; height: 30px; padding: 3px; margin-right: 10px; "  @click.stop="deleteTask(tache.tache.id)" v-if="owner == user_id || tache.tache.user_id == user_id">Supprimer</button>
                         <span v-else style="width: 90px;"></span>
                     </li>
@@ -85,7 +96,6 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -105,6 +115,7 @@ export default {
         showCreateTask: false,
         showShareListe: false,
         editListe: false,
+        affAssignement:false,
     };
     },
     props: {
@@ -137,7 +148,7 @@ export default {
 
         async shareListe(){
             try{
-                const response = await fetchWithCredentials('/dashboard/shareListe', 'POST' ,{'list_id' : this.list_id, 'email' : this.sharingEmail})
+                const response = await fetchWithCredentials('/dashboard/shareListe','POST', {'list_id' : this.list_id, 'email' : this.sharingEmail})
                 this.allUser = response;
                 Swal.fire({title:'Succès', text:'La liste a bien été partagé', icon:'success', position:'top-end'});
             }
@@ -149,6 +160,24 @@ export default {
                     position: 'top-end',
                 });
             }
+        },
+
+        async putListe() {
+
+            try {
+                const result = await fetchWithCredentials('/dashboard/putListe','POST', {'list_id' : this.list_id, 'name' : this.liste.name, 'style' : this.liste.style})
+                if(result.statut == 'ok'){
+                    Swal.fire({title:'Succès', text:'La liste a bien été modifié', icon:'success', position:'top-end'});
+                    this.$emit('putListe', this.liste);
+                }
+                else{
+                    Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
+                }
+            } catch (error) {
+                console.error(error);
+                Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
+            }
+
         },
 
         deleteListe() {
@@ -165,7 +194,7 @@ export default {
             }).then( async (result) => {
                 if (result.isConfirmed) {
                     try{
-                        const result = await fetchWithCredentials('/dashboard/deleteListe', 'POST' , {'list_id' : this.list_id})
+                        const result = await fetchWithCredentials('/dashboard/deleteListe','POST', {'list_id' : this.list_id})
                         Swal.fire({
                             title:'Supprimé !',
                             text:'Votre liste a été supprimée.',
@@ -196,22 +225,6 @@ export default {
             });
         },
 
-        async putListe() {
-            try {
-                const result = await fetchWithCredentials('/dashboard/putListe', 'POST', {'list_id' : this.list_id, 'name' : this.liste.name, 'style' : this.liste.style})
-                if(result.statut == 'ok'){
-                    Swal.fire({title:'Succès', text:'La liste a bien été modifié', icon:'success', position:'top-end'});
-                    this.$emit('putListe', this.liste);
-                }
-                else{
-                    Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
-                }
-            } catch (error) {
-                console.error(error);
-                Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
-            }
-        },
-
         leaveListe() {
             Swal.fire({
                 title: 'Êtes-vous sûr ?',
@@ -226,7 +239,7 @@ export default {
             }).then( async (result) => {
                 if (result.isConfirmed) {
                     try{
-                        const result = fetchWithCredentials('/dashboard/leaveListe', 'POST' ,{'list_id' : this.list_id,})
+                        const result = await fetchWithCredentials('/dashboard/leaveListe','POST', {'list_id' : this.list_id,})
                         Swal.fire({
                             title:'Vous avez bien quitté la liste',
                             icon:'success',
@@ -270,7 +283,7 @@ export default {
             }).then( async (result) => {
                 if (result.isConfirmed) {
                     try{
-                        const result = await fetchWithCredentials('/dashboard/deleteTask', 'POST' ,{'task_id' : id, 'list_id' : this.list_id})
+                        const result = fetchWithCredentials('/dashboard/deleteTask','POST', {'task_id' : id, 'list_id' : this.list_id})
                         Swal.fire({
                             title:'Supprimé !',
                             text:'Votre tâche a été supprimée.',
@@ -307,7 +320,7 @@ export default {
                 return;
             }
             try {
-                const response = await fetchWithCredentials('/dashboard/addTask', 'POST' ,{
+                const response = await fetchWithCredentials('/dashboard/addTask','POST', {
                     task: this.newTask,
                     list_id: this.list_id
                 });
@@ -321,12 +334,25 @@ export default {
             }
         },
 
+        async updateTask(task) {
+            try{
+                const response = await fetchWithCredentials('/dashboard/modifDataTask','POST', {'task' : task})
+                if(response.statut == "ok"){
+                    Swal.fire({title:'Succès', text:'Tâche modifié', icon:'success', position:'top-end'});
+
+                }
+                else{
+                    Swal.fire({title:'Erreur', text:'Impossible de modifier la tâche', icon:'error', position:'top-end'});
+                }
+            }
+            catch(error){
+                console.error(error.message)
+            }
+        },
+
         async changeChecked(id, bool){
             try{
-                const response = await fetchWithCredentials('/dashboard/modifTask', 'POST' ,{'task_id' : id, 'bool' : bool})
-                if(response.statut!='ok'){
-                    Swal.fire({title:'Erreur', text:'Une erreur innatendue s\'est produite', icon:'error', position:'top-end'});
-                }
+                await fetchWithCredentials('/dashboard/modifTask', 'POST', {'task_id' : id, 'bool' : bool})
             }
             catch(error){
                 console.error(error.message)
@@ -337,7 +363,7 @@ export default {
 
     async mounted() {
         try {
-            const response = await fetchWithCredentials('/dashboard/tache/getData', 'POST' ,{'list_id' : this.list_id});
+            const response = await fetchWithCredentials('/dashboard/tache/getData','POST', {'list_id' : this.list_id});
             this.task = response.taches;
             if(response.allUser != ""){
                 this.allUser = response.allUser;
@@ -355,15 +381,8 @@ export default {
     top: 92px;
     right: 7px;
 }
-@media (max-width: 1024px) {
-    .share-liste{
-        flex-direction: column;
-    }
-    .share-box{
-        width: 100% !important;
-        border-radius: 15px !important;
-        margin-top: 10px;
-    }
+.box-liste {
+    width: 350px;
 }
 li{
     display: flex;
@@ -384,6 +403,25 @@ li{
     padding: 1px;
     width: 50%;
     border-radius: 15px 0px 0px 15px;
+}
+.select-assignement{
+    width: 200px;
+}
+@media (max-width: 1024px) {
+    .share-liste{
+        flex-direction: column;
+    }
+    .share-box{
+        width: 100% !important;
+        border-radius: 15px !important;
+        margin-top: 10px;
+    }
+    .box-liste {
+        width: 90%;
+    }
+    .select-assignement{
+        width: 120px;
+    }
 }
 
 

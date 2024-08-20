@@ -31,6 +31,13 @@
                     <li  :style="{ backgroundColor: tache.tache.checked ? 'grey' : '' }" @click="tache.tache.checked = !tache.tache.checked, changeChecked(tache.tache.id, tache.tache.checked)" style="cursor: pointer;">
                         <input type="checkbox" v-model="tache.tache.checked" @change="changeChecked(tache.tache.id, tache.tache.checked)">
                         <p>{{ tache.tache.name }}</p>
+                        <div style="display: flex;">
+                            <select v-if="owner == user_id || tache.tache.user_id == user_id" v-model="tache.tache.assignement" class="select-assignement" @change="tache.modif=true;" @click.stop>
+                                <option :value="null">Tout le monde</option>
+                                <option v-for="user in allUser" :key="user.user_id" :value="user.user_id">{{ user.user.firstname }} {{ user.user.name }}</option>
+                            </select>
+                            <button class="btn" style="background-color: green;" v-if="tache.modif" @click.stop="updateTask(tache)">Valider</button>
+                        </div>
                         <button class="btn" style="background-color: red; height: 30px; padding: 3px; margin-right: 10px; "  @click.stop="deleteTask(tache.tache.id)" v-if="owner == user_id || tache.tache.user_id == user_id">Supprimer</button>
                         <span v-else style="width: 90px;"></span>
                     </li>
@@ -102,7 +109,7 @@ export default {
         task: [],
         showCreateTask: false,
         showShareListe: false,
-        editListe: false
+        editListe: false,
     };
     },
     props: {
@@ -321,6 +328,21 @@ export default {
             }
         },
 
+        async updateTask(task) {
+            try{
+                const response = await axios.post('/dashboard/modifDataTask', {'task' : task})
+                if(response.data.statut == "ok"){
+                    Swal.fire({title:'Succès', text:'Tâche modifié', icon:'success', position:'top-end'});
+                }
+                else{
+                    Swal.fire({title:'Erreur', text:'Impossible de modifier la tâche', icon:'error', position:'top-end'});
+                }
+            }
+            catch(error){
+                console.error(error.message)
+            }
+        },
+
         async changeChecked(id, bool){
             try{
                 await axios.post('/dashboard/modifTask', {'task_id' : id, 'bool' : bool})
@@ -355,19 +377,6 @@ export default {
 .box-liste {
     width: 350px;
 }
-@media (max-width: 1024px) {
-    .share-liste{
-        flex-direction: column;
-    }
-    .share-box{
-        width: 100% !important;
-        border-radius: 15px !important;
-        margin-top: 10px;
-    }
-    .box-liste {
-        width: 90%;
-    }
-}
 li{
     display: flex;
     width: 100%;
@@ -387,6 +396,25 @@ li{
     padding: 1px;
     width: 50%;
     border-radius: 15px 0px 0px 15px;
+}
+.select-assignement{
+    width: 200px;
+}
+@media (max-width: 1024px) {
+    .share-liste{
+        flex-direction: column;
+    }
+    .share-box{
+        width: 100% !important;
+        border-radius: 15px !important;
+        margin-top: 10px;
+    }
+    .box-liste {
+        width: 90%;
+    }
+    .select-assignement{
+        width: 120px;
+    }
 }
 
 

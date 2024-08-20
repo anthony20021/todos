@@ -3,20 +3,329 @@
 CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="1.1.3" use-changelog="false" max-obj-count="16"
-	 last-position="0,0" last-zoom="0.85" scene-rect="0,0,1976.88,1076.8"
+<dbmodel pgmodeler-ver="1.1.3" use-changelog="false" max-obj-count="61"
+	 last-position="0,0" last-zoom="1" scene-rect="0,0,2116.88,1076.8"
 	 default-schema="public" default-owner="postgres"
 	 layers="Default layer"
 	 active-layers="0"
 	 layer-name-colors="#000000"
 	 layer-rect-colors="#b4b4b4"
 	 show-layer-names="false" show-layer-rects="false">
+<role name="apif"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="admin_test"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="cf"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="ma"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="mab"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="pythonuser"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="ad"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="alc"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="chb"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="cm"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="fg"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="jd"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="ll"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="mib"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="osm"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="pb"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="planfor"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="user_test"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="sb"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="cll"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="apprenti"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="responsable_test"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="frs"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="responsable"
+ inherit="true"
+ password="********">
+	<roles names="ad,alc,chb,mib,osm,pb,cll,responsable_test,frs" role-type="member" />
+</role>
+
+<role name="acces"
+ superuser="true"
+ createdb="true"
+ replication="true"
+ createrole="true"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="cartoplanfor"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="david_test"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="import_style"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="pepiniere"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="stock"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="trackeur"
+ inherit="true"
+ password="********">
+	<roles names="chb,cartoplanfor" role-type="member" />
+</role>
+
+<role name="cbiais"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="utilisateur"
+ inherit="true"
+ password="********">
+	<roles names="cbiais" role-type="member" />
+</role>
+
+<role name="sonfray"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="administrateur"
+ createdb="true"
+ replication="true"
+ createrole="true"
+ inherit="true"
+ password="********">
+	<roles names="postgres,apif,ma,sonfray" role-type="member" />
+</role>
+
+<role name="jfd"
+ inherit="true"
+ login="true"
+ password="********">
+	<roles names="utilisateur" role-type="member" />
+</role>
+
+<role name="rbiou"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="apif_cp"
+ inherit="true"
+ login="true"
+ bypassrls="true"
+ password="********">
+</role>
+
+<role name="rte"
+ login="true"
+ password="********">
+</role>
+
+<role name="csimonnet"
+ login="true"
+ password="********">
+</role>
+
+<role name="ic"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="jm"
+ superuser="true"
+ createdb="true"
+ replication="true"
+ createrole="true"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="kero"
+ superuser="true"
+ createdb="true"
+ replication="true"
+ createrole="true"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="phd"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="rl"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="th"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="vd"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="recrutement"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
+<role name="apif_cp1"
+ inherit="true"
+ login="true"
+ password="********">
+</role>
+
 <role name="portefolio"
  login="true"
  password="********">
 </role>
 
-<database name="todos" encoding="UTF8" lc-collate="French_France.1252" lc-ctype="French_France.1252" is-template="false" allow-conns="true">
+<database name="todos" encoding="UTF8" lc-collate="fr_FR.UTF-8" lc-ctype="fr_FR.UTF-8" is-template="false" allow-conns="true">
 	<role name="postgres"/>
 	<tablespace name="pg_default"/>
 </database>
@@ -37,7 +346,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="users_roles" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="720" y="60"/>
+	<position x="360" y="60"/>
 	<column name="user_id" not-null="true">
 		<type name="smallint" length="0"/>
 	</column>
@@ -57,7 +366,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="roles_permissions" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1460" y="60"/>
+	<position x="1160" y="60"/>
 	<column name="role_id" not-null="true">
 		<type name="smallint" length="0"/>
 	</column>
@@ -77,7 +386,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="users_listes" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="380" y="360"/>
+	<position x="1660" y="60"/>
 	<column name="user_id" not-null="true">
 		<type name="smallint" length="0"/>
 	</column>
@@ -97,7 +406,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="taches_listes" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1120" y="360"/>
+	<position x="60" y="260"/>
 	<column name="tache_id" not-null="true">
 		<type name="smallint" length="0"/>
 	</column>
@@ -112,7 +421,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="users" layers="0" collapse-mode="2" max-obj-count="9" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="60" y="60"/>
+	<position x="480" y="260"/>
 	<column name="id" not-null="true" sequence="public.user_seq">
 		<type name="smallint" length="0"/>
 	</column>
@@ -142,10 +451,34 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
+<table name="taches" layers="0" collapse-mode="2" max-obj-count="6" z-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="880" y="260"/>
+	<column name="id" not-null="true" sequence="public.tache_seq">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="user_id">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="name">
+		<type name="character varying" length="150"/>
+	</column>
+	<column name="checked">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="assignement">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="pk_taches" type="pk-constr" table="public.taches">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
 <table name="listes" layers="0" collapse-mode="2" max-obj-count="4" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="60" y="360"/>
+	<position x="1300" y="260"/>
 	<column name="id" not-null="true" sequence="public.liste_seq">
 		<type name="smallint" length="0"/>
 	</column>
@@ -163,30 +496,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="taches" layers="0" collapse-mode="2" max-obj-count="6" z-value="0">
-	<schema name="public"/>
-	<role name="postgres"/>
-	<position x="760" y="360"/>
-	<column name="id" not-null="true" sequence="public.tache_seq">
-		<type name="smallint" length="0"/>
-	</column>
-	<column name="user_id">
-		<type name="smallint" length="0"/>
-	</column>
-	<column name="name">
-		<type name="character varying" length="150"/>
-	</column>
-	<column name="checked">
-		<type name="boolean" length="0"/>
-	</column>
-	<column name="assignement" default-value="none">
-		<type name="smallint" length="0"/>
-	</column>
-	<constraint name="pk_taches" type="pk-constr" table="public.taches">
-		<columns names="id" ref-type="src-columns"/>
-	</constraint>
-</table>
-
 <sequence name="migrations_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
 	<schema name="public"/>
 	<role name="postgres"/>
@@ -195,7 +504,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="migrations" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1500" y="360"/>
+	<position x="1660" y="260"/>
 	<column name="id" not-null="true" sequence="public.migrations_id_seq">
 		<type name="integer" length="0"/>
 	</column>
@@ -213,7 +522,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="password_reset_tokens" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="60" y="600"/>
+	<position x="60" y="560"/>
 	<column name="email" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
@@ -236,7 +545,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="failed_jobs" layers="0" collapse-mode="2" max-obj-count="8" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="480" y="600"/>
+	<position x="520" y="560"/>
 	<column name="id" not-null="true" sequence="public.failed_jobs_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -274,7 +583,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="personal_access_tokens" layers="0" collapse-mode="2" max-obj-count="12" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="920" y="600"/>
+	<position x="1000" y="560"/>
 	<column name="id" not-null="true" sequence="public.personal_access_tokens_id_seq">
 		<type name="bigint" length="0"/>
 	</column>
@@ -327,7 +636,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="sessions" layers="0" collapse-mode="2" max-obj-count="7" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1560" y="600"/>
+	<position x="1700" y="560"/>
 	<column name="id" not-null="true">
 		<type name="character varying" length="255"/>
 	</column>
@@ -370,12 +679,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="roles" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="440" y="60"/>
+	<position x="60" y="60"/>
 	<column name="id" not-null="true" sequence="public.role_seq">
 		<type name="smallint" length="0"/>
 	</column>
 	<column name="name">
-		<type name="varchar" length="0"/>
+		<type name="character varying" length="0"/>
 	</column>
 	<constraint name="pk_roles" type="pk-constr" table="public.roles">
 		<columns names="id" ref-type="src-columns"/>
@@ -385,7 +694,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="permissions" layers="0" collapse-mode="2" max-obj-count="2" z-value="0">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1100" y="60"/>
+	<position x="760" y="60"/>
 	<column name="permission">
 		<type name="character varying" length="25"/>
 	</column>
@@ -445,76 +754,76 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="fk_user_listes" type="fk-constr" comparison-type="MATCH SIMPLE"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.users" table="public.listes">
-	<columns names="owner" ref-type="src-columns"/>
-	<columns names="id" ref-type="dst-columns"/>
-</constraint>
-
 <constraint name="fk_user_taches" type="fk-constr" comparison-type="MATCH SIMPLE"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.users" table="public.taches">
 	<columns names="user_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="fk_user_listes" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.users" table="public.listes">
+	<columns names="owner" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
 <relationship name="rel_users_roles_users" type="relfk" layers="0"
-	 custom-color="#d5711c"
+	 custom-color="#2efd4c"
 	 src-table="public.users_roles"
 	 dst-table="public.users" reference-fk="fk_user_users_roles"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="rel_users_roles_roles" type="relfk" layers="0"
-	 custom-color="#90be62"
+	 custom-color="#464a9c"
 	 src-table="public.users_roles"
 	 dst-table="public.roles" reference-fk="fk_role_users_roles"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="rel_roles_permissions_roles" type="relfk" layers="0"
-	 custom-color="#8a8dea"
+	 custom-color="#41fc85"
 	 src-table="public.roles_permissions"
 	 dst-table="public.roles" reference-fk="fk_role_roles_permissions"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="rel_roles_permissions_permissions" type="relfk" layers="0"
-	 custom-color="#61eb7f"
+	 custom-color="#28ab55"
 	 src-table="public.roles_permissions"
 	 dst-table="public.permissions" reference-fk="fk_permission_roles_permissions"
 	 src-required="false" dst-required="true"/>
 
-<relationship name="rel_listes_users" type="relfk" layers="0"
-	 custom-color="#60bdee"
-	 src-table="public.listes"
-	 dst-table="public.users" reference-fk="fk_user_listes"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="rel_users_listes_users" type="relfk" layers="0"
-	 custom-color="#1d6c89"
+	 custom-color="#63b266"
 	 src-table="public.users_listes"
 	 dst-table="public.users" reference-fk="fk_user_users_listes"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="rel_users_listes_listes" type="relfk" layers="0"
-	 custom-color="#811222"
+	 custom-color="#4ae073"
 	 src-table="public.users_listes"
 	 dst-table="public.listes" reference-fk="fk_liste_users_listes"
 	 src-required="false" dst-required="true"/>
 
-<relationship name="rel_taches_users" type="relfk" layers="0"
-	 custom-color="#070da5"
-	 src-table="public.taches"
-	 dst-table="public.users" reference-fk="fk_user_taches"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="rel_taches_listes_taches" type="relfk" layers="0"
-	 custom-color="#f31061"
+	 custom-color="#eb193d"
 	 src-table="public.taches_listes"
 	 dst-table="public.taches" reference-fk="fk_tache_taches_listes"
 	 src-required="false" dst-required="true"/>
 
 <relationship name="rel_taches_listes_listes" type="relfk" layers="0"
-	 custom-color="#b664ed"
+	 custom-color="#e9d176"
 	 src-table="public.taches_listes"
 	 dst-table="public.listes" reference-fk="fk_liste_taches_listes"
 	 src-required="false" dst-required="true"/>
+
+<relationship name="rel_taches_users" type="relfk" layers="0"
+	 custom-color="#79ad44"
+	 src-table="public.taches"
+	 dst-table="public.users" reference-fk="fk_user_taches"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_listes_users" type="relfk" layers="0"
+	 custom-color="#531297"
+	 src-table="public.listes"
+	 dst-table="public.users" reference-fk="fk_user_listes"
+	 src-required="false" dst-required="false"/>
 
 </dbmodel>

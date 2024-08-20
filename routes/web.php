@@ -52,6 +52,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::post('/shareListe', [DashboardController::class, 'shareListe']);
     Route::post('/leaveListe', [DashboardController::class, 'leaveListe']);
     Route::post('/putListe' , [DashboardController::class, 'putListe']);
+    Route::post('/modifDataTask', [DashboardController::class, 'modifDataTask']);
 });
 
 Route::middleware('auth')->prefix('myAccount')->group(function () {
