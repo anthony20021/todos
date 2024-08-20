@@ -4,6 +4,10 @@
             <button class="btn" @click="showCreateTask = !showCreateTask" style="height: 40px;">
                 {{ showCreateTask ? "Retour" : "Ajouter une tâche" }}
             </button>
+            <div class="form-group">
+                <label for="affAssignement">Afficher la gestion des assignations</label>
+                <input type="checkbox" id="affAssignement" class="checkbox" v-model="affAssignement">
+            </div>
             <div v-if="owner == user_id && allUser && allUser.length > 1" class="share-box">
                 <div style="display: flex; justify-content: space-around; align-items: center;">
                     <h3>Liste partagé avec : </h3>
@@ -31,7 +35,7 @@
                     <li  :style="{ backgroundColor: tache.tache.checked ? 'grey' : '' }" @click="tache.tache.checked = !tache.tache.checked, changeChecked(tache.tache.id, tache.tache.checked)" style="cursor: pointer;">
                         <input type="checkbox" v-model="tache.tache.checked" @change="changeChecked(tache.tache.id, tache.tache.checked)">
                         <p>{{ tache.tache.name }}</p>
-                        <div style="display: flex;">
+                        <div style="display: flex;" v-if="affAssignement">
                             <select v-if="owner == user_id || tache.tache.user_id == user_id" v-model="tache.tache.assignement" class="select-assignement" @change="updateTask(tache);" @click.stop>
                                 <option :value="null">Tout le monde</option>
                                 <option v-for="user in allUser" :key="user.user_id" :value="user.user_id">{{ user.user.firstname }} {{ user.user.name }}</option>
@@ -109,6 +113,7 @@ export default {
         showCreateTask: false,
         showShareListe: false,
         editListe: false,
+        affAssignement:false,
     };
     },
     props: {
