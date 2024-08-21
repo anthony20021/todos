@@ -1,5 +1,5 @@
 <template>
-    <div style="margin-top: 145px;" v-if="!editListe">
+    <div style="margin-top: 145px; " v-if="!editListe">
         <div class="share-liste">
             <button class="btn" @click="showCreateTask = !showCreateTask" style="height: 40px;">
                 {{ showCreateTask ? "Retour" : "Ajouter une tâche" }}
@@ -32,7 +32,7 @@
         <div v-else style="margin-top: 40px;">
             <div v-if="task && task.length>0" v-for="tache in task">
                 <ul style="padding: 0px;">
-                    <li  :style="{ backgroundColor: tache.tache.checked ? 'grey' : '' }" :class="'liste'+liste.style" @click="tache.tache.checked = !tache.tache.checked, changeChecked(tache.tache.id, tache.tache.checked)" style="cursor: pointer;">
+                    <li  :style="{ backgroundColor: tache.tache.checked ? 'grey' : ''  }" :class="'liste'+liste.style" @click="tache.tache.checked = !tache.tache.checked, changeChecked(tache.tache.id, tache.tache.checked)" style="cursor: pointer;">
                         <input type="checkbox" v-model="tache.tache.checked" @change="changeChecked(tache.tache.id, tache.tache.checked)">
                         <p>{{ tache.tache.name }}</p>
                         <div style="display: flex;" v-if="affAssignement">
@@ -68,25 +68,9 @@
                     <input type="text" v-model="liste.name" id="task-name" style="margin-bottom: 15px;">
                 </div>
                 <div class="flex" style="flex-wrap: wrap;">
-                    <div class="box-input" style="width: 100%;">
-                        <input type="radio" id="style1" :value="1" v-model="liste.style">
-                        <label for="style1" @click="liste.style = 1"><div class="box-liste liste1">{{ liste.name }}</div></label>
-                    </div>
-                    <div class="box-input" style="width: 100%;">
-                        <input type="radio" id="style2" :value="2" v-model="liste.style">
-                        <label for="style2" @click="liste.style = 2"><div class="box-liste liste2">{{ liste.name }}</div></label>
-                    </div>
-                    <div class="box-input" style="width: 100%;">
-                        <input type="radio" id="style3" :value="3" v-model="liste.style">
-                        <label for="style3" @click="liste.style = 3"><div class="box-liste liste3">{{ liste.name }}</div></label>
-                    </div>
-                    <div class="box-input" style="width: 100%;">
-                        <input type="radio" id="style4" :value="4" v-model="liste.style">
-                        <label for="style4" @click="liste.style = 4"><div class="box-liste liste4">{{ liste.name }}</div></label>
-                    </div>
-                    <div class="box-input" style="width: 100%;">
-                        <input type="radio" id="style5" :value="5" v-model="liste.style">
-                        <label for="style5" @click="liste.style = 5"><div class="box-liste liste5">{{ liste.name }}</div></label>
+                    <div class="flex" v-for="(item, index) in stylesList" :key="index" style="width: 400px;">
+                        <input type="radio" :id="'style' + item.value" :value="item.value" v-model="liste.style">
+                        <div :class="'box-liste liste' + item.value" @click="liste.style = item.value" style="margin-left: 5%; margin-right: 5%;">{{ item.name }}</div>
                     </div>
                 </div>
                 <div class="flex">
@@ -114,6 +98,19 @@ export default {
         showShareListe: false,
         editListe: false,
         affAssignement:false,
+        stylesList: [
+            { value: 1, name: 'Morning Sunglass' },
+            { value: 2, name: 'Midnight Sunglass' },
+            { value: 3, name: 'Alien Sunglasses' },
+            { value: 4, name: 'Midday Sunglasses' },
+            { value: 5, name: 'Twilight Sunglasses' },
+            { value: 6, name: 'Default' },
+            { value: 7, name: 'Galaxy' },
+            { value: 8, name: 'Earth' },
+            { value: 9, name: 'Sun' },
+            { value: 10, name: 'Moon' },
+            { value: 11, name: 'Rainbow' },
+        ]
     };
     },
     props: {
@@ -388,6 +385,7 @@ li{
     padding: 1px;
     align-items: center;
     box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.089);
+    border : 1px solid rgba(0, 0, 0, 0.089);
 }
 .share-liste{
     display: flex;
