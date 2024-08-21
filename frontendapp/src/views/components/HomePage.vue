@@ -27,7 +27,7 @@
     },
     mounted() {
         if(this.isAuthenticated) {
-            this.$router.push('/dashboard');
+            window.location.href = '/dashboard';
         }
     },
     computed: {
