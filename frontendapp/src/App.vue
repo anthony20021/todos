@@ -10,7 +10,7 @@ import { RouterView } from 'vue-router'
     <body>
         <nav id="topbar" ref="nav" class="nav" :style="{ right: isOpen ? '0px' : '-150px', zIndex: 10 }">
             <ul class="flex">
-                <li id="closeMenu" @click="closeMenu" style="color: #e3dbeb;">Fermer</li>
+                <li id="closeMenu" class="margin-xl" @click="closeMenu" style="color: #e3dbeb;">Fermer</li>
                 <li class="margin"><a class="nav-items todos" href="/" style="margin-top: 40px;">Todos</a></li>
 
                 <div v-if="!isAuthenticated" class="deco flex">
@@ -55,7 +55,6 @@ methods: {
     try {
         await this.$store.dispatch('auth/logout');
         this.$router.push('/');
-        window.location('/');
     } catch (error) {
         console.error('Erreur lors de la déconnexion :', error);
     }
@@ -78,6 +77,11 @@ computed: {
 },
 async created() {
     await this.$store.dispatch('auth/checkAuth');
+    if(this.$router.currentRoute.value.path === '/'){
+        if (this.isAuthenticated) {
+            this.$router.push('/dashboard');
+        }
+    }
 },
 mounted() {
     document.addEventListener('click', this.handleClickOutside);

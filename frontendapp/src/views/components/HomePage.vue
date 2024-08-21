@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <p class="info-text">APP 1.1.1</p>
+    <p class="info-text">APP 1.1.8</p>
     <p class="info-text">Copyright © 2024 - Todos. All rights reserved.</p><p class="info-text"></p>
   </div>
 
@@ -24,11 +24,6 @@
         return {
             todosLogo:'@img/todos.png'
         };
-    },
-    mounted() {
-        if(this.isAuthenticated) {
-            window.location.href = '/dashboard';
-        }
     },
     computed: {
         ...mapGetters('auth', ['isAuthenticated', 'user'])

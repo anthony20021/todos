@@ -32,7 +32,7 @@
         <div v-else style="margin-top: 40px;">
             <div v-if="task && task.length>0" v-for="tache in task">
                 <ul style="padding: 0px;">
-                    <li  :style="{ backgroundColor: tache.tache.checked ? 'grey' : '' }" @click="tache.tache.checked = !tache.tache.checked, changeChecked(tache.tache.id, tache.tache.checked)" style="cursor: pointer;">
+                    <li  :style="{ backgroundColor: tache.tache.checked ? 'grey' : '' }" :class="'liste'+liste.style" @click="tache.tache.checked = !tache.tache.checked, changeChecked(tache.tache.id, tache.tache.checked)" style="cursor: pointer;">
                         <input type="checkbox" v-model="tache.tache.checked" @change="changeChecked(tache.tache.id, tache.tache.checked)">
                         <p>{{ tache.tache.name }}</p>
                         <div style="display: flex;" v-if="affAssignement">
@@ -385,10 +385,9 @@ li{
     display: flex;
     width: 100%;
     justify-content: space-between;
-    background-color: rgb(235, 113, 0);
-    color: aliceblue;
     padding: 1px;
     align-items: center;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.089);
 }
 .share-liste{
     display: flex;
