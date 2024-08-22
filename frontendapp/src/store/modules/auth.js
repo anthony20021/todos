@@ -4,7 +4,8 @@ export default {
   namespaced: true,
   state: {
     isAuthenticated: false,
-    user: null
+    user: null,
+
   },
   mutations: {
     setAuth(state, isAuthenticated) {
@@ -21,11 +22,9 @@ export default {
         }
         try {
             const response = await fetchWithCredentials('/user', 'GET', null);
-            // console.log('Authentication response:', response);
             commit('setUser', response);
             commit('setAuth', true);
         } catch (error) {
-            // console.error('Authentication check error:', error);
             commit('setAuth', false);
             commit('setUser', null);
         }

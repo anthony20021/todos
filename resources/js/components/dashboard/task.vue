@@ -68,7 +68,7 @@
                     <input type="text" v-model="liste.name" id="task-name" style="margin-bottom: 15px;">
                 </div>
                 <div class="flex" style="flex-wrap: wrap;">
-                    <div class="flex" v-for="(item, index) in stylesList" :key="index" style="width: 400px;">
+                    <div class="flex" v-for="(item, index) in stylesList" :key="index" style="width: 100%;">
                         <input type="radio" :id="'style' + item.value" :value="item.value" v-model="liste.style">
                         <div :class="'box-liste liste' + item.value" @click="liste.style = item.value" style="margin-left: 5%; margin-right: 5%;">{{ item.name }}</div>
                     </div>
