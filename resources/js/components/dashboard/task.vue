@@ -142,6 +142,7 @@ export default {
         },
 
         async shareListe(){
+            this.sharingEmail = this.sharingEmail.toLowerCase();
             try{
                 const response = await axios.post('/dashboard/shareListe', {'list_id' : this.list_id, 'email' : this.sharingEmail})
                 this.allUser = response.data;

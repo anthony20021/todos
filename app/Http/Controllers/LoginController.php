@@ -23,8 +23,9 @@ class LoginController extends Controller
                              ->withCookie($cookie);
         }
 
-        return response()->json(['message' => 'Invalid credentials'], 401);
+        return response()->json(['message' => 'Indentifiant incorrect'], 401);
     }
+
 
     public function logout(Request $request)
     {

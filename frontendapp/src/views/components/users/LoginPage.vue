@@ -33,7 +33,7 @@ import fetchWithCredentials from '@/network';
                 if(response.message === "Login successful") {
                     window.location.href = '/dashboard';
                 }
-                if (response.message != "Login successful") {
+                else{
                     if (response.status === 401) {
                         Swal.fire({
                         icon: 'error',
@@ -45,19 +45,18 @@ import fetchWithCredentials from '@/network';
                         Swal.fire({
                         icon: 'error',
                         title: 'Erreur',
-                        text: response.message || 'Une erreur inattendue s\'est produite',
+                        text: response.message,
                         position: 'top-end'
                         });
                     }
 
                     throw new Error('Erreur lors de la connexion');
                 }
-                // window.location.href = '/dashboard';
             } catch (error) {
                 Swal.fire({
                 icon: 'error',
                 title: 'Erreur',
-                text: error.message || 'Une erreur inattendue s\'est produite',
+                text: 'Mauvais email ou mot de passe',
                 position: 'top-end'
                 });
             }

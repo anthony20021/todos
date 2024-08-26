@@ -143,6 +143,7 @@ export default {
         },
 
         async shareListe(){
+            this.sharingEmail = this.sharingEmail.toLowerCase();
             try{
                 const response = await fetchWithCredentials('/dashboard/shareListe','POST', {'list_id' : this.list_id, 'email' : this.sharingEmail})
                 this.allUser = response;

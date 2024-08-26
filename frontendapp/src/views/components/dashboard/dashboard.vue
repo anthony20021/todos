@@ -28,7 +28,7 @@
           <button class="btn" @click="addList">Ajouter la liste</button>
         </div>
       </div>
-      <task v-if="showTask" :liste="currentList" :list_id="currentList.id" :user_id="data.user.id" :owner_name="currentOwnerListName" @back="showTask = false" @delete="updateListe" @putListe="updateListe"></task>
+      <task v-if="showTask" :owner="currentList.owner" :liste="currentList" :list_id="currentList.id" :user_id="data.user.id" :owner_name="currentOwnerListName" @back="showTask = false" @delete="updateListe" @putListe="updateListe"></task>
     </div>
   </template>
 

@@ -10,6 +10,7 @@ use App\Models\UsersListes;
 use App\Models\User;
 use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -198,6 +199,7 @@ class DashboardController extends Controller
     public function shareListe(Request $request)
     {
         try {
+            DB::beginTransaction();
             $validatedData = $request->validate([
                 'email' => 'required|email',
                 'list_id' => 'required|integer'
@@ -226,11 +228,23 @@ class DashboardController extends Controller
             $userListe->liste_id = $validatedData['list_id'];
             $userListe->save();
 
-            $allUser = UsersListes::where('liste_id', $validatedData['list_id'])->with('user')->get();
+            $owner_name = User::where('id', $liste->owner)->firstOrFail('name');
 
+            $data = [
+                'owner' => $owner_name,
+                'to' => $validatedData['email'],
+                'name' => $liste->name,
+            ];
+
+
+            SendMailController::SendMailForNotif($data);
+
+            $allUser = UsersListes::where('liste_id', $validatedData['list_id'])->with('user')->get();
+            DB::commit();
             return $allUser;
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Une erreur inattendue s\'est produite.'], 500);
+            DB::rollBack();
+            return response()->json(['message' => $th->getMessage()], 500);
         }
     }
 
