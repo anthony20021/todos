@@ -237,7 +237,8 @@ class DashboardController extends Controller
             ];
 
 
-            SendMailController::SendMailForNotif($data);
+            $result = SendMailController::SendMailForNotif($data);
+            dd($result);
 
             $allUser = UsersListes::where('liste_id', $validatedData['list_id'])->with('user')->get();
             DB::commit();
