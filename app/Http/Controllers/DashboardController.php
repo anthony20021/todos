@@ -239,7 +239,7 @@ class DashboardController extends Controller
 
             SendMailController::SendMailForNotif($data);
 
-            $allUser = UsersListes::where('liste_id', $validatedData['list_id'])->with('user')->get();
+            $allUser = UsersListes::where('liste_id', $validatedData['list_id'])->with('user')->get('id', 'firstname', 'name', 'email');
             DB::commit();
             return $allUser;
         } catch (\Throwable $th) {
