@@ -8,8 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ:wght@100..400&display=swap" rel="stylesheet">
 
     @vite(['resources/js/app.js', 'resources/css/app.css', 'resources/scss/app.scss'])
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8600642579394173"
-     crossorigin="anonymous"></script>
     <link rel="icon" href="{{ asset('favicon.ico') }}">
 
 </head>

@@ -23,6 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('/register/adduser', [RegisterController::class, 'addUser']);
 Route::post('/login', [LoginController::class, 'authenticate']);
+Route::post('/verif', [LoginController::class, 'verif'])->name('verif');
+Route::post('/resendCode', [LoginController::class, 'resendCode'])->name('resendCode');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->prefix('dashboard')->group(function () {

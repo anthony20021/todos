@@ -10,6 +10,10 @@ class RegisterController extends Controller
 {
     public function addUser(Request $request)
     {
+        function generateFourDigitCode() {
+            return str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+        }
+
         $validatedData = $request->validate([
             'firstname' => 'required|string',
             'name' => 'required|string',
@@ -22,12 +26,14 @@ class RegisterController extends Controller
         $user->name = $validatedData['name'];
         $user->email = $validatedData['email'];
         $user->password = bcrypt($validatedData['password']);
-
+        $user->verif_code = generateFourDigitCode();
         $user->save();
 
         $defaultRole = Role::firstOrCreate(['name' => 'user']);
 
         $user->roles()->attach($defaultRole);
+
+        SendMailController::SendVerifMail(['to' => $validatedData['email']]);
 
         return response()->json(['message' => 'Utilisateur enregistré avec succès'], 201);
     }

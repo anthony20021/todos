@@ -32,7 +32,9 @@ Route::get('/login', function () {
 });
 
 Route::post('/register/adduser', [RegisterController::class, 'addUser']);
-Route::post('/login', [LoginController::class, 'authenticate'])->name('login');;
+Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
+Route::post('/verif', [LoginController::class, 'verif'])->name('verif');
+Route::post('/resendCode', [LoginController::class, 'resendCode'])->name('resendCode');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->prefix('dashboard')->group(function () {
