@@ -49,6 +49,7 @@ class LoginController extends Controller
         $user = User::where('email', $credentials['email'])->first();
 
         // Vérification du code de confirmation
+        dd($user->verif_code . ' ' . $credentials['verification_code']);
         if ($user->verif_code === $credentials['verification_code']) {
             $user->verif_code = null;
             $user->veryfied = true;
