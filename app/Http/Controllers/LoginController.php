@@ -22,7 +22,7 @@ class LoginController extends Controller
 
         // Vérification si l'utilisateur existe et a confirmé son email
         if ($user && !$user->verified) {
-            return response()->json(['message' => 'Veuillez confirmer votre email', 'code' => 'unverified'], 403);
+            return response()->json(['message' => 'Veuillez confirmer votre email', 'code' => 'unverified'], 201);
         }
 
         // Tentative d'authentification si l'utilisateur a confirmé son email
@@ -34,7 +34,7 @@ class LoginController extends Controller
                 ->withCookie($cookie);
         }
 
-        return response()->json(['message' => 'Identifiant incorrect', 'code' => 'unauthorized'], 401);
+        return response()->json(['message' => 'Identifiant incorrect', 'code' => 'unauthorized'], 201);
     }
 
     public function verif(Request $request): JsonResponse
