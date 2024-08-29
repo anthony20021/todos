@@ -1,7 +1,7 @@
 @extends('mails.layout.mail')
 @section('content')
     <main>
-        <p>Bonjour, {{ $owner }} vous a partagé sa liste {{ $list_name }}</p>
+        <p>Bonjour, {{ $owner['name'] }} vous a partagé sa liste {{ $list_name }}</p>
 
         <p>À très vite !</p>
         <br>
