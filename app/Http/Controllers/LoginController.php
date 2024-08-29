@@ -86,7 +86,7 @@ class LoginController extends Controller
                 // Envoi de l'email de vérification
                 SendMailController::SendVerifMail(['to' => $request['email']]);
 
-                return response()->json(['message' => 'Code renvoyé', 'code' => 'code_resent'], 200);
+                return response()->json(['message' => 'Code renvoyé', 'code' => 'verified'], 200);
             }
 
             return response()->json(['message' => 'Utilisateur introuvable', 'code' => 'not_found'], 404);
