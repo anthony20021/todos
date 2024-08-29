@@ -36,8 +36,6 @@ class SendMailController extends Controller
                     $message->replyTo($data['reply_to']);
                     $message->to($data['to']);
 
-                    $message->bcc(['anthony20021@gmail.com'], 'Support info');
-
                     $message->priority(2);
                 });
                 return $result;
