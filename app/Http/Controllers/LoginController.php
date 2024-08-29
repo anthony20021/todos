@@ -50,7 +50,7 @@ class LoginController extends Controller
 
         // Vérification du code de confirmation
         dd($user->verif_code . ' ' . $credentials['verification_code']);
-        if ($user->verif_code === $credentials['verification_code']) {
+        if ($user->verif_code == $credentials['verification_code']) {
             $user->verif_code = null;
             $user->veryfied = true;
             $user->save();
