@@ -11,52 +11,54 @@ class LoginController extends Controller
 {
     public function authenticate(Request $request): JsonResponse
     {
+        // Validation des informations d'identification
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            if($user['veryfied']){
-                $request->session()->regenerate();
-                $cookie = cookie()->forever('XSRF-TOKEN', $request->session()->token());
+        // Récupération de l'utilisateur par email
+        $user = User::where('email', $credentials['email'])->first();
 
-                return response()->json(['message' => 'Login successful'])
-                    ->withCookie($cookie);
-            }
-            else{
-                return response()->json(['message' => 'Veuillez confirmer votre email', 'code' => 'unverified'], 201);
-            }
+        // Vérification si l'utilisateur existe et a confirmé son email
+        if ($user && !$user->verified) {
+            return response()->json(['message' => 'Veuillez confirmer votre email', 'code' => 'unverified'], 403);
         }
 
-        return response()->json(['message' => 'Indentifiant incorrect', 'code' => 'unauthorized'], 201);
+        // Tentative d'authentification si l'utilisateur a confirmé son email
+        if ($user && Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            $cookie = cookie()->forever('XSRF-TOKEN', $request->session()->token());
+
+            return response()->json(['message' => 'Login successful'])
+                ->withCookie($cookie);
+        }
+
+        return response()->json(['message' => 'Identifiant incorrect', 'code' => 'unauthorized'], 401);
     }
 
-    public function verif(Request $request){
+    public function verif(Request $request): JsonResponse
+    {
+        // Validation des informations d'identification
         $credentials = $request->validate([
             'email' => ['required', 'email'],
-            'password' => ['required'],
+            'verification_code' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $verif = $request->verification_code;
-            $user = User::where('email', $credentials['email'])->first();
-            if($user['verif_code'] == $verif){
-                $user->verif_code = null;
-                $user->veryfied = true;
-                $user->save();
-                return response()->json(['message' => 'Email confirme', 'code' => 'verified'], 201);
-            }
-            else{
-                return response()->json(['message' => 'Code incorrect', 'code' => 'unauthorized'], 201);
-            }
-        }
-        else{
-            return response()->json(['message' => 'Code incorrect', 'code' => 'unauthorized'], 201);
-        }
-    }
+        // Récupération de l'utilisateur par email
+        $user = User::where('email', $credentials['email'])->first();
 
+        // Vérification du code de confirmation
+        if ($user && $user->verif_code === $credentials['verification_code']) {
+            $user->verif_code = null;
+            $user->verified = true;
+            $user->save();
+
+            return response()->json(['message' => 'Email confirmé', 'code' => 'verified'], 200);
+        }
+
+        return response()->json(['message' => 'Code incorrect', 'code' => 'unauthorized'], 401);
+    }
 
     public function logout(Request $request)
     {
@@ -68,19 +70,29 @@ class LoginController extends Controller
         return redirect('/');
     }
 
-    public function resendCode(Request $request){
+    public function resendCode(Request $request): JsonResponse
+    {
         function generateFourDigitCode() {
             return str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
         }
 
         try {
             $user = User::where('email', $request['email'])->first();
-            $user->verif_code = generateFourDigitCode();
-            $user->save();
-            SendMailController::SendVerifMail(['to' => $request['email']]);
-            return response()->json(['message' => 'Code renvoyé', 'code' => 'verified'], 201);
+
+            if ($user) {
+                $user->verif_code = generateFourDigitCode();
+                $user->save();
+
+                // Envoi de l'email de vérification
+                SendMailController::SendVerifMail(['to' => $request['email']]);
+
+                return response()->json(['message' => 'Code renvoyé', 'code' => 'code_resent'], 200);
+            }
+
+            return response()->json(['message' => 'Utilisateur introuvable', 'code' => 'not_found'], 404);
+
         } catch (\Throwable $th) {
-            return response()->json(['message' => $th->getMessage(), 'code' => 'unauthorized'], 201);
+            return response()->json(['message' => $th->getMessage(), 'code' => 'error'], 500);
         }
     }
 }
