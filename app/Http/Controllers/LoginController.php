@@ -21,7 +21,7 @@ class LoginController extends Controller
         $user = User::where('email', $credentials['email'])->first();
 
         // Vérification si l'utilisateur existe et a confirmé son email
-        if ($user && !$user->verified) {
+        if ($user && !$user->veryfied) {
             return response()->json(['message' => 'Veuillez confirmer votre email', 'code' => 'unverified'], 201);
         }
 
@@ -51,7 +51,7 @@ class LoginController extends Controller
         // Vérification du code de confirmation
         if ($user && $user->verif_code === $credentials['verification_code']) {
             $user->verif_code = null;
-            $user->verified = true;
+            $user->veryfied = true;
             $user->save();
 
             return response()->json(['message' => 'Email confirmé', 'code' => 'verified'], 200);
