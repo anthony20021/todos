@@ -30,7 +30,7 @@ class LoginController extends Controller
             $request->session()->regenerate();
             $cookie = cookie()->forever('XSRF-TOKEN', $request->session()->token());
 
-            return response()->json(['message' => 'Login successful'])
+            return response()->json(['message' => 'Login successful', 'code' => 'ok'])
                 ->withCookie($cookie);
         }
 

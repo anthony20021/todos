@@ -48,10 +48,10 @@ import fetchWithCredentials from '@/network';
             try {
                 const response = await fetchWithCredentials('/login', 'POST', this.user);
 
-                if (response.status === 200) {
+                if (response.code == "ok") {
                     window.location.href = '/dashboard';
                 }
-                else if(response.data.code === 'unauthorized') {
+                else if(response.code === 'unauthorized') {
                     Swal.fire({
                         icon: 'error',
                         title: 'Erreur',
@@ -59,7 +59,7 @@ import fetchWithCredentials from '@/network';
                         position: 'top-end'
                     });
                 }
-                else if(response.data.code === 'unverified') {
+                else if(response.code === 'unverified') {
                     this.verif_page = true;
                 }
                 else{
@@ -87,7 +87,8 @@ import fetchWithCredentials from '@/network';
                     this.logUser();
                 }
                 else{
-                    Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
+                    Swal.fire({title:'Erreur', text:'Code incorrect', icon:'error', position:'top-end'});
+                    console.log(result);
                 }
             } catch (error) {
                 console.error(error);
@@ -97,7 +98,7 @@ import fetchWithCredentials from '@/network';
 
         async resendCode() {
             try {
-                const result = await fetchWithCredentials('/resendCode','POST', this.user);
+                const result = await fetchWithCredentials('/resendCode', 'POST', this.user);
                 if(result.code == 'verified'){
                     Swal.fire({title:'Succès', text:'Le code a bien été envoyé', icon:'success', position:'top-end'});
                 }
