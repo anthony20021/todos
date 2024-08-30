@@ -43,6 +43,7 @@ class AdminController extends Controller
                 'email' => $user['email'],
                 'telephone' => $user['telephone'],
                 'firstname' => $user['firstname'],
+                'veryfied' => $user['veryfied'],
             ]);
             $user = User::find($user['id']);
             $user->roles()->detach();

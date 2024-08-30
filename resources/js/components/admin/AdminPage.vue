@@ -10,6 +10,8 @@
                         <th>Prénom</th>
                         <th>Email</th>
                         <th>Rôle</th>
+                        <th>Tel</th>
+                        <th>Email vérifié ?</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -23,6 +25,8 @@
                                 {{ role.name }}
                             </div>
                         </td>
+                        <td>{{ user.telephone }}</td>
+                        <td>{{ user.veryfied }}</td>
                         <td>
                             <button class="btn" @click="editUser(user)" style="background-color: green;">Modifier</button>
                             <button class="btn" @click="deleteUser(user.id)" style="background-color: red;">Supprimer</button>
@@ -94,6 +98,10 @@
                 <div class="box-input">
                     <label for="email">Email</label>
                     <input type="email" id="email" v-model="user.email">
+                </div>
+                <div class="box-input">
+                    <label>Email vérifie</label>
+                    <input type="checkbox" id="email_verified_at" v-model="user.veryfied">
                 </div>
                 <div class="box-input">
                     <label for="password">Mot de passe</label>
