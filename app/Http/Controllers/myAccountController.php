@@ -48,13 +48,18 @@ class myAccountController extends Controller
         $user = auth()->user();
 
         try {
-            if (password_verify($mdp, $user->password)) {
-                User::where('id', $user->id)->update([
-                    'password' => password_hash($new_mdp, PASSWORD_BCRYPT),
-                ]);
-                return response()->json(['statut' => 'ok']);
-            } else {
-                return response()->json(['statut' => 'mdp', 'message' => 'Mot de passe incorrect']);
+            if(strlen($new_mdp) > 8){
+                if (password_verify($mdp, $user->password)) {
+                    User::where('id', $user->id)->update([
+                        'password' => password_hash($new_mdp, PASSWORD_BCRYPT),
+                    ]);
+                    return response()->json(['statut' => 'ok']);
+                } else {
+                    return response()->json(['statut' => 'mdp', 'message' => 'Mot de passe incorrect']);
+                }
+            }
+            else{
+                return response()->json(['statut' => 'count', 'message' => 'Mot de passe trop court']);
             }
         } catch (\Throwable $th) {
             return response()->json(['statut' => 'error', 'message' => $th->getMessage()]);

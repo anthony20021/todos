@@ -44,6 +44,8 @@ class AdminController extends Controller
                 'telephone' => $user['telephone'],
                 'firstname' => $user['firstname'],
                 'veryfied' => $user['veryfied'],
+                //Changer et hasher le password
+                'password' => password_hash($user['password'], PASSWORD_BCRYPT),
             ]);
             $user = User::find($user['id']);
             $user->roles()->detach();

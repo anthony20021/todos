@@ -39,31 +39,59 @@ import axios from 'axios'
     methods:{
         async addUser() {
             try {
-            const response = await axios.post('/register/adduser', this.user);
-            Swal.fire({
-                title: 'Bravo !',
-                text: 'Vous êtes désormais inscrit',
-                icon: 'success',
-                position:'top-end'
-            })
-            this.user = {
-                firstname: '',
-                name: '',
-                email: '',
-                password: '',
-            };
-            setTimeout(() => {
-              window.location.href = '/login';
-            }, 2000);
+                const response = await axios.post('/register/adduser', this.user);
+
+                Swal.fire({
+                    title: 'Bravo !',
+                    text: 'Vous êtes désormais inscrit',
+                    icon: 'success',
+                    position: 'top-end'
+                });
+
+                // Réinitialisation des champs utilisateur après succès
+                this.user = {
+                    firstname: '',
+                    name: '',
+                    email: '',
+                    password: '',
+                };
+
+                // Redirection après un délai de 2 secondes
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
             } catch (error) {
-            Swal.fire({
-                title: 'Erreur',
-                text: error,
-                icon: 'error',
-                position:'top-end'
-            })
+                // Vérifier si l'erreur est un code 422 (erreur de validation)
+                if (error.response && error.response.status === 422) {
+                    // Récupérer les erreurs du serveur
+                    const errors = error.response.data.errors;
+                    let errorMessages = '';
+
+                    // Boucle à travers les erreurs et les concatène dans un seul message
+                    Object.values(errors).forEach(fieldErrors => {
+                        fieldErrors.forEach(errorMsg => {
+                            errorMessages += `${errorMsg}\n`;
+                        });
+                    });
+
+                    // Afficher toutes les erreurs dans l'alerte Swal
+                    Swal.fire({
+                        title: 'Erreur de validation',
+                        text: errorMessages,
+                        icon: 'error',
+                        position: 'top-end'
+                    });
+                } else {
+                    // Afficher une erreur générique si ce n'est pas une erreur 422
+                    Swal.fire({
+                        title: 'Erreur',
+                        text: 'Une erreur inattendue s\'est produite. Veuillez réessayer.',
+                        icon: 'error',
+                        position: 'top-end'
+                    });
+                }
             }
-        },
+        }
     }
   }
 </script>

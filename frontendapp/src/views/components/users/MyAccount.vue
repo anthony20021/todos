@@ -83,7 +83,11 @@ export default {
                     if (response.statut !== 'ok') {
                         if (response.statut === 'mdp') {
                             Swal.fire({ title: 'Erreur', text: 'Le mot de passe actuel ne correspond pas', icon: 'error', position: 'top-end' });
-                        } else {
+                        }
+                        else if(response.statut === 'count') {
+                            Swal.fire({ title: 'Erreur', text: 'Mot de passe trop court', icon: 'error', position: 'top-end' });
+                        }
+                        else {
                             Swal.fire({ title: 'Erreur', text: 'Une erreur inattendue s\'est produite', icon: 'error', position: 'top-end' });
                         }
                     } else {
