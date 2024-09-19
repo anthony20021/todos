@@ -7,7 +7,7 @@ $color6: #e3dbeb;
 
 //Afin de faire un responsive facilement
 @mixin phone {
-    @media (max-width: 1024px) {
+    @media (max-width: 1025px) {
       @content;
     }
   }
@@ -84,6 +84,7 @@ $color6: #e3dbeb;
     font-family: 'Playwrite NZ', sans-serif;
     font-weight: 900;
     font-size: larger;
+    transition: top 1.5s;
     @include phone {
       position: fixed;
       top: 20px;
@@ -192,8 +193,9 @@ $color6: #e3dbeb;
   border-radius: 7px;
   background-color: transparent;
   z-index: 6;
+  transition: top 1.5s;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1026px) {
     display: none;
   }
 }
@@ -211,7 +213,7 @@ $color6: #e3dbeb;
   cursor: pointer;
   z-index: 6;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1026px) {
     display: none;
   }
 }
@@ -220,7 +222,7 @@ $color6: #e3dbeb;
 .deco {
   margin-left: 50vw;
 
-  @media (max-width: 1024px) {
+  @include phone {
     margin-left: 0;
   }
 
@@ -233,7 +235,7 @@ $color6: #e3dbeb;
 .deco-wrap {
   white-space: nowrap;
 
-  @media (max-width: 1024px) {
+  @include phone {
     white-space: wrap;
   }
 }
@@ -242,7 +244,7 @@ $color6: #e3dbeb;
 .margin {
   margin-top: 10px;
 
-  @media (max-width: 1024px) {
+  @include phone {
     margin-top: 40px;
     white-space: nowrap;
   }

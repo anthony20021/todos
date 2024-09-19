@@ -9,7 +9,7 @@
     <nav id="topbar" class="nav" style="z-index: 10">
         <ul class="flex">
             <li id="closeMenu" style="color: #e3dbeb;">Fermer</li>
-            <li class="margin"><a class="nav-items todos" href="/">Todos</a></li>
+            <li class="margin"><a class="nav-items todos" id="todos-icon" href="/">Todos</a></li>
 
             @guest
             <div class="deco flex">
@@ -40,7 +40,11 @@
     const nav = document.getElementById('topbar');
     const toggleButton = document.getElementById('openMenu');
     const closeMenu = document.getElementById('closeMenu');
+    const todosIcon = document.getElementById('todos-icon');
 
+    let lastScrollY = window.scrollY;
+
+    // Toggle pour ouvrir/fermer le menu sur petit écran
     toggleButton.addEventListener('click', () => {
         nav.style.right = '0px';
     });
@@ -56,5 +60,21 @@
         if (!isClickInsideNav && !isClickOnToggleButton && window.innerWidth < 1024) {
             nav.style.right = '-150px';
         }
+    });
+
+    // Gestion du scroll
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY) {
+            todosIcon.style.top = '-80px';
+            toggleButton.style.top = '-80px';
+        } else {
+            todosIcon.style.top = '20px';
+            toggleButton.style.top = '20px';
+        }
+
+        // Met à jour la dernière position de scroll
+        lastScrollY = currentScrollY;
     });
 </script>
