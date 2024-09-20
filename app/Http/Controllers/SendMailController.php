@@ -28,7 +28,7 @@ class SendMailController extends Controller
                 'reply_to' => 'contact@todos.website',
                 'to' => $request['to'],
                 'owner' => $request['owner'],
-                'subject' => $request['owner'] . ' vous a partagé sa liste',
+                'subject' => 'TODOS - ' . $request['owner'] . ' vous a partagé sa liste',
                 'list_name' => $request['name'],
             ];
                 Mail::send('mails.notif', $data, function ($message) use ($data) {
@@ -67,7 +67,7 @@ class SendMailController extends Controller
                 'from' => 'contact@todos.website',
                 'reply_to' => 'contact@todos.website',
                 'to' => $request['to'],
-                'subject' => 'Veuillez confirmer votre adresse email',
+                'subject' => 'TODOS - Veuillez confirmer votre adresse email',
                 'verif_code' => $verif->verif_code,
                 'firstname' => $verif->firstname
             ];
@@ -100,7 +100,7 @@ class SendMailController extends Controller
                 'from' => 'contact@todos.website',
                 'reply_to' => 'contact@todos.website',
                 'to' => $request['to'],
-                'subject' => 'Veuillez confirmer votre adresse email',
+                'subject' => 'TODOS - Votre code de confirmation',
                 'verif_code' => $verif->verif_code,
                 'firstname' => $verif->firstname
             ];
