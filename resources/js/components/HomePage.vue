@@ -5,7 +5,9 @@
         <div class="text-content">
           <h1>Gérer vos tâches, liste de course, projet avec Todos !</h1>
           <p>Todos le site simpliste qui vous permet de créer des listes de tâche et les partager avec vos amis.</p>
-          <a href="/register" class="register-link">Commencer à créer dès maintenant</a>
+          <div>
+              <a href="/register" class="register-link">Commencer à créer dès maintenant</a>
+          </div>
           <p>Déjà inscrit ? <a href="/login" class="login-link">Se connecter</a></p>
         </div>
       </div>

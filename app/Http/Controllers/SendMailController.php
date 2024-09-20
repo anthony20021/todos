@@ -88,4 +88,37 @@ class SendMailController extends Controller
         }
     }
 
+    static public function SendVerifMdp($request){
+
+        $result = [
+            'statut' => 'ok',
+            'message' => 'Le message a bien été envoyé'
+        ];
+        try {
+            $verif = User::where('email', $request['to'])->first();
+            $data = [
+                'from' => 'contact@todos.website',
+                'reply_to' => 'contact@todos.website',
+                'to' => $request['to'],
+                'subject' => 'Veuillez confirmer votre adresse email',
+                'verif_code' => $verif->verif_code,
+                'firstname' => $verif->firstname
+            ];
+            Mail::send('mails.verif_mdp', $data, function ($message) use ($data) {
+                $message->subject($data['subject']);
+                $message->from($data['from']);
+                $message->sender($data['from']);
+                $message->replyTo($data['reply_to']);
+                $message->to($data['to']);
+            });
+            return $result;
+        } catch (TransportException $e) {
+            $result = [
+                'statut' => 'ko',
+                'message' => $e->getMessage() . ' Line ' .  $e->getLine()
+            ];
+            return $result;
+        }
+    }
+
 }

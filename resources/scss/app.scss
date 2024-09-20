@@ -45,9 +45,26 @@ $color6: #e3dbeb;
   //Couleur des liens
   a {
     text-decoration: none;
-    color: $color6;
+    color: $color2;
     cursor: pointer;
-  }
+    position: relative;
+}
+
+a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    width: 0;
+    height: 2px;
+    background-color: $color2;
+    transition: width 0.3s ease;
+}
+
+a:hover::after {
+    width: 100%; /* Lorsque l'on survole le lien, la barre prend toute la largeur */
+}
+
 
   //Decorations des liens de la navigation
   .nav-items {
@@ -83,6 +100,7 @@ $color6: #e3dbeb;
   .todos {
     font-family: 'Playwrite NZ', sans-serif;
     font-weight: 900;
+    color: $color6;
     font-size: larger;
     transition: top 1.5s;
     @include phone {

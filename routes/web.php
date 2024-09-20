@@ -36,14 +36,17 @@ Route::post('/login', [LoginController::class, 'authenticate'])->name('login');
 Route::post('/verif', [LoginController::class, 'verif'])->name('verif');
 Route::post('/resendCode', [LoginController::class, 'resendCode'])->name('resendCode');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('password/sendCode', [LoginController::class, 'sendCodeMdp']);
+Route::post('password/verifyCode', [LoginController::class, 'verifyCodeMdp']);
+Route::post('password/change', [LoginController::class, 'changeCodeMdp']);
+
+Route::middleware('web-auth')->group(function () {
+    Route::get('/dashboard', function () { return view('dashboard.dashboard'); });
+});
+
 
 Route::middleware('auth')->prefix('dashboard')->group(function () {
-    Route::get('/', function () {
-        return view('dashboard.dashboard');
-    });
-
     // Routes pour les opérations liées au tableau de bord
-
     Route::get('/getData', [DashboardController::class, 'getData']);
     Route::post('/tache/getData', [DashboardController::class, 'getDataTache']);
     Route::post('/addListe', [DashboardController::class, 'addListe']);
