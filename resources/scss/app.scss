@@ -67,13 +67,14 @@ a:hover::after {
 
 
   //Decorations des liens de la navigation
-  .nav-items {
+  .nav-items
+  {
     margin-right: 10px;
     border-radius: 12px;
     margin: 16px;
     transition: background-color 0.4s;
     font-size: 17px;
-
+    color: $color6;
     &:hover {
       background-color: #9c49f5;
     }

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Politique de Confidentialité - todos.website</title>
-    //meta robot nofollow noindex
+    {{-- //meta robot nofollow noindex --}}
     <meta name="robots" content="noindex, nofollow">
 </head>
 <body>
