@@ -90,7 +90,7 @@ import fetchWithCredentials from '@/network';
             try {
                 const response = await fetchWithCredentials('/login', 'POST', this.user);
 
-                if (response.status === 200) {
+                if (response.code == "ok") {
                     window.location.href = '/dashboard';
                 }
                 else if(response.code === 'unauthorized') {
