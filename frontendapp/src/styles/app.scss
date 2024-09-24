@@ -7,7 +7,7 @@ $color6: #e3dbeb;
 
 //Afin de faire un responsive facilement
 @mixin phone {
-    @media (max-width: 1024px) {
+    @media (max-width: 1025px) {
       @content;
     }
   }
@@ -45,18 +45,36 @@ $color6: #e3dbeb;
   //Couleur des liens
   a {
     text-decoration: none;
-    color: $color6;
+    color: $color2;
     cursor: pointer;
-  }
+    position: relative;
+}
+
+a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    width: 0;
+    height: 2px;
+    background-color: $color2;
+    transition: width 0.3s ease;
+}
+
+a:hover::after {
+    width: 100%; /* Lorsque l'on survole le lien, la barre prend toute la largeur */
+}
+
 
   //Decorations des liens de la navigation
-  .nav-items {
+  .nav-items
+  {
     margin-right: 10px;
     border-radius: 12px;
     margin: 16px;
     transition: background-color 0.4s;
     font-size: 17px;
-
+    color: $color6;
     &:hover {
       background-color: #9c49f5;
     }
@@ -83,7 +101,9 @@ $color6: #e3dbeb;
   .todos {
     font-family: 'Playwrite NZ', sans-serif;
     font-weight: 900;
+    color: $color6;
     font-size: larger;
+    transition: top 1.5s;
     @include phone {
       position: fixed;
       top: 20px;
@@ -192,8 +212,9 @@ $color6: #e3dbeb;
   border-radius: 7px;
   background-color: transparent;
   z-index: 6;
+  transition: top 1.5s;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1026px) {
     display: none;
   }
 }
@@ -211,7 +232,7 @@ $color6: #e3dbeb;
   cursor: pointer;
   z-index: 6;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1026px) {
     display: none;
   }
 }
@@ -220,7 +241,7 @@ $color6: #e3dbeb;
 .deco {
   margin-left: 50vw;
 
-  @media (max-width: 1024px) {
+  @include phone {
     margin-left: 0;
   }
 
@@ -233,7 +254,7 @@ $color6: #e3dbeb;
 .deco-wrap {
   white-space: nowrap;
 
-  @media (max-width: 1024px) {
+  @include phone {
     white-space: wrap;
   }
 }
@@ -242,7 +263,7 @@ $color6: #e3dbeb;
 .margin {
   margin-top: 10px;
 
-  @media (max-width: 1024px) {
+  @include phone {
     margin-top: 40px;
     white-space: nowrap;
   }
@@ -360,6 +381,7 @@ select{
     }
 }
 
+
 .liste1{
     background: linear-gradient(21deg, rgba(203,91,255,0.2455182756696429) 0%, rgba(255,0,0,0.2007003484987745) 14%, rgba(0,0,0,0) 22%, rgba(174,3,255,0.10826337370885852) 38%, rgba(203,91,255,0.23431379387692575) 63%);
     color: #000000;
@@ -404,5 +426,4 @@ select{
     background: radial-gradient(circle, rgba(255,0,0,1) 8%, rgba(255,216,0,1) 19%, rgba(37,255,0,1) 33%, rgba(0,255,79,1) 45%, rgba(0,157,255,1) 51%, rgba(0,20,255,1) 68%, rgba(169,0,255,1) 76%, rgba(255,0,200,1) 92%, rgba(255,0,127,1) 100%, rgba(255,0,0,1) 100%);
     color:black;
 }
-
 
