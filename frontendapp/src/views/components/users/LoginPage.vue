@@ -1,5 +1,5 @@
 <template>
-    <div style="display: flex; justify-content: center;" class="margin-xl" v-if="!verif_page">
+    <div style="display: flex; justify-content: center;" class="margin-xl" v-if="!verif_page && !password_page">
         <div>
             <div class="box-input">
                 <label for="email">Email</label>
@@ -9,10 +9,15 @@
                 <label for="password">Mot de passe</label>
                 <input type="password" id="password" v-model="user.password" @keydown.enter="logUser">
             </div>
-            <button class="btn" @click="logUser">Se connecter</button>
+            <div style="display: flex; justify-content: space-between;">
+                <button class="btn" @click="logUser">Se connecter</button>
+                <div>
+                    <a @click="password_page=true">Mot de passe oublié ?</a>
+                </div>
+            </div>
         </div>
     </div>
-    <div v-else style="display: flex; justify-content: center;" class="margin-xl">
+    <div v-else-if="verif_page && !password_page" style="display: flex; justify-content: center;" class="margin-xl">
         <div>
             <h1>Vérifier votre compte</h1>
             <p>Un email a été envoyé à l'adresse {{user.email}}. Veuillez renseigner le code de vérification.</p>
@@ -26,11 +31,45 @@
             <p>Si vous n'avez pas reçu de code de vérification, <a style="color: blue;" @click="resendCode">renvoyer</a>.</p>
         </div>
     </div>
+    <div v-else-if="password_page && !verif_page" style="display: flex; justify-content: center;" class="margin-xl">
+
+        <div v-if="!code_page && !code_pass_ok">
+            <h2>Ça arrive à tout le monde !</h2>
+            <p>Entrez votre votre adresse email et si elle correspond à un compte vous recevrez un code.</p>
+            <div class="box-input">
+                <label for="email">Email</label>
+                <input type="email" id="email" v-model="user.email" @keydown.enter="sendCodeMdp">
+            </div>
+            <button class="btn" @click="sendCodeMdp">Envoyer</button>
+        </div>
+
+        <div v-else-if="code_page && !code_pass_ok">
+            <h2>On y est presque.</h2>
+            <p>Entrez votre code ici. Attention vous n'avez qu'un essaie pour changer votre mot de passe. (sinon il faut recommencer).</p>
+            <div class="box-input">
+                <label for="code">Code</label>
+                <input type="text" id="code" v-model="user.verification_code" @keydown.enter="verifyCodeMdp">
+            </div>
+            <div class="flex" style="flex-direction: column; align-items: baseline;">
+                <button class="btn" @click="verifyCodeMdp">Valider</button>
+                <a @click="code_page = false">Vous n'avez pas reçu de mail ?</a>
+            </div>
+        </div>
+
+        <div v-else>
+            <h1>Dernière étape</h1>
+            <p>Choisissez votre nouveau mot de passe.</p>
+            <div class="box-input">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" v-model="user.password" @keydown.enter="changeCodeMdp">
+            </div>
+            <button class="btn" @click="changeCodeMdp">Valider</button>
+        </div>
+    </div>
 </template>
 
 <script>
 import Swal from 'sweetalert2'
-import axios from 'axios'
 import fetchWithCredentials from '@/network';
   export default{
     data(){
@@ -41,6 +80,9 @@ import fetchWithCredentials from '@/network';
             verification_code:""
         },
         verif_page: false,
+        password_page:false,
+        code_page:false,
+        code_pass_ok:false,
       }
     },
     methods:{
@@ -48,7 +90,7 @@ import fetchWithCredentials from '@/network';
             try {
                 const response = await fetchWithCredentials('/login', 'POST', this.user);
 
-                if (response.code == "ok") {
+                if (response.status === 200) {
                     window.location.href = '/dashboard';
                 }
                 else if(response.code === 'unauthorized') {
@@ -87,8 +129,7 @@ import fetchWithCredentials from '@/network';
                     this.logUser();
                 }
                 else{
-                    Swal.fire({title:'Erreur', text:'Code incorrect', icon:'error', position:'top-end'});
-                    console.log(result);
+                    Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
                 }
             } catch (error) {
                 console.error(error);
@@ -108,6 +149,54 @@ import fetchWithCredentials from '@/network';
             } catch (error) {
                 console.error(error);
                 Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
+            }
+        },
+
+        async sendCodeMdp(){
+            try {
+                const result = await fetchWithCredentials('/password/sendCode', 'POST', {'email' : this.user.email});
+                if(result.code == 'ok'){
+                    this.code_page = true;
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        async verifyCodeMdp(){
+            try {
+                const result = await fetchWithCredentials('/password/verifyCode','POST', {'email' : this.user.email, 'code' : this.user.verification_code});
+                if(result.code == 'ok'){
+                    this.code_pass_ok = true;
+                }
+                else{
+                    this.code_page = false;
+                    Swal.fire({title:'Erreur', text:'Le code de vérification est incorrect', icon:'error', position:'top-end'});
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        async changeCodeMdp(){
+            try {
+                const result = await fetchWithCredentials('/password/change', 'POST', {'email' : this.user.email, 'mdp' : this.user.password, 'code' : this.user.verification_code});
+                if(result.code == 'ok'){
+                    Swal.fire({title:'Succès', text:'Votre mot de passe a bien été modifié', icon:'success', position:'top-end'});
+                    this.code_page = false;
+                    this.code_pass_ok = false;
+                    this.password_page = false;
+                }
+                else if(result.code == 'bad_mdp'){
+                    Swal.fire({title:'Erreur', text:result.message, icon:'error', position:'top-end'});
+                }
+                else{
+                    this.code_page = false;
+                    this.code_pass_ok = false;
+                    Swal.fire({title:'Erreur', text:'Le code de vérification est incorrect', icon:'error', position:'top-end'});
+                }
+            } catch (error) {
+                console.error(error);
             }
         }
     }

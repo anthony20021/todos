@@ -26,6 +26,9 @@ Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/verif', [LoginController::class, 'verif'])->name('verif');
 Route::post('/resendCode', [LoginController::class, 'resendCode'])->name('resendCode');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('password/sendCode', [LoginController::class, 'sendCodeMdp']);
+Route::post('password/verifyCode', [LoginController::class, 'verifyCodeMdp']);
+Route::post('password/change', [LoginController::class, 'changeCodeMdp']);
 
 Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::get('/', function () {
