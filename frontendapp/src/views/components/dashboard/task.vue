@@ -266,7 +266,7 @@ export default {
             });
         },
 
-        deleteTask(id) {
+        async deleteTask(id) {
             Swal.fire({
                 title: 'Êtes-vous sûr ?',
                 text: 'Cette action est irréversible',
@@ -280,7 +280,7 @@ export default {
             }).then( async (result) => {
                 if (result.isConfirmed) {
                     try{
-                        const result = fetchWithCredentials('/dashboard/deleteTask','POST', {'task_id' : id, 'list_id' : this.list_id})
+                        const result = await fetchWithCredentials('/dashboard/deleteTask','POST', {'task_id' : id, 'list_id' : this.list_id})
                         Swal.fire({
                             title:'Supprimé !',
                             text:'Votre tâche a été supprimée.',
