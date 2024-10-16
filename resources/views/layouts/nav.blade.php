@@ -62,11 +62,16 @@
         const currentScrollY = window.scrollY;
 
         if (currentScrollY > lastScrollY) {
-            todosIcon.style.top = '-80px';
-            toggleButton.style.top = '-80px';
+            //verifier si on est sur un format petit ecran
+            if (window.innerWidth < 1024) {
+                todosIcon.style.top = '-80px';
+                toggleButton.style.top = '-80px';
+            }
         } else {
-            todosIcon.style.top = '20px';
-            toggleButton.style.top = '20px';
+            if (window.innerWidth < 1024){
+                todosIcon.style.top = '20px';
+                toggleButton.style.top = '20px';
+            }
         }
 
         // Met à jour la dernière position de scroll
