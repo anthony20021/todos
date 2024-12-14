@@ -65,6 +65,7 @@ Route::middleware('auth')->prefix('myAccount')->group(function () {
     Route::get('/user', [myAccountController::class, 'getProfil']);
     Route::post('/userPost', [myAccountController::class, 'post']);
     Route::post('/changeMdp', [myAccountController::class, 'changeMdp']);
+    Route::post('/delete', [myAccountController::class, 'deleteAccount']);
 });
 Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->middleware('admin:admin');
@@ -77,6 +78,6 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::post('/deleteRole', [AdminController::class, 'deleteRole'])->middleware('admin:admin');
     Route::post('/createPermission', [AdminController::class, 'addPermission'])->middleware('admin:admin');
     Route::post('/deletePermission', [AdminController::class, 'deletePermission'])->middleware('admin:admin');
-
+    Route::post('/addUser', [AdminController::class, 'addUser'])->middleware('admin:admin');
 });
 

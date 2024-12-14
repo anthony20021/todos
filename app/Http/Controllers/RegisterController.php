@@ -19,7 +19,8 @@ class RegisterController extends Controller
             'email.email' => 'L\'adresse e-mail n\'est pas valide.',
             'email.unique' => 'Cet e-mail est déjà utilisé.',
             'password.required' => 'Le mot de passe est requis.',
-            'password.min' => 'Votre mot de passe est trop court, il doit faire au moins 8 caractères.'
+            'password.min' => 'Votre mot de passe est trop court, il doit faire au moins 12 caractères.',
+            'password.regex' => 'Le mot de passe doit contenir au moins une majuscule, un chiffre et un caractère spécial.',
         ];
 
         // Validation des données avec les règles et les messages personnalisés
@@ -27,7 +28,11 @@ class RegisterController extends Controller
             'firstname' => 'required|string',
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
+            'password' => [
+                'required',
+                'min:12', 
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', 
+            ],
         ], $messages);
 
         // Si la validation échoue, renvoyer les erreurs dans une réponse JSON

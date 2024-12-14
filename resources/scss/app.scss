@@ -366,6 +366,14 @@ a:hover::after {
     align-items: center;
 }
 
+//Centre la section
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 //De beaux select
 select{
     width: 100%;

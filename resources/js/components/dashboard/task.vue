@@ -4,24 +4,21 @@
             <button class="btn" @click="showCreateTask = !showCreateTask" style="height: 40px;">
                 {{ showCreateTask ? "Retour" : "Ajouter une tâche" }}
             </button>
-            <div class="form-group">
-                <label for="affAssignement">Afficher la gestion des assignations</label>
-                <input type="checkbox" id="affAssignement" class="checkbox" v-model="affAssignement">
-            </div>
+            <button v-if="allUser.length>1" class="btn" style="background-color: chocolate; height: 40px;" @click="affAssignement = !affAssignement">{{ affAssignement ? "Retour" : "Assigner des tâches" }}</button>
             <div v-if="owner == user_id && allUser && allUser.length > 1" class="share-box">
                 <div style="display: flex; justify-content: space-around; align-items: center;">
                     <h3>Liste partagé avec : </h3>
                     <ul>
                         <li style="width: 100px; background-color: transparent; white-space: nowrap;" v-for="user in allUser">
                             <span v-if="user.user_id != user_id" style="cursor: pointer;">
-                                - {{ user.user.firstname }} {{ user.user.name }}
+                                - {{ user.user.firstname }} {{ user.user.name }}²
                             </span>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        <button class="btn add" style="background-color: tomato;" @click="back">Retour</button>
+        <button class="btn add" style="background-color: red;" @click="back">Retour</button>
         <div v-if="showCreateTask" style="display: flex; justify-content: center; margin-top: 8%;">
             <div class="box-input">
                 <label for="task-name">Nom</label>
@@ -30,9 +27,8 @@
             </div>
         </div>
         <div v-else style="margin-top: 40px;">
-            <div v-if="task && task.length>0" v-for="tache in task">
                 <ul style="padding: 0px;">
-                    <li  :style="{ backgroundColor: tache.tache.checked ? 'grey' : ''  }" :class="'liste'+liste.style" @click="tache.tache.checked = !tache.tache.checked, changeChecked(tache.tache.id, tache.tache.checked)" style="cursor: pointer;">
+                    <li v-if="task && task.length>0" v-for="tache in task" :style="{ backgroundColor: tache.tache.checked ? 'grey' : ''  }" :class="'liste'+liste.style" @click="tache.tache.checked = !tache.tache.checked, changeChecked(tache.tache.id, tache.tache.checked)" style="cursor: pointer; margin-bottom: 7px;">
                         <input type="checkbox" v-model="tache.tache.checked" @change="changeChecked(tache.tache.id, tache.tache.checked)">
                         <p>{{ tache.tache.name }}</p>
                         <div style="display: flex;" v-if="affAssignement">
@@ -41,12 +37,11 @@
                                 <option v-for="user in allUser" :key="user.user_id" :value="user.user_id">{{ user.user.firstname }} {{ user.user.name }}</option>
                             </select>
                         </div>
-                        <button class="btn" style="background-color: red; height: 30px; padding: 3px; margin-right: 10px; "  @click.stop="deleteTask(tache.tache.id)" v-if="owner == user_id || tache.tache.user_id == user_id">Supprimer</button>
+                        <button class="btn" style="background-color: red; height: 30px; padding: 3px; margin-right: 10px; "  @click.stop="deleteTask(tache.tache.id)" v-if="owner == user_id || tache.tache.user_id == user_id">Supprimer la tâche</button>
                         <span v-else style="width: 90px;"></span>
                     </li>
+                    <p v-else style="margin-left: 20px;">Il n'y a toujours pas de tâches dans la liste, <a style="color: blue;" @click="showCreateTask = !showCreateTask">Créer ma première tâche</a>.</p>
                 </ul>
-            </div>
-            <p v-else style="margin-left: 20px;">Il n'y a toujours pas de tâches dans la liste, <a style="color: blue;" @click="showCreateTask = !showCreateTask">Créer ma première tâche</a>.</p>
         </div>
         <button class="btn" style="background-color: cadetblue;" @click="editListe = !editListe">Modifier la liste</button>
         <button class="btn" style="background-color: red; margin-left: 10px;" @click="deleteListe()" v-if="owner == user_id" >Supprimer la liste</button>
@@ -62,19 +57,19 @@
     <div v-else>
         <div class="margin-xl">
             <h2>Modifier la liste</h2>
+            <div class="flex">
+                <button class="btn" @click="putListe()">Modifier</button>
+            </div>
             <div>
                 <div class="box-input">
                     <label for="task-name">Nom</label>
                     <input type="text" v-model="liste.name" id="task-name" style="margin-bottom: 15px;">
                 </div>
                 <div class="flex" style="flex-wrap: wrap;">
-                    <div class="flex" v-for="(item, index) in stylesList" :key="index" style="width: 100%;">
+                    <div class="flex container-style" v-for="(item, index) in stylesList" :key="index">
                         <input type="radio" :id="'style' + item.value" :value="item.value" v-model="liste.style">
                         <div :class="'box-liste liste' + item.value" @click="liste.style = item.value" style="margin-left: 5%; margin-right: 5%;">{{ item.name }}</div>
                     </div>
-                </div>
-                <div class="flex">
-                    <button class="btn" @click="putListe()">Modifier</button>
                 </div>
             </div>
         </div>
@@ -405,6 +400,9 @@ li{
 @media (max-width: 1024px) {
     .share-liste{
         flex-direction: column;
+    }
+    .container-style{
+        width: 100%;
     }
     .share-box{
         width: 100% !important;

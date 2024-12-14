@@ -22,6 +22,7 @@
                 <button class="btn" @click="changeBoolMdp = !changeBoolMdp">Changer de mot de passe</button>
                 <button class="btn" v-if="!modif" @click="modif = !modif">Modifier</button>
                 <button class="btn" @click="modifUser()" v-if="modif">Enregistrer</button>
+                <button class="btn" style="background-color: red;" @click="deleteUser()">Supprimer son compte</button>
             </div>
         </div>
         <div v-else class="flex" style="flex-direction: column;">
@@ -37,7 +38,7 @@
             </div>
             <div class="box-input">
                 <label for="new_mdp2">Confirmer le nouveau mot de passe</label>
-                <input type="password" class="form-control" id="new_mdp2" v-model="mdp2">
+                <input type="password" class="form-control" id="new_mdp2" v-model="mdp2" @keydown.enter="changeMdp()">
             </div>
             <button class="btn" @click="changeMdp()">Valider</button>
         </div>
@@ -78,6 +79,37 @@ import Swal from 'sweetalert2';
                 }
             },
 
+            deleteUser(){
+                Swal.fire({
+                    title: 'êtes-vous sûr?',
+                    text: "Voulez-vous vraiment supprimer votre compte?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Oui, supprimer mon compte!',
+                    cancelButtonText: 'Non, annuler!',
+                    reverseButtons: true,
+                }).then(async (result) => {
+                    if (result.isConfirmed) {
+                        try {
+                            let response = await axios.post('/myAccount/delete');
+                            response = response.data;
+                            if (response.statut != 'ok') {
+                                Swal.fire({ title: 'Erreur', text: 'Une erreur innatendue s\'est produite.', icon: 'error', position: 'top-end' });
+                            } else {
+                                Swal.fire({ title: 'Super!', text: 'Votre compte a bien été supprimé.', icon:'success', position: 'top-end' }).then(() => {
+                                    window.location.href = '/';
+                                });
+                            }
+                        } catch (error) {
+                            console.error(error);
+                            Swal.fire({ title: 'Erreur', text: 'Une erreur innatendue s\'est produite.', icon: 'error', position: 'top-end' });
+                        }
+                    }
+                });
+            },
+
             async changeMdp() {
                 if (this.mdp === this.mdp2) {
                     try {
@@ -85,21 +117,33 @@ import Swal from 'sweetalert2';
                         response = response.data;
                         if (response.statut != 'ok') {
                             if (response.statut == 'mdp') {
-                                Swal.fire({ title: 'Erreur', text: 'Le mot de passe actuel ne correspond pas', icon: 'error', position: 'top-end' });
+                                Swal.fire({ title: 'Erreur', text: 'Le mot de passe actuel ne correspond pas.', icon: 'error', position: 'top-end' });
                             }
                             else if(response.statut === 'count') {
-                                Swal.fire({ title: 'Erreur', text: 'Mot de passe trop court', icon: 'error', position: 'top-end' });
+                                Swal.fire({ title: 'Erreur', text: 'Mot de passe trop court.', icon: 'error', position: 'top-end' });
                             }
                             else {
-                                Swal.fire({ title: 'Erreur', text: 'Une erreur inattendue s\'est produite', icon: 'error', position: 'top-end' });
+                                Swal.fire({ title: 'Erreur', text: 'Une erreur inattendue s\'est produite.', icon: 'error', position: 'top-end' });
                             }
                         } else {
                             this.changeBoolMdp = !this.changeBoolMdp;
-                            Swal.fire({ title: 'Super!', text: 'Le mot de passe a bien été modifié', icon: 'success', position: 'top-end' });
+                            Swal.fire({ title: 'Super!', text: 'Le mot de passe a bien été modifié.', icon: 'success', position: 'top-end' });
                         }
                     } catch (error) {
-                        console.error(error);
-                        Swal.fire({ title: 'Erreur', text: 'Une erreur inattendue s\'est produite', icon: 'error', position: 'top-end' });
+                        let message = '';
+
+                        if (error.response.data.errors.new_mdp) {
+                            message += error.response.data.errors.new_mdp.join(' '); 
+                        }
+
+                        if (error.response.data.errors.mdp) {
+                            if (message) { 
+                                message += ' ';
+                            }
+                            message += error.response.data.errors.mdp.join(' '); 
+                        }
+
+                        Swal.fire({ title: 'Erreur', text: message, icon: 'error', position: 'top-end' });
                     }
                 } else {
                     Swal.fire({ title: 'Erreur', text: 'Les mots de passe ne sont pas identiques', icon: 'error', position: 'top-end' });
@@ -123,3 +167,8 @@ import Swal from 'sweetalert2';
 
     }
 </script>
+<style scoped>
+.btn{
+    margin: 2px;
+}
+</style>

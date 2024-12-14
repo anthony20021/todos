@@ -6,27 +6,29 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <tr><button class="btn" @click="createUser = !createUser">Ajouter</button></tr>
                         <th>Nom</th>
                         <th>Prénom</th>
-                        <th>Email</th>
-                        <th>Rôle</th>
-                        <th>Tel</th>
-                        <th>Email vérifié ?</th>
+                        <th v-if="!isMobile">Email</th>
+                        <th v-if="!isMobile">Rôle</th>
+                        <th v-if="!isMobile">Tel</th>
+                        <th v-if="!isMobile">Email vérifié ?</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="user in users" :key="user.id">
+                        <td></td>
                         <td>{{ user.name }}</td>
                         <td>{{ user.firstname }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>
+                        <td v-if="!isMobile">{{ user.email }}</td>
+                        <td v-if="!isMobile">
                             <div v-for="role in user.roles">
                                 {{ role.name }}
                             </div>
                         </td>
-                        <td>{{ user.telephone }}</td>
-                        <td>{{ user.veryfied }}</td>
+                        <td v-if="!isMobile">{{ user.telephone }}</td>
+                        <td v-if="!isMobile">{{ user.veryfied }}</td>
                         <td>
                             <button class="btn" @click="editUser(user)" style="background-color: green;">Modifier</button>
                             <button class="btn" @click="deleteUser(user.id)" style="background-color: red;">Supprimer</button>
@@ -37,16 +39,19 @@
         </div>
         <h3>Administration des permissions</h3>
         <div style="width: 100%;">
-            <button class="btn" @click="editAddPermission = true">Ajouter</button>
             <table class="table">
                 <thead>
                     <tr>
+                        <th>
+                            <button class="btn" @click="editAddPermission = true">Ajouter</button>
+                        </th>
                         <th>Nom</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="permission in permissions" :key="permission.id">
+                        <td></td>
                         <td>{{ permission.permission }}</td>
                         <td>
                             <button class="btn" @click="deletePermission(permission.id)" style="background-color: red;">Supprimer</button>
@@ -57,16 +62,19 @@
         </div>
         <h3>Administration des rôles</h3>
         <div style="width: 100%;">
-            <button class="btn" @click="editAddRole = true">Ajouter</button>
             <table class="table">
                 <thead>
                     <tr>
+                        <th>
+                            <button class="btn" @click="editAddRole = true">Ajouter</button>
+                        </th>
                         <th>Nom</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="role in roles" :key="role.id">
+                        <td></td>
                         <td>{{ role.name }}</td>
                         <td>
                             <button class="btn" @click="editTheRole(role)" style="background-color: green">Gérer les permissions</button>
@@ -80,7 +88,7 @@
     <div class="modal" v-if="edit" @click="edit = false">
         <div class="modal-content" @click.stop>
             <div class="modal-header">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" @click="edit = false" style="cursor: pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" @click="edit   = false" style="cursor: pointer;">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
@@ -120,6 +128,36 @@
                     </select>
                 </div>
                 <button class="btn" style="background-color: green;" @click="updateUser()">Valider</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal" v-if="createUser" @click="createUser = false">
+        <div class="modal-content" @click.stop>
+            <div class="modal-header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" @click="createUser = false" style="cursor: pointer;">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+                <h2>Créer un user</h2>
+            </div>
+            <div class="modal-body">
+                <div class="box-input">
+                    <label for="name">Nom</label>
+                    <input type="text" id="name" v-model="newUser.name">
+                </div>
+                <div class="box-input">
+                    <label for="fistname">Prénom</label>
+                    <input type="text" id="firstname" v-model="newUser.firstname">
+                </div>
+                <div class="box-input">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" v-model="newUser.email">
+                </div>
+                <div class="box-input">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" v-model="newUser.password">
+                </div>
+                <button class="btn" style="background-color: green;" @click="addUser()">Valider</button>
             </div>
         </div>
     </div>
@@ -206,17 +244,26 @@ export default {
             permissions:[],
             user:{},
             role:{},
+            newUser:{},
             selectedPermission:"",
             edit:false,
+            createUser:false,
             editRole:false,
             editAddRole:false,
             editAddPermission:false,
             newRole:"",
             newPermission:"",
-            newUserRole:0
+            newUserRole:0,
+            isMobile: this.checkMobile()
         }
     },
     methods: {
+        checkMobile() {
+            return window.innerWidth <= 1025;
+        },
+        handleResize() {
+            this.isMobile = this.checkMobile();
+        },
         editUser(user) {
             this.edit = true;
             this.user = user;
@@ -228,6 +275,22 @@ export default {
         addRoleToUser() {
             this.user.roles.push(this.newUserRole);
             this.newUserRole = 0;
+        },
+        async addUser(){
+            try {
+                const response = await axios.post('/admin/addUser', this.newUser);
+                if(response.data.statut !== 'ok') {
+                    Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
+                }
+                else {
+                    this.newUser = {};
+                    this.users.push(response.data.user);
+                    Swal.fire({title:'Super!', text:'L\'utilisateur a bien été ajouté', icon:'success', position:'top-end'});
+                }
+            } catch (error) {
+                console.error(error.message);
+                Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
+            }
         },
         async deleteUser(id) {
                 Swal.fire({
@@ -371,6 +434,7 @@ export default {
     },
     async mounted() {
         try {
+            window.addEventListener('resize', this.handleResize);
             const response = await axios.get('/admin/users');
             if(response.data.statut !== 'ok') {
                 Swal.fire({title:'Erreur', text:'Une erreur inattendue s\'est produite', icon:'error', position:'top-end'});
@@ -382,6 +446,9 @@ export default {
         } catch (error) {
             console.error(error.message);
         }
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.handleResize);
     }
 }
 </script>

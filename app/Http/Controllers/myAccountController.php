@@ -42,28 +42,51 @@ class myAccountController extends Controller
 
     public function changeMdp(Request $request){
 
-        $mdp = $request->input('mdp');
-        $new_mdp = $request->input('new_mdp');
+        // Messages de validation personnalisés
+        $messages = [
+            'mdp.required' => 'L\'ancien mot de passe est requis.',
+            'new_mdp.required' => 'Le mot de passe est requis.',
+            'new_mdp.min' => 'Votre mot de passe est trop court, il doit faire au moins 12 caractères.',
+            'new_mdp.regex' => 'Le mot de passe doit contenir au moins une majuscule, un chiffre et un caractère spécial.',
+        ];
+
+        $validatedData = $request->validate([
+            'mdp' => 'required',
+            'new_mdp' => [
+                'required',
+                'min:12', 
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', 
+            ],
+        ], $messages);
+
+        $mdp = $validatedData['mdp'];
+        $new_mdp = $validatedData['new_mdp'];
 
         $user = auth()->user();
 
         try {
-            if(strlen($new_mdp) > 8){
-                if (password_verify($mdp, $user->password)) {
-                    User::where('id', $user->id)->update([
-                        'password' => password_hash($new_mdp, PASSWORD_BCRYPT),
-                    ]);
-                    return response()->json(['statut' => 'ok']);
-                } else {
-                    return response()->json(['statut' => 'mdp', 'message' => 'Mot de passe incorrect']);
-                }
-            }
-            else{
-                return response()->json(['statut' => 'count', 'message' => 'Mot de passe trop court']);
+            if (password_verify($mdp, $user->password)) {
+                User::where('id', $user->id)->update([
+                    'password' => password_hash($new_mdp, PASSWORD_BCRYPT),
+                ]);
+                return response()->json(['statut' => 'ok']);
+            } else {
+                return response()->json(['statut' => 'mdp', 'message' => 'Mot de passe incorrect']);
             }
         } catch (\Throwable $th) {
             return response()->json(['statut' => 'error', 'message' => $th->getMessage()]);
         }
 
+    }
+
+    public function deleteAccount(){
+        $user = auth()->user();
+
+        try {
+            $user->delete();
+            return response()->json(['statut' => 'ok']);
+        } catch (\Throwable $th) {
+            return response()->json(['statut' => 'error', 'message' => $th->getMessage()]);
+        }
     }
 }

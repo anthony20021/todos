@@ -27,7 +27,7 @@
         font-family: 'Istok Web', sans-serif;
     }
     .body-marging {
-        margin-top: 90px;
+        
     }
     @media (max-width: 1024px) {
         .body-marging {

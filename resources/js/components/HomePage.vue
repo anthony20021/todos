@@ -1,14 +1,19 @@
 <template>
   <div>
-    <div class="image-container">
-      <div class="text-container">
-        <div class="text-content">
-          <h1>Gérer vos tâches, liste de course, projet avec Todos !</h1>
-          <p>Todos le site simpliste qui vous permet de créer des listes de tâche et les partager avec vos amis.</p>
-          <div>
-              <a href="/register" class="register-link">Commencer à créer dès maintenant</a>
+    <div>
+      <div class="container">
+        <div class="flex" style="justify-content: center;">
+          <div class="center">
+            <h1>Gérer vos tâches, liste de course, projet avec Todos !</h1>
+            <p>Todos le site simpliste qui vous permet de créer des listes de tâche et les partager avec vos amis.</p>
+            <div>
+                <a href="/register" class="register-link">Commencer à créer dès maintenant</a>
+            </div>
+            <p>Déjà inscrit ? <a href="/login" class="login-link">Se connecter</a></p>
           </div>
-          <p>Déjà inscrit ? <a href="/login" class="login-link">Se connecter</a></p>
+          <div class="center">
+            <img :src="checklist" alt="checklist image" class="image-checklist">
+          </div>
         </div>
       </div>
     </div>
@@ -20,30 +25,22 @@
 export default {
   data() {
     return {
-      todosLogo:'@img/todos.png'
+      checklist:'img/checklist.jpg',
     };
   }
 };
 </script>
-<style>
+<style scoped>
 body {
   background-color: #e0d7e9;
 }
 
-.image-container {
-  position: relative;
-  height: 600px;
-  width: 100%;
-  margin: 20px auto;
+.image-checklist {
+  width: 60%;
+  height: auto;
 }
 
-.image {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-}
-
-.text-container {
+.container {
   position: absolute;
   top: 0;
   left: 0;
@@ -53,6 +50,7 @@ body {
   color: #341753;
   display: flex;
   justify-content: center;
+  margin-top: 60px;
 }
 
 .text-content {
@@ -61,7 +59,6 @@ body {
   display: flex;
   justify-content: center;
   align-self: center;
-  flex-direction: column;
   font-size: 22px;
 }
 
@@ -82,17 +79,20 @@ body {
 @media (max-width: 1024px) {
 
 
-.image-container {
-    height: 800px;
-    width: 100%;
-}
+  .image-container {
+      height: 800px;
+      width: 100%;
+  }
 
-.info-text {
-    margin-left: 5%;
-}
-.text-content{
-    font-size: 17px;
-}
+  .info-text {
+      margin-left: 5%;
+  }
+  .text-content{
+      font-size: 17px;
+  }
+  .container{
+    margin-top: 110px;
+  }
 }
 
 @media (max-width: 480px){
