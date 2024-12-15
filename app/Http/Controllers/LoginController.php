@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -117,6 +118,10 @@ class LoginController extends Controller
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', 
             ],
         ], $messages);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Erreur de validation', 'errors' => $validator->errors()], 422);
+        }
 
         $code = $request['code'];
         $email = $request['email'];
