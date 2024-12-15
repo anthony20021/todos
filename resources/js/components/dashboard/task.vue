@@ -1,9 +1,6 @@
 <template>
     <div style="margin-top: 145px; " v-if="!editListe">
         <div class="share-liste">
-            <button class="btn" @click="showCreateTask = !showCreateTask" style="height: 40px;">
-                {{ showCreateTask ? "Retour" : "Ajouter une tâche" }}
-            </button>
             <button v-if="allUser.length>1" class="btn" style="background-color: chocolate; height: 40px;" @click="affAssignement = !affAssignement">{{ affAssignement ? "Retour" : "Assigner des tâches" }}</button>
             <div v-if="owner == user_id && allUser && allUser.length > 1" class="share-box">
                 <div style="display: flex; justify-content: space-around; align-items: center;">
@@ -18,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <button class="btn add" style="background-color: red;" @click="back">Retour</button>
+        <button class="btn add" @click="back">Retour</button>
         <div v-if="showCreateTask" style="display: flex; justify-content: center; margin-top: 8%;">
             <div class="box-input">
                 <label for="task-name">Nom</label>
@@ -27,25 +24,25 @@
             </div>
         </div>
         <div v-else style="margin-top: 40px;">
-                <ul style="padding: 0px;">
-                    <li v-if="task && task.length>0" v-for="tache in task" :style="{ backgroundColor: tache.tache.checked ? 'grey' : ''  }" :class="'liste'+liste.style" @click="tache.tache.checked = !tache.tache.checked, changeChecked(tache.tache.id, tache.tache.checked)" @dblclick="tache.tache.modif = true" @touchstart="touchStart" @touchend="modifTaskMenu(tache.tache.id)" style="cursor: pointer; margin-bottom: 7px;">
-                        <input type="checkbox" v-model="tache.tache.checked" @change="changeChecked(tache.tache.id, tache.tache.checked)">
-                        <p v-if="!tache.tache.modif" style="margin: 0; height: 39px; display: flex; flex-direction: column; justify-content: center;">{{ tache.tache.name }}</p>
-                        <div v-else style="display: flex;" @click.stop>
-                            <input type="text" v-model="tache.tache.name">
-                            <button class="btn" @click="updateTask(tache)">Modifier</button>
-                        </div>
-                        <div style="display: flex;" v-if="affAssignement">
-                            <select v-if="owner == user_id || tache.tache.user_id == user_id" v-model="tache.tache.assignement" class="select-assignement" @change="updateTask(tache);" @click.stop>
-                                <option :value="null">Tout le monde</option>
-                                <option v-for="user in allUser" :key="user.user_id" :value="user.user_id">{{ user.user.firstname }} {{ user.user.name }}</option>
-                            </select>
-                        </div>
-                        <button class="btn" style="background-color: red; height: 30px; padding: 3px; margin-right: 10px; "  @click.stop="deleteTask(tache.tache.id)" v-if="owner == user_id || tache.tache.user_id == user_id">Supprimer la tâche</button>
-                        <span v-else style="width: 90px;"></span>
-                    </li>
-                    <p v-else style="margin-left: 20px;">Il n'y a toujours pas de tâches dans la liste, <a style="color: blue;" @click="showCreateTask = !showCreateTask">Créer ma première tâche</a>.</p>
-                </ul>
+            <ul style="padding: 0px;">
+                <li v-if="task && task.length>0" v-for="tache in task" :style="{ backgroundColor: tache.tache.checked ? 'grey' : ''  }" :class="'liste'+liste.style" @click="tache.tache.checked = !tache.tache.checked, changeChecked(tache.tache.id, tache.tache.checked)" @dblclick="tache.tache.modif = true" @touchstart="touchStart" @touchend="modifTaskMenu(tache.tache.id)" style="cursor: pointer; margin-bottom: 7px;">
+                    <input type="checkbox" v-model="tache.tache.checked" @change="changeChecked(tache.tache.id, tache.tache.checked)">
+                    <p v-if="!tache.tache.modif" style="margin: 0; height: 39px; display: flex; flex-direction: column; justify-content: center;">{{ tache.tache.name }}</p>
+                    <div v-else style="display: flex;" @click.stop>
+                        <input type="text" v-model="tache.tache.name">
+                        <button class="btn" @click="updateTask(tache)">Modifier</button>
+                    </div>
+                    <div style="display: flex;" v-if="affAssignement">
+                        <select v-if="owner == user_id || tache.tache.user_id == user_id" v-model="tache.tache.assignement" class="select-assignement" @change="updateTask(tache);" @click.stop>
+                            <option :value="null">Tout le monde</option>
+                            <option v-for="user in allUser" :key="user.user_id" :value="user.user_id">{{ user.user.firstname }} {{ user.user.name }}</option>
+                        </select>
+                    </div>
+                    <button class="btn" style="background-color:red; height: 30px; padding: 3px; margin-right: 10px; "  @click.stop="deleteTask(tache.tache.id)" v-if="(owner == user_id || tache.tache.user_id == user_id) && !tache.tache.modif">❌</button>
+                    <span v-else style="width: 90px;"></span>
+                </li>
+                <p v-else style="margin-left: 20px;">Il n'y a toujours pas de tâches dans la liste, <a style="color: blue;" @click="showCreateTask = !showCreateTask">Créer ma première tâche</a>.</p>
+            </ul>
         </div>
         <button class="btn" style="background-color: cadetblue;" @click="editListe = !editListe">Modifier la liste</button>
         <button class="btn" style="background-color: red; margin-left: 10px;" @click="deleteListe()" v-if="owner == user_id" >Supprimer la liste</button>
@@ -56,8 +53,11 @@
             <input type="email" v-model="sharingEmail" id="task-name" style="margin-bottom: 15px;" @keydown.enter="shareListe()">
             <button class="btn" @click="shareListe()">Partager la liste</button>
         </div>
+        <button class="btn addTask" @click="showCreateTask = !showCreateTask">
+            {{ showCreateTask ? "Retour" : "Ajouter une tâche" }}
+        </button>
     </div>
-
+    
     <div v-else>
         <div class="margin-xl">
             <h2>Modifier la liste</h2>
@@ -366,6 +366,9 @@ export default {
                 const response = await axios.post('/dashboard/modifDataTask', {'task' : task})
                 if(response.data.statut == "ok"){
                     Swal.fire({title:'Succès', text:'Tâche modifié', icon:'success', position:'top-end'});
+                    this.task.forEach((t, index) => {
+                        t.tache.modif = false;
+                    });
                 }
                 else{
                     Swal.fire({title:'Erreur', text:'Impossible de modifier la tâche', icon:'error', position:'top-end'});
@@ -402,6 +405,16 @@ export default {
 </script>
 
 <style scoped>
+.addTask{
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    z-index: 4;
+    transform: translateX(-50%);
+    border-radius: 60px;
+    width: 600px;
+    height: 50px;
+}
 .add {
     position: absolute;
     top: 92px;
@@ -439,6 +452,10 @@ li{
     }
     .container-style{
         width: 100%;
+    }
+    .addTask{
+        width: 200px;
+        height: 50px;
     }
     .share-box{
         width: 100% !important;
