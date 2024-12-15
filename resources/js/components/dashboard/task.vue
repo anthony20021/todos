@@ -28,9 +28,13 @@
         </div>
         <div v-else style="margin-top: 40px;">
                 <ul style="padding: 0px;">
-                    <li v-if="task && task.length>0" v-for="tache in task" :style="{ backgroundColor: tache.tache.checked ? 'grey' : ''  }" :class="'liste'+liste.style" @click="tache.tache.checked = !tache.tache.checked, changeChecked(tache.tache.id, tache.tache.checked)" style="cursor: pointer; margin-bottom: 7px;">
+                    <li v-if="task && task.length>0" v-for="tache in task" :style="{ backgroundColor: tache.tache.checked ? 'grey' : ''  }" :class="'liste'+liste.style" @click="tache.tache.checked = !tache.tache.checked, changeChecked(tache.tache.id, tache.tache.checked)" @dblclick="tache.tache.modif = true" @touchstart="touchStart" @touchend="modifTaskMenu(tache.tache.id)" style="cursor: pointer; margin-bottom: 7px;">
                         <input type="checkbox" v-model="tache.tache.checked" @change="changeChecked(tache.tache.id, tache.tache.checked)">
-                        <p>{{ tache.tache.name }}</p>
+                        <p v-if="!tache.tache.modif" style="margin: 0; height: 39px; display: flex; flex-direction: column; justify-content: center;">{{ tache.tache.name }}</p>
+                        <div v-else style="display: flex;" @click.stop>
+                            <input type="text" v-model="tache.tache.name">
+                            <button class="btn" @click="updateTask(tache)">Modifier</button>
+                        </div>
                         <div style="display: flex;" v-if="affAssignement">
                             <select v-if="owner == user_id || tache.tache.user_id == user_id" v-model="tache.tache.assignement" class="select-assignement" @change="updateTask(tache);" @click.stop>
                                 <option :value="null">Tout le monde</option>
@@ -86,8 +90,11 @@ export default {
         allUser : [],
         sharingEmail : "",
         newTask: {
-        name: "",
+            name: "",
         },
+        touchStartTime: null,
+        touchTimer: null,
+        isLongPress: false,
         task: [],
         showCreateTask: false,
         showShareListe: false,
@@ -105,7 +112,7 @@ export default {
             { value: 9, name: 'Sun' },
             { value: 10, name: 'Moon' },
             { value: 11, name: 'Rainbow' },
-        ]
+        ],
     };
     },
     props: {
@@ -134,6 +141,35 @@ export default {
 
         back() {
             this.$emit('back');
+        },
+
+        //A utiliser dans le cas d'un appuie long. le mettre dans touchstart
+        touchStart() {
+            // Enregistrer le moment du début du toucher
+            this.touchStartTime = Date.now();
+
+            // Définir un timer pour détecter l'appui long (1 seconde)
+            this.touchTimer = setTimeout(() => {
+                this.isLongPress = true; 
+            }, 500); 
+        },
+
+        //Afficher la modif task
+        modifTaskMenu(task_id) {
+            if (this.touchTimer) {
+                clearTimeout(this.touchTimer);
+                this.touchTimer = null;
+            }
+
+            if (this.isLongPress) {
+                //passer modif de la task à true
+                this.task.forEach(t => {
+                    if(t.tache.id == task_id){
+                        t.tache.modif =!t.tache.modif;
+                    }
+                });
+                this.isLongPress = false;
+            }
         },
 
         async shareListe(){

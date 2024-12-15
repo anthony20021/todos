@@ -7,6 +7,7 @@ import LoginPage from './components/users/LoginPage.vue';
 import Dashboard from './components/dashboard/dashboard.vue';
 import MyAccount from './components/users/myAccount.vue';
 import AdminPage from './components/admin/AdminPage.vue';
+
 const admin = createApp(AdminPage);
 const myAccount = createApp(MyAccount);
 const home = createApp(HomePage);

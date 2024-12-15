@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\myAccountController;
+use App\Http\Controllers\DocumentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,6 +67,8 @@ Route::middleware('auth')->prefix('myAccount')->group(function () {
     Route::post('/userPost', [myAccountController::class, 'post']);
     Route::post('/changeMdp', [myAccountController::class, 'changeMdp']);
     Route::post('/delete', [myAccountController::class, 'deleteAccount']);
+    Route::post('/upload', [DocumentController::class, 'profileUpload']);
+    Route::get('/getPhoto', [DocumentController::class, 'getProfileImage']);
 });
 Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->middleware('admin:admin');

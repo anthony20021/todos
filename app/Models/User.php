@@ -24,6 +24,7 @@ class User extends Authenticatable
         'firstname',
         'verif_code',
         'verfyed',
+        'profil_image',
     ];
 
     /**
@@ -67,5 +68,10 @@ class User extends Authenticatable
     public function hasRole($role)
     {
         return $this->roles()->contains('name', $role);
+    }
+
+    public function photo()
+    {
+        return $this->belongsTo(Document::class, 'profil_img');
     }
 }

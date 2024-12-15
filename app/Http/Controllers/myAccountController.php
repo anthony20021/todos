@@ -13,6 +13,7 @@ class myAccountController extends Controller
 
     public function getProfil() {
         $user = auth()->user();
+        $user = User::where('id', $user->id)->with('photo')->first();
         return $user;
     }
 

@@ -14,6 +14,8 @@ class Taches extends Model
         'assi'
     ];
 
+    protected $appends = ['modif'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -22,5 +24,10 @@ class Taches extends Model
     public function scopeOfUser($query, $userId)
     {
         return $query->where('user_id', $userId);
+    }
+
+    public function getModifAttribute()
+    {
+        return false;
     }
 }

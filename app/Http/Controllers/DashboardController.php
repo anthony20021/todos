@@ -284,6 +284,7 @@ class DashboardController extends Controller
         try {
             $task = Taches::findOrFail($currentTask['tache_id']);
             $task->assignement = $currentTask['tache']['assignement'];
+            $task->name = $currentTask['tache']['name'];
             $task->save();
 
             return response()->json(['statut' => 'ok']);

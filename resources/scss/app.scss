@@ -143,6 +143,39 @@ a:hover::after {
     }
   }
 
+  
+/* Décoration spécifique pour les input[type='file'] */
+  input[type='file'] {
+    display: none; /* Masque le bouton natif */
+  }
+
+  /* Créer un bouton personnalisé pour l'input file */
+  .custom-file-label {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+
+  .custom-file-label:hover {
+    background-color: #e7e7e7;
+    border-color: #999;
+  }
+
+  .custom-file-label:active {
+    background-color: #ddd;
+  }
+
+  /* Affichage du nom du fichier sélectionné */
+  input[type='file']:valid + .custom-file-label {
+    background-color: #e0f7e0;
+  }
+
+
   //Décoration des boutons
   .btn {
     display: inline-block;
