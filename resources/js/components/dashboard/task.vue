@@ -38,7 +38,7 @@
                             <option v-for="user in allUser" :key="user.user_id" :value="user.user_id">{{ user.user.firstname }} {{ user.user.name }}</option>
                         </select>
                     </div>
-                    <button class="btn" style="background-color:red; height: 30px; padding: 3px; margin-right: 10px; "  @click.stop="deleteTask(tache.tache.id)" v-if="(owner == user_id || tache.tache.user_id == user_id) && !tache.tache.modif">❌</button>
+                    <button class="btn" style="background-color:white; height: 30px; padding: 3px; margin-right: 10px; "  @click.stop="deleteTask(tache.tache.id)" v-if="(owner == user_id || tache.tache.user_id == user_id) && !tache.tache.modif">❌</button>
                     <span v-else style="width: 90px;"></span>
                 </li>
                 <p v-else style="margin-left: 20px;">Il n'y a toujours pas de tâches dans la liste, <a style="color: blue;" @click="showCreateTask = !showCreateTask">Créer ma première tâche</a>.</p>
