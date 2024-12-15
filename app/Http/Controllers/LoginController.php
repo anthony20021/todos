@@ -98,31 +98,47 @@ class LoginController extends Controller
     }
 
     public function changeCodeMdp(Request $request){
+        $messages = [
+            'code.required' => 'Le code est requis.',
+            'email.required' => 'L\'adresse e-mail est requise.',
+            'email.email' => 'L\'adresse e-mail n\'est pas valide.',
+            'mdp.required' => 'Le mot de passe est requis.',
+            'mdp.min' => 'Votre mot de passe est trop court, il doit faire au moins 12 caractères.',
+            'mdp.regex' => 'Le mot de passe doit contenir au moins une majuscule, un chiffre et un caractère spécial.',
+        ];
+
+        // Validation des données avec les règles et les messages personnalisés
+        $validator = Validator::make($request->all(), [
+            'code' => ['required'],
+            'email' => ['required', 'email'],
+            'mdp' => [
+                'required',
+                'min:12', 
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/', 
+            ],
+        ], $messages);
+
         $code = $request['code'];
         $email = $request['email'];
         $new_mdp = $request['mdp'];
 
-        if($new_mdp != null){
-            if(strlen($new_mdp) >= 8){
-                try {
-                    $user = User::where('email', $email)->first();
-                    if ($user && $user->verif_code == $code) {
-                        $user->password = password_hash($new_mdp, PASSWORD_BCRYPT);
-                        $user->verif_code = null;
-                        $user->save();
+        try {
+            $user = User::where('email', $email)->first();
+            if ($user && $user->verif_code == $code) {
+                $user->password = password_hash($new_mdp, PASSWORD_BCRYPT);
+                $user->verif_code = null;
+                $user->save();
 
-                        return response()->json(['message' => 'Mot de passe modifié', 'code' => 'ok'], 200);
-                    }
-                    $user->verif_code = null;
-                    $user->save();
-                    return response()->json(['message' => 'Code invalide', 'code' => 'not_found'], 200);
-                } catch (\Throwable $th) {
-                    return response()->json(['message' => $th->getMessage(), 'code' => 'error'], 500);
-                }
+                return response()->json(['message' => 'Mot de passe modifié', 'code' => 'ok'], 200);
             }
-            else{
-                return response()->json(['message' => 'Mot de passe trop court', 'code' => 'bad_mdp'], 200);
-            }
+            $user->verif_code = null;
+            $user->save();
+            return response()->json(['message' => 'Code invalide', 'code' => 'not_found'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage(), 'code' => 'error'], 500);
+        }
+        else{
+            return response()->json(['message' => 'Mot de passe trop court', 'code' => 'bad_mdp'], 200);
         }
         else{
             return response()->json(['message' => 'Mot de passe vide', 'code' => 'bad_mdp'], 200);
