@@ -17,7 +17,7 @@ class DocumentController extends Controller
         
             // 2. Validation du formulaire
             $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:20480',
             ]);
         
             // 3. Vérifier si l'utilisateur a déjà une image de profil

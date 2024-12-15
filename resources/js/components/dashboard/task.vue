@@ -15,6 +15,7 @@
                 </div>
             </div>
         </div>
+        <p>Double cliquez ou appuyez longtemps sur une tâche pour la modifier</p>
         <button class="btn add" @click="back">Retour</button>
         <div v-if="showCreateTask" style="display: flex; justify-content: center; margin-top: 8%;">
             <div class="box-input">
