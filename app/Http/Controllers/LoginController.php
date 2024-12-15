@@ -137,12 +137,6 @@ class LoginController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage(), 'code' => 'error'], 500);
         }
-        else{
-            return response()->json(['message' => 'Mot de passe trop court', 'code' => 'bad_mdp'], 200);
-        }
-        else{
-            return response()->json(['message' => 'Mot de passe vide', 'code' => 'bad_mdp'], 200);
-        }
 
     }
 
