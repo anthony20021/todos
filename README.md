@@ -62,7 +62,7 @@ Outils Utilisés
 
     Laravel : Backend
     Vite : Build frontend
-    Tailwind CSS (si applicable) : Design
+    VueJs : frameword frontend
 
 Licence
 
